@@ -5,7 +5,6 @@ import 'package:fpdart/fpdart.dart';
 import 'package:get/get.dart';
 
 class AuthProvider extends GetConnect {
-  Rx<User?> currentUser = Rx<User?>(null);
   late FlutterSecureStorage secureStorage;
   @override
   void onInit() {
@@ -13,26 +12,26 @@ class AuthProvider extends GetConnect {
     httpClient.baseUrl = 'http://10.0.2.2:8000/api/v1/auth';
   }
 
-  Future<Either<AppErrorModel, void>> signupUser({
+  Future<Either<AppErrorModel, User>> signupUser({
     required Map<String, dynamic> userData,
   }) async {
     try {
       final response = await post("/signup", userData);
       await secureStorage.write(key: "jwtToken", value: response.body['token']);
-      currentUser.value = User.fromJson(response.body['user']);
-      return right(null);
+      final User user = User.fromJson(response.body['user']);
+      return right(user);
     } catch (e) {
       return left(AppErrorModel(body: e.toString()));
     }
   }
 
-  Future<Either<AppErrorModel, void>> loginUser(
+  Future<Either<AppErrorModel, User>> loginUser(
       {required Map<String, dynamic> userData}) async {
     try {
       final response = await post("/login", userData);
       await secureStorage.write(key: "jwtToken", value: response.body['token']);
-      currentUser.value = User.fromJson(response.body['user']);
-      return right(null);
+      final User user = User.fromJson(response.body['user']);
+      return right(user);
     } catch (e) {
       return left(AppErrorModel(body: e.toString()));
     }
@@ -40,7 +39,6 @@ class AuthProvider extends GetConnect {
 
   Future<Either<AppErrorModel, void>> logout() async {
     try {
-      currentUser.value = null;
       await secureStorage.delete(
         key: "jwtToken",
       );
@@ -50,13 +48,13 @@ class AuthProvider extends GetConnect {
     }
   }
 
-  Future<Either<AppErrorModel, void>> getUserData() async {
+  Future<Either<AppErrorModel, User>> getUserData() async {
     try {
       final token = await secureStorage.read(key: "jwtToken");
       final response = await get("/users/profile",
           headers: {"Authorization": "Bearer $token"});
-      currentUser.value = User.fromJson(response.body['data']);
-      return right(null);
+      User user = User.fromJson(response.body['data']);
+      return right(user);
     } catch (e) {
       return left(AppErrorModel(body: e.toString()));
     }
