@@ -1,5 +1,5 @@
-class User {
-  User({
+class UserModel {
+  UserModel({
     required this.id,
     required this.email,
     required this.username,
@@ -19,8 +19,8 @@ class User {
   final DateTime createdAt;
   String? profileImageUrl;
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
       id: json["id"],
       email: json['email'],
       username: json['username'],
@@ -30,5 +30,17 @@ class User {
       createdAt: DateTime.parse(json['createdAt']),
       profileImageUrl: json['profileImage'],
     );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'email': email,
+      'username': username,
+      'firstName': firstName,
+      'lastName': lastName,
+      'role': role,
+      'createdAt': createdAt.toIso8601String(),
+      'profileImage': profileImageUrl,
+    };
   }
 }

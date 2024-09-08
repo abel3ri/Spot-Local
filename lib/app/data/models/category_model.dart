@@ -18,4 +18,12 @@ class CategoryModel {
       createdAt: DateTime.parse(json['createdAt']),
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'createdAt': createdAt.toIso8601String(),
+    };
+  }
 }
