@@ -12,25 +12,25 @@ class AuthProvider extends GetConnect {
     httpClient.baseUrl = 'http://10.0.2.2:8000/api/v1/auth';
   }
 
-  Future<Either<AppErrorModel, User>> signupUser({
+  Future<Either<AppErrorModel, UserModel>> signupUser({
     required Map<String, dynamic> userData,
   }) async {
     try {
-      final response = await post("/signup", userData);
-      await secureStorage.write(key: "jwtToken", value: response.body['token']);
-      final User user = User.fromJson(response.body['user']);
+      final res = await post("/signup", userData);
+      await secureStorage.write(key: "jwtToken", value: res.body['token']);
+      final UserModel user = UserModel.fromJson(res.body['user']);
       return right(user);
     } catch (e) {
       return left(AppErrorModel(body: e.toString()));
     }
   }
 
-  Future<Either<AppErrorModel, User>> loginUser(
+  Future<Either<AppErrorModel, UserModel>> loginUser(
       {required Map<String, dynamic> userData}) async {
     try {
-      final response = await post("/login", userData);
-      await secureStorage.write(key: "jwtToken", value: response.body['token']);
-      final User user = User.fromJson(response.body['user']);
+      final res = await post("/login", userData);
+      await secureStorage.write(key: "jwtToken", value: res.body['token']);
+      final UserModel user = UserModel.fromJson(res.body['user']);
       return right(user);
     } catch (e) {
       return left(AppErrorModel(body: e.toString()));
@@ -48,12 +48,12 @@ class AuthProvider extends GetConnect {
     }
   }
 
-  Future<Either<AppErrorModel, User>> getUserData() async {
+  Future<Either<AppErrorModel, UserModel>> getUserData() async {
     try {
       final token = await secureStorage.read(key: "jwtToken");
-      final response = await get("/users/profile",
+      final res = await get("/users/profile",
           headers: {"Authorization": "Bearer $token"});
-      User user = User.fromJson(response.body['data']);
+      UserModel user = UserModel.fromJson(res.body['data']);
       return right(user);
     } catch (e) {
       return left(AppErrorModel(body: e.toString()));
