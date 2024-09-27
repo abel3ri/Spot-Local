@@ -1,3 +1,7 @@
+import 'package:business_dir/app/modules/favorite/views/favorite_view.dart';
+import 'package:business_dir/app/modules/home/views/home_view.dart';
+import 'package:business_dir/app/modules/profile/views/profile_view.dart';
+import 'package:business_dir/app/modules/search/views/search_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -5,18 +9,44 @@ import 'package:get/get.dart';
 import '../controllers/home_wrapper_controller.dart';
 
 class HomeWrapperView extends GetView<HomeWrapperController> {
-  const HomeWrapperView({super.key});
+  final List<Widget> pages = [
+    HomeView(),
+    SearchView(),
+    FavoriteView(),
+    ProfileView(),
+  ];
+  HomeWrapperView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('HomeWrapperView'),
-        centerTitle: true,
+      body: Obx(
+        () => IndexedStack(
+          index: controller.index.value,
+          children: pages,
+        ),
       ),
-      body: const Center(
-        child: Text(
-          'HomeWrapperView is working',
-          style: TextStyle(fontSize: 20),
+      bottomNavigationBar: Obx(
+        () => BottomNavigationBar(
+          onTap: controller.onPageChanged,
+          currentIndex: controller.index.value,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: "Home",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: "Search",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite),
+              label: "Favorite",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: "Profile",
+            ),
+          ],
         ),
       ),
     );

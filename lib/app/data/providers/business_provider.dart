@@ -6,13 +6,13 @@ import 'package:get/get.dart';
 class BusinessProvider extends GetConnect {
   @override
   void onInit() {
-    httpClient.baseUrl = 'http://10.0.2.2:8000/api/v1/businesses';
+    // httpClient.baseUrl = 'http://10.0.2.2:8000/api/v1/businesses';
+    httpClient.baseUrl = "http://192.168.22.202:8000/api/v1/businesses";
   }
 
-  Future<Either<AppErrorModel, List<BusinessModel>>> fetchBusinesses() async {
+  Future<Either<AppErrorModel, List<BusinessModel>>> findAll() async {
     try {
       final res = await get("/");
-
       final List<BusinessModel> businesses = List.from(
         res.body['data'].map((business) {
           return BusinessModel.fromJson(business);
@@ -24,7 +24,7 @@ class BusinessProvider extends GetConnect {
     }
   }
 
-  Future<Either<AppErrorModel, BusinessModel>> createBusiness({
+  Future<Either<AppErrorModel, BusinessModel>> create({
     required BusinessModel business,
   }) async {
     try {
@@ -35,7 +35,7 @@ class BusinessProvider extends GetConnect {
     }
   }
 
-  Future<Either<AppErrorModel, BusinessModel>> fetchBusiness({
+  Future<Either<AppErrorModel, BusinessModel>> findOne({
     required String id,
   }) async {
     try {

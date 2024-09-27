@@ -1,23 +1,28 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SignupController extends GetxController {
-  //TODO: Implement SignupController
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController rePasswordController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  final obscureText = false.obs;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
+  void toggleShowPassword() {
+    obscureText.value = !obscureText.value;
   }
 
   @override
   void onClose() {
     super.onClose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    rePasswordController.dispose();
+    userNameController.dispose();
   }
-
-  void increment() => count.value++;
 }

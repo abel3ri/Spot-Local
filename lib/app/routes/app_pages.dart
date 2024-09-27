@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/business_details/bindings/business_details_binding.dart';
 import '../modules/business_details/views/business_details_view.dart';
+import '../modules/favorite/bindings/favorite_binding.dart';
+import '../modules/favorite/views/favorite_view.dart';
 import '../modules/get_started/bindings/get_started_binding.dart';
 import '../modules/get_started/views/get_started_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -28,12 +30,12 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.SPLASH;
 
   static final routes = [
     GetPage(
       name: _Paths.HOME,
-      page: () => const HomeView(),
+      page: () => HomeView(),
       binding: HomeBinding(),
     ),
     GetPage(
@@ -47,23 +49,18 @@ class AppPages {
       binding: GetStartedBinding(),
     ),
     GetPage(
-      name: _Paths.HOME_WRAPPER,
-      page: () => const HomeWrapperView(),
-      binding: HomeWrapperBinding(),
-    ),
-    GetPage(
       name: _Paths.IMAGE_PICKER,
       page: () => const ImagePickerView(),
       binding: ImagePickerBinding(),
     ),
     GetPage(
       name: _Paths.LOGIN,
-      page: () => const LoginView(),
+      page: () => LoginView(),
       binding: LoginBinding(),
     ),
     GetPage(
       name: _Paths.SIGNUP,
-      page: () => const SignupView(),
+      page: () => SignupView(),
       binding: SignupBinding(),
     ),
     GetPage(
@@ -78,13 +75,29 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.SEARCH,
-      page: () => const SearchView(),
+      page: () => SearchView(),
       binding: SearchBinding(),
     ),
     GetPage(
       name: _Paths.SPLASH,
       page: () => const SplashView(),
       binding: SplashBinding(),
+    ),
+    GetPage(
+      name: _Paths.HOME_WRAPPER,
+      page: () => HomeWrapperView(),
+      bindings: [
+        HomeWrapperBinding(),
+        HomeBinding(),
+        SearchBinding(),
+        ProfileBinding(),
+        FavoriteBinding()
+      ],
+    ),
+    GetPage(
+      name: _Paths.FAVORITE,
+      page: () => const FavoriteView(),
+      binding: FavoriteBinding(),
     ),
   ];
 }

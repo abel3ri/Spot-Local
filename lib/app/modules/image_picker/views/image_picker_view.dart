@@ -1,3 +1,4 @@
+import 'package:business_dir/app/widgets/r_list_tile.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -8,17 +9,32 @@ class ImagePickerView extends GetView<ImagePickerController> {
   const ImagePickerView({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('ImagePickerView'),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text(
-          'ImagePickerView is working',
-          style: TextStyle(fontSize: 20),
+    return ListView(
+      shrinkWrap: true,
+      children: [
+        Text(
+          "Pick Profile Image",
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(),
         ),
-      ),
+        RListTile(
+          title: "Gallery",
+          leadingIcon: Icons.image,
+          onPressed: () {},
+        ),
+        RListTile(
+          title: "Camera",
+          leadingIcon: Icons.camera,
+          onPressed: () {},
+        ),
+        RListTile(
+          title: "Cancel",
+          leadingIcon: Icons.close,
+          onPressed: () {
+            Get.back();
+          },
+        ),
+      ],
     );
   }
 }

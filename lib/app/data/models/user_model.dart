@@ -10,13 +10,13 @@ class UserModel {
     this.profileImageUrl,
   });
 
-  final String id;
-  final String email;
-  final String username;
-  final String firstName;
-  final String lastName;
-  final String role;
-  final DateTime createdAt;
+  final String? id;
+  final String? email;
+  final String? username;
+  final String? firstName;
+  final String? lastName;
+  final String? role;
+  final DateTime? createdAt;
   String? profileImageUrl;
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -39,7 +39,8 @@ class UserModel {
       'firstName': firstName,
       'lastName': lastName,
       'role': role,
-      'createdAt': createdAt.toIso8601String(),
+      'createdAt':
+          createdAt?.toIso8601String() ?? DateTime.now().toIso8601String(),
       'profileImage': profileImageUrl,
     };
   }

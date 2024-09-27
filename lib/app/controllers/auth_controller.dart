@@ -4,12 +4,12 @@ import 'package:business_dir/app/data/providers/auth_provider.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {
-  Rx<User?> currentUser = Rx<User?>(null);
+  Rx<UserModel?> currentUser = Rx<UserModel?>(null);
   Rx<bool> isLoading = false.obs;
   late AuthProvider authProvider;
   @override
   void onInit() {
-    authProvider = Get.find<AuthProvider>();
+    authProvider = Get.put(AuthProvider());
     super.onInit();
   }
 
@@ -19,7 +19,7 @@ class AuthController extends GetxController {
     isLoading(false);
     res.fold((AppErrorModel l) {
       l.showError();
-    }, (User user) {
+    }, (UserModel user) {
       currentUser(user);
     });
   }
@@ -30,7 +30,7 @@ class AuthController extends GetxController {
     isLoading(false);
     res.fold((AppErrorModel l) {
       l.showError();
-    }, (User user) {
+    }, (UserModel user) {
       currentUser(user);
     });
   }
@@ -41,7 +41,7 @@ class AuthController extends GetxController {
     isLoading(false);
     res.fold((AppErrorModel l) {
       l.showError();
-    }, (User user) {
+    }, (UserModel user) {
       currentUser(user);
     });
   }
@@ -55,5 +55,11 @@ class AuthController extends GetxController {
     }, (r) {
       currentUser(null);
     });
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    authProvider.dispose();
   }
 }

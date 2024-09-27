@@ -5,7 +5,9 @@ class RatingModel {
     required this.id,
     required this.rating,
     required this.ratedBy,
+    required this.helpful,
     required this.createdAt,
+    required this.updatedAt,
     this.comment,
   });
 
@@ -13,6 +15,8 @@ class RatingModel {
   final num rating;
   final String? comment;
   final DateTime createdAt;
+  final int helpful;
+  final DateTime updatedAt;
   final UserModel ratedBy;
 
   factory RatingModel.fromJson(Map<String, dynamic> json) {
@@ -21,7 +25,9 @@ class RatingModel {
       rating: json['rating'],
       comment: json['comment'],
       ratedBy: UserModel.fromJson(json['user']),
+      helpful: json['helpful'],
       createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.parse(json['updatedAt']),
     );
   }
   Map<String, dynamic> toJson() {
@@ -30,7 +36,8 @@ class RatingModel {
       'rating': rating,
       'comment': comment,
       'user': ratedBy.toJson(),
-      'createdAt': createdAt.toIso8601String(),
+      'createdAt': DateTime.now().toIso8601String(),
+      'updatedAt': DateTime.now().toIso8601String(),
     };
   }
 }

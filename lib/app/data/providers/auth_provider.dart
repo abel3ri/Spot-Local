@@ -51,6 +51,9 @@ class AuthProvider extends GetConnect {
   Future<Either<AppErrorModel, UserModel>> getUserData() async {
     try {
       final token = await secureStorage.read(key: "jwtToken");
+      if (token == null) {
+        return left(const AppErrorModel(body: "user not found"));
+      }
       final res = await get("/users/profile",
           headers: {"Authorization": "Bearer $token"});
       UserModel user = UserModel.fromJson(res.body['data']);
