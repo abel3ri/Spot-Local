@@ -29,6 +29,9 @@ class HomeWrapperView extends GetView<HomeWrapperController> {
         () => BottomNavigationBar(
           onTap: controller.onPageChanged,
           currentIndex: controller.index.value,
+          backgroundColor: Get.theme.primaryColor,
+          selectedItemColor: Get.theme.primaryColor,
+          iconSize: 32,
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),

@@ -6,15 +6,19 @@ import 'package:get/get.dart';
 class CategoryProvider extends GetConnect {
   @override
   void onInit() {
-    httpClient.baseUrl = 'http://10.0.2.2:8000/api/v1/categories';
+    // httpClient.baseUrl = 'http://10.0.2.2:8000/api/v1/categories';
+    httpClient.baseUrl = "http://192.168.22.202:8000/api/v1/categories";
   }
 
-  Future<Either<AppErrorModel, List<CategoryModel>>> fetchCategories() async {
+  Future<Either<AppErrorModel, List<CategoryModel>>> findAll() async {
     try {
       final res = await get("/");
+      if (res.hasError) throw res.bodyString ?? "Connection problem";
       final List<CategoryModel> categories = List.from(
-        res.body.map(
-          (category) => CategoryModel.fromJson(category),
+        res.body['data'].map(
+          (category) {
+            return CategoryModel.fromJson(category);
+          },
         ),
       );
       return right(categories);
@@ -23,7 +27,7 @@ class CategoryProvider extends GetConnect {
     }
   }
 
-  Future<Either<AppErrorModel, CategoryModel>> createCategory({
+  Future<Either<AppErrorModel, CategoryModel>> create({
     required CategoryModel category,
   }) async {
     try {
@@ -34,7 +38,7 @@ class CategoryProvider extends GetConnect {
     }
   }
 
-  Future<Either<AppErrorModel, CategoryModel>> fetchCategory({
+  Future<Either<AppErrorModel, CategoryModel>> findOne({
     required String id,
   }) async {
     try {

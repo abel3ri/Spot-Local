@@ -1,4 +1,5 @@
 import 'package:business_dir/app/data/providers/business_provider.dart';
+import 'package:business_dir/app/data/providers/category_provider.dart';
 import 'package:business_dir/app/data/providers/location_provider.dart';
 import 'package:get/get.dart';
 
@@ -10,5 +11,6 @@ class HomeBinding extends Bindings {
     Get.lazyPut(() => HomeController());
     Get.lazyPut(() => BusinessProvider());
     Get.lazyPut(() => LocationProvider());
+    Get.lazyPut(() => CategoryProvider());
   }
 }

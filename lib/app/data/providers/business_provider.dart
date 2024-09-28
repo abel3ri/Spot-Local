@@ -13,6 +13,7 @@ class BusinessProvider extends GetConnect {
   Future<Either<AppErrorModel, List<BusinessModel>>> findAll() async {
     try {
       final res = await get("/");
+      if (res.hasError) throw res.bodyString ?? "Connection problem";
       final List<BusinessModel> businesses = List.from(
         res.body['data'].map((business) {
           return BusinessModel.fromJson(business);

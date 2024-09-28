@@ -9,7 +9,8 @@ class AuthProvider extends GetConnect {
   @override
   void onInit() {
     secureStorage = const FlutterSecureStorage();
-    httpClient.baseUrl = 'http://10.0.2.2:8000/api/v1/auth';
+    // httpClient.baseUrl = 'http://10.0.2.2:8000/api/v1/auth';
+    httpClient.baseUrl = "http://192.168.22.202:8000/api/v1/auth";
   }
 
   Future<Either<AppErrorModel, UserModel>> signupUser({
@@ -17,6 +18,9 @@ class AuthProvider extends GetConnect {
   }) async {
     try {
       final res = await post("/signup", userData);
+      if (res.hasError) {
+        throw res.bodyString ?? "Connection Problem";
+      }
       await secureStorage.write(key: "jwtToken", value: res.body['token']);
       final UserModel user = UserModel.fromJson(res.body['user']);
       return right(user);
@@ -29,6 +33,9 @@ class AuthProvider extends GetConnect {
       {required Map<String, dynamic> userData}) async {
     try {
       final res = await post("/login", userData);
+      if (res.hasError) {
+        throw res.body['message'];
+      }
       await secureStorage.write(key: "jwtToken", value: res.body['token']);
       final UserModel user = UserModel.fromJson(res.body['user']);
       return right(user);
@@ -52,7 +59,7 @@ class AuthProvider extends GetConnect {
     try {
       final token = await secureStorage.read(key: "jwtToken");
       if (token == null) {
-        return left(const AppErrorModel(body: "user not found"));
+        // return left(const AppErrorModel(body: "user not found"));
       }
       final res = await get("/users/profile",
           headers: {"Authorization": "Bearer $token"});

@@ -1,23 +1,21 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
-  //TODO: Implement ProfileController
+  final PageController pageController = PageController();
+  Rx<int> currentIndex = 0.obs;
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
+    pageController.addListener(() {
+      currentIndex.value = pageController.page!.round();
+    });
   }
 
   @override
   void onClose() {
     super.onClose();
+    pageController.dispose();
   }
-
-  void increment() => count.value++;
 }

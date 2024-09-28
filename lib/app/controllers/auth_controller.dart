@@ -49,6 +49,7 @@ class AuthController extends GetxController {
   Future<void> logout() async {
     isLoading(true);
     final res = await authProvider.logout();
+    currentUser.value = null;
     isLoading(false);
     res.fold((AppErrorModel l) {
       l.showError();

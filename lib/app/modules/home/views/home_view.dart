@@ -2,11 +2,10 @@ import 'package:business_dir/app/modules/home/views/widgets/category_item_grid.d
 import 'package:business_dir/app/modules/home/views/widgets/homepage_search_placeholder.dart';
 import 'package:business_dir/app/widgets/business_container.dart';
 import 'package:business_dir/app/widgets/shimmers/business_shimmer_grid.dart';
+import 'package:business_dir/app/widgets/shimmers/category_shimmer_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
 import 'package:get/get.dart';
-
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -29,7 +28,7 @@ class HomeView extends GetView<HomeController> {
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(4),
           child: Obx(
-            () => controller.isLoading.isTrue
+            () => controller.isBusinessLoading.isTrue
                 ? LinearProgressIndicator()
                 : SizedBox(),
           ),
@@ -66,10 +65,16 @@ class HomeView extends GetView<HomeController> {
         centerTitle: true,
       ),
       body: RefreshIndicator(
-        onRefresh: () => controller.getAllBusinesses(),
+        onRefresh: () async {
+          Future.wait([
+            controller.getAllCategories(),
+            controller.getAllBusinesses(),
+          ]);
+        },
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(
-              parent: BouncingScrollPhysics()),
+            parent: BouncingScrollPhysics(),
+          ),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Center(
             child: Column(
@@ -92,14 +97,14 @@ class HomeView extends GetView<HomeController> {
                         child: Text.rich(
                           TextSpan(
                             text: "discover".tr,
-                            style: Get.textTheme.headlineMedium!.copyWith(
+                            style: Get.textTheme.headlineLarge!.copyWith(
                               color: Colors.white,
                               fontWeight: FontWeight.w900,
                             ),
                             children: [
                               TextSpan(
-                                text: "localBusiness".tr,
-                                style: Get.textTheme.headlineMedium!.copyWith(
+                                text: "localBusiness".tr + "!",
+                                style: Get.textTheme.headlineLarge!.copyWith(
                                   color: Colors.white,
                                 ),
                               ),
@@ -116,17 +121,28 @@ class HomeView extends GetView<HomeController> {
                 SizedBox(height: Get.height * 0.06),
                 const Divider(thickness: .1),
                 SizedBox(height: Get.height * 0.02),
-                CategoryItemsGrid(),
+                Obx(() {
+                  if (controller.isCategoryLoading.isTrue) {
+                    return CategoryShimmerGrid();
+                  }
+                  if (controller.categories.value.isEmpty) {
+                    return RNotFound(
+                      message: "No Category Found!",
+                    );
+                  }
+
+                  return CategoryItemsGrid();
+                }),
                 SizedBox(height: Get.height * 0.02),
                 const Divider(thickness: .1),
                 SizedBox(height: Get.height * 0.02),
                 Obx(
                   () {
-                    if (controller.isLoading.isTrue) {
+                    if (controller.isBusinessLoading.isTrue) {
                       return BusinessShimmerGrid();
                     } else if (controller.businesses.value.isEmpty) {
-                      return Center(
-                        child: Text("No business found!"),
+                      return RNotFound(
+                        message: "No Business Found!",
                       );
                     }
                     return MasonryGridView.builder(
@@ -152,6 +168,33 @@ class HomeView extends GetView<HomeController> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class RNotFound extends StatelessWidget {
+  const RNotFound({
+    super.key,
+    required this.message,
+  });
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          Text(
+            message,
+            style: Get.textTheme.bodyLarge!.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: Get.height * 0.02),
+          Image.asset("assets/not_found.png"),
+        ],
       ),
     );
   }

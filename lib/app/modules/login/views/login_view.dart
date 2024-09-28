@@ -1,3 +1,4 @@
+import 'package:business_dir/app/controllers/auth_controller.dart';
 import 'package:business_dir/app/widgets/form_footer.dart';
 import 'package:business_dir/app/widgets/input_field_row.dart';
 import 'package:business_dir/app/widgets/r_button.dart';
@@ -9,7 +10,7 @@ import 'package:get/get.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
-  final loginController = Get.find<LoginController>();
+  final authController = Get.find<AuthController>();
   LoginView({super.key});
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class LoginView extends GetView<LoginController> {
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Form(
-          key: loginController.formKey,
+          key: controller.formKey,
           child: Obx(
             () => Column(
               mainAxisSize: MainAxisSize.min,
@@ -43,7 +44,7 @@ class LoginView extends GetView<LoginController> {
                 ),
                 SizedBox(height: Get.height * 0.04),
                 RInputField(
-                  controller: loginController.emailController,
+                  controller: controller.emailController,
                   label: "email".tr,
                   hintText: "enterEmail".tr,
                   keyboardType: TextInputType.emailAddress,
@@ -52,18 +53,18 @@ class LoginView extends GetView<LoginController> {
                 ),
                 SizedBox(height: Get.height * 0.02),
                 RInputField(
-                  controller: loginController.passwordController,
+                  controller: controller.passwordController,
                   label: "password".tr,
                   hintText: "enterPassword".tr,
-                  obscureText: loginController.obscureText.value,
+                  obscureText: controller.obscureText.value,
                   keyboardType: TextInputType.visiblePassword,
                   textInputAction: TextInputAction.next,
                   suffixIcon: IconButton(
                     onPressed: () {
-                      loginController.toggleShowPassword();
+                      controller.toggleShowPassword();
                     },
                     icon: Icon(
-                      loginController.obscureText.value
+                      controller.obscureText.value
                           ? Icons.visibility_off
                           : Icons.visibility,
                     ),
@@ -71,10 +72,29 @@ class LoginView extends GetView<LoginController> {
                   validator: FormValidator.passwordValidtor,
                 ),
                 SizedBox(height: Get.height * 0.02),
-                RButton(
-                  child: Text("login".tr),
-                  onPressed: () async {
-                    if (loginController.formKey.currentState!.validate()) {}
+                Obx(
+                  () {
+                    return RButton(
+                      child: authController.isLoading.isTrue
+                          ? SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text("login".tr),
+                      onPressed: () async {
+                        if (controller.formKey.currentState!.validate()) {
+                          Map<String, dynamic> userData = {
+                            "email": controller.emailController.text,
+                            "password": controller.passwordController.text,
+                          };
+                          await authController.login(userData: userData);
+                          Get.offAllNamed("/home-wrapper");
+                        }
+                      },
+                    );
                   },
                 ),
                 FormFooter(
