@@ -26,28 +26,31 @@ class HomeWrapperView extends GetView<HomeWrapperController> {
         ),
       ),
       bottomNavigationBar: Obx(
-        () => BottomNavigationBar(
-          onTap: controller.onPageChanged,
-          currentIndex: controller.index.value,
-          backgroundColor: Get.theme.primaryColor,
-          selectedItemColor: Get.theme.primaryColor,
-          iconSize: 32,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+        () => NavigationBar(
+          backgroundColor: Colors.transparent,
+          onDestinationSelected: controller.onPageChanged,
+          indicatorColor: Get.theme.primaryColor.withOpacity(.4),
+          selectedIndex: controller.index.value,
+          destinations: [
+            NavigationDestination(
+              icon: Icon(Icons.home, color: Get.theme.primaryColor),
               label: "Home",
+              tooltip: "Home",
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search),
+            NavigationDestination(
+              icon: Icon(Icons.search, color: Get.theme.primaryColor),
               label: "Search",
+              tooltip: "Search",
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: "Favorite",
+            NavigationDestination(
+              icon: Icon(Icons.favorite, color: Get.theme.primaryColor),
+              label: "Favorites",
+              tooltip: "Favorites",
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
+            NavigationDestination(
+              icon: Icon(Icons.person, color: Get.theme.primaryColor),
               label: "Profile",
+              tooltip: "Profile",
             ),
           ],
         ),
