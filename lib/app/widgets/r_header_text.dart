@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HeaderText extends StatelessWidget {
-  const HeaderText({
+class RHeaderText extends StatelessWidget {
+  const RHeaderText({
     required this.headerText,
     super.key,
   });

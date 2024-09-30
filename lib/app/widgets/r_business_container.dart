@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
-class BusinessContainer extends StatelessWidget {
-  const BusinessContainer({
+class RBusinessContainer extends StatelessWidget {
+  const RBusinessContainer({
     super.key,
     required this.business,
     required this.onShowDirectionTap,

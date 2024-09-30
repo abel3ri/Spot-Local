@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class FormFooter extends StatelessWidget {
-  const FormFooter({
+class RFormFooter extends StatelessWidget {
+  const RFormFooter({
     super.key,
     required this.label,
     required this.text,

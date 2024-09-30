@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ImageSliderBtn extends StatelessWidget {
-  const ImageSliderBtn({
+class RImageSliderBtn extends StatelessWidget {
+  const RImageSliderBtn({
     super.key,
     required this.onPressed,
     required this.alignment,
