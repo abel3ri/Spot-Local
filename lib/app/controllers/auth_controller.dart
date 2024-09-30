@@ -15,23 +15,25 @@ class AuthController extends GetxController {
 
   Future<void> signup({required Map<String, dynamic> userData}) async {
     isLoading(true);
-    final res = await authProvider.signupUser(userData: userData);
+    final res = await authProvider.signup(userData: userData);
     isLoading(false);
     res.fold((AppErrorModel l) {
       l.showError();
     }, (UserModel user) {
       currentUser(user);
+      Get.offNamed("/home-wrapper");
     });
   }
 
   Future<void> login({required Map<String, dynamic> userData}) async {
     isLoading(true);
-    final res = await authProvider.loginUser(userData: userData);
+    final res = await authProvider.login(userData: userData);
     isLoading(false);
     res.fold((AppErrorModel l) {
       l.showError();
     }, (UserModel user) {
       currentUser(user);
+      Get.offNamed("/home-wrapper");
     });
   }
 
@@ -40,7 +42,7 @@ class AuthController extends GetxController {
     final res = await authProvider.getUserData();
     isLoading(false);
     res.fold((AppErrorModel l) {
-      l.showError();
+      if (l.body != "No user found!") l.showError();
     }, (UserModel user) {
       currentUser(user);
     });
@@ -48,13 +50,13 @@ class AuthController extends GetxController {
 
   Future<void> logout() async {
     isLoading(true);
+    currentUser(null);
     final res = await authProvider.logout();
-    currentUser.value = null;
     isLoading(false);
     res.fold((AppErrorModel l) {
       l.showError();
     }, (r) {
-      currentUser(null);
+      currentUser.value = null;
     });
   }
 
