@@ -20,7 +20,7 @@ class FormValidator {
   static String? usernameValidator(String? value) {
     if (value!.isEmpty) return "pleaseEnterUsername".tr;
     if (value.length < 5) return "pleaseEnterValidUsernameLen".tr;
-    if (GetUtils.isUsername(value)) return "pleaseEnterValidUsername".tr;
+    if (!GetUtils.isUsername(value)) return "pleaseEnterValidUsername".tr;
     return null;
   }
 
