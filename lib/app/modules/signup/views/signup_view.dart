@@ -1,7 +1,12 @@
+import 'dart:io';
+
+import 'package:business_dir/app/controllers/auth_controller.dart';
+import 'package:business_dir/app/modules/image_picker/controllers/image_picker_controller.dart';
 import 'package:business_dir/app/modules/image_picker/views/image_picker_view.dart';
-import 'package:business_dir/app/widgets/form_footer.dart';
-import 'package:business_dir/app/widgets/input_field_row.dart';
 import 'package:business_dir/app/widgets/r_button.dart';
+import 'package:business_dir/app/widgets/r_circular_indicator.dart';
+import 'package:business_dir/app/widgets/r_form_footer.dart';
+import 'package:business_dir/app/widgets/r_input_field_row.dart';
 import 'package:business_dir/utils/form_validation.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +16,9 @@ import '../controllers/signup_controller.dart';
 
 class SignupView extends GetView<SignupController> {
   SignupView({super.key});
-  final signupController = Get.find<SignupController>();
+  final imagePickController = Get.find<ImagePickerController>();
+  final authController = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +34,7 @@ class SignupView extends GetView<SignupController> {
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Form(
-          key: signupController.formKey,
+          key: controller.formKey,
           child: Obx(
             () {
               return Column(
@@ -46,8 +53,18 @@ class SignupView extends GetView<SignupController> {
                   SizedBox(height: Get.height * 0.04),
                   Stack(
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 36,
+                        backgroundColor:
+                            Get.theme.colorScheme.primary.withOpacity(.2),
+                        backgroundImage:
+                            imagePickController.imagePath.value != null
+                                ? FileImage(
+                                    File(imagePickController.imagePath.value!))
+                                : null,
+                        child: imagePickController.imagePath.value == null
+                            ? Icon(Icons.person, size: 32)
+                            : SizedBox(),
                       ),
                       Positioned(
                         bottom: 0,
@@ -57,7 +74,6 @@ class SignupView extends GetView<SignupController> {
                             showModalBottomSheet(
                               backgroundColor:
                                   Get.theme.scaffoldBackgroundColor,
-                              // barrierColor: Colors.transparent,
                               context: context,
                               builder: (context) => const ImagePickerView(),
                               constraints: BoxConstraints(
@@ -80,7 +96,7 @@ class SignupView extends GetView<SignupController> {
                     children: [
                       Expanded(
                         child: RInputField(
-                          controller: signupController.firstNameController,
+                          controller: controller.firstNameController,
                           label: "firstName".tr,
                           hintText: "enterFirstName".tr,
                           keyboardType: TextInputType.name,
@@ -91,7 +107,7 @@ class SignupView extends GetView<SignupController> {
                       SizedBox(width: Get.width * 0.04),
                       Expanded(
                         child: RInputField(
-                          controller: signupController.lastNameController,
+                          controller: controller.lastNameController,
                           label: "lastName".tr,
                           hintText: "enterLastName".tr,
                           keyboardType: TextInputType.name,
@@ -103,7 +119,7 @@ class SignupView extends GetView<SignupController> {
                   ),
                   SizedBox(height: Get.height * 0.02),
                   RInputField(
-                    controller: signupController.userNameController,
+                    controller: controller.userNameController,
                     label: "userName".tr,
                     hintText: "enterUsername".tr,
                     keyboardType: TextInputType.emailAddress,
@@ -112,7 +128,7 @@ class SignupView extends GetView<SignupController> {
                   ),
                   SizedBox(height: Get.height * 0.02),
                   RInputField(
-                    controller: signupController.emailController,
+                    controller: controller.emailController,
                     label: "email".tr,
                     hintText: "enterEmail".tr,
                     keyboardType: TextInputType.emailAddress,
@@ -121,18 +137,18 @@ class SignupView extends GetView<SignupController> {
                   ),
                   SizedBox(height: Get.height * 0.02),
                   RInputField(
-                    controller: signupController.passwordController,
+                    controller: controller.passwordController,
                     label: "password".tr,
                     hintText: "enterPassword".tr,
-                    obscureText: signupController.obscureText.value,
+                    obscureText: controller.obscureText.value,
                     keyboardType: TextInputType.visiblePassword,
                     textInputAction: TextInputAction.next,
                     suffixIcon: IconButton(
                       onPressed: () {
-                        signupController.toggleShowPassword();
+                        controller.toggleShowPassword();
                       },
                       icon: Icon(
-                        signupController.obscureText.value
+                        controller.obscureText.value
                             ? Icons.visibility_off
                             : Icons.visibility,
                       ),
@@ -141,22 +157,48 @@ class SignupView extends GetView<SignupController> {
                   ),
                   SizedBox(height: Get.height * 0.02),
                   RInputField(
-                    controller: signupController.rePasswordController,
+                    controller: controller.rePasswordController,
                     label: "reEnterPassword".tr,
                     hintText: "enterRePassword".tr,
                     keyboardType: TextInputType.visiblePassword,
-                    obscureText: signupController.obscureText.value,
+                    obscureText: controller.obscureText.value,
                     textInputAction: TextInputAction.next,
                     validator: FormValidator.passwordValidtor,
                   ),
                   SizedBox(height: Get.height * 0.02),
-                  RButton(
-                    child: Text("signup".tr),
-                    onPressed: () async {
-                      if (signupController.formKey.currentState!.validate()) {}
+                  Obx(
+                    () {
+                      return authController.isLoading.isTrue
+                          ? RCircularIndicator()
+                          : RButton(
+                              child: Text("signup".tr),
+                              onPressed: () async {
+                                if (controller.formKey.currentState!
+                                    .validate()) {
+                                  if (Get.focusScope?.hasFocus ?? false) {
+                                    Get.focusScope?.unfocus();
+                                  }
+                                  final userData = {
+                                    "email": controller.emailController.text,
+                                    "username":
+                                        controller.userNameController.text,
+                                    "firstName":
+                                        controller.firstNameController.text,
+                                    "lastName":
+                                        controller.lastNameController.text,
+                                    "password":
+                                        controller.passwordController.text,
+                                    "confirmPassword":
+                                        controller.rePasswordController.text,
+                                  };
+                                  await authController.signup(
+                                      userData: userData);
+                                }
+                              },
+                            );
                     },
                   ),
-                  FormFooter(
+                  RFormFooter(
                     label: "alreadyHaveAccount".tr,
                     text: 'login'.tr,
                     onPressed: () {

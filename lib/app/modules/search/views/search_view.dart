@@ -1,5 +1,6 @@
 import 'package:business_dir/app/modules/search/views/widgets/search_input.dart';
-import 'package:business_dir/app/widgets/business_container.dart';
+import 'package:business_dir/app/widgets/r_business_container.dart';
+import 'package:business_dir/app/widgets/r_info.dart';
 import 'package:business_dir/app/widgets/shimmers/business_shimmer_grid.dart';
 import 'package:flutter/material.dart' hide SearchController;
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -26,14 +27,18 @@ class SearchView extends GetView<SearchController> {
 
             if (controller.searchInputController.value.text.isEmpty) {
               return Center(
-                child: Text("Try Seaching a Business!"),
+                child: RInfo(
+                  message: "Try Searching a Business!",
+                  imagePath: "assets/find.png",
+                ),
               );
             }
 
             if (controller.searchInputController.value.text.isNotEmpty &&
                 controller.searchResults.value.isEmpty) {
-              return Center(
-                child: Text("No Results Found!"),
+              return RInfo(
+                message: "No business found!",
+                imagePath: "assets/not_found.png",
               );
             }
 
@@ -46,27 +51,10 @@ class SearchView extends GetView<SearchController> {
               ),
               itemBuilder: (context, index) {
                 final business = controller.searchResults.value[index];
-                return BusinessContainer(
+                return RBusinessContainer(
                   tag: "s${business.name}",
                   business: business,
-                  onShowDirectionTap: () async {
-                    // final res =
-                    //     await LocationService().getCurrentPosition();
-                    // homeController.toggleIsLoading();
-                    // res.fold(
-                    //   (l) {
-                    //     l.showError();
-                    //   },
-                    //   (r) {
-
-                    //     Get.toNamed("/map", arguments: {
-                    //       "businessCoords": business.latLng,
-                    //       "name": business.name,
-                    //       "tag": "s${business.name}",
-                    //     });
-                    //   },
-                    // );
-                  },
+                  onShowDirectionTap: () async {},
                 );
               },
             );

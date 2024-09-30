@@ -29,7 +29,7 @@ class HomeWrapperView extends GetView<HomeWrapperController> {
         () => NavigationBar(
           backgroundColor: Colors.transparent,
           onDestinationSelected: controller.onPageChanged,
-          indicatorColor: Get.theme.primaryColor.withOpacity(.4),
+          indicatorColor: Get.theme.primaryColor.withOpacity(.25),
           selectedIndex: controller.index.value,
           destinations: [
             NavigationDestination(

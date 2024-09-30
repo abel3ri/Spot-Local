@@ -1,5 +1,4 @@
-import 'package:business_dir/app/modules/get_started/views/get_started_view.dart';
-import 'package:business_dir/app/modules/home_wrapper/views/home_wrapper_view.dart';
+import 'package:business_dir/app/widgets/r_circular_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -17,13 +16,14 @@ class SplashView extends GetView<SplashController> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: RCircularIndicator(),
             );
           }
           if (snapshot.hasError || snapshot.data == null) {
-            return const GetStartedView();
+            Future.microtask(() => Get.offNamed("get-started"));
           }
-          return HomeWrapperView();
+          Future.microtask(() => Get.offNamed("home-wrapper"));
+          return SizedBox();
         },
       ),
     );

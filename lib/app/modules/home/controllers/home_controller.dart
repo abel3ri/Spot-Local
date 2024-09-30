@@ -12,6 +12,7 @@ class HomeController extends GetxController {
   Rx<List<CategoryModel>> categories = Rx<List<CategoryModel>>([]);
   Rx<bool> isBusinessLoading = false.obs;
   Rx<bool> isCategoryLoading = false.obs;
+  Rx<bool> isLoading = false.obs;
   Rx<Position?> userPosition = Rx<Position?>(null);
 
   void setUserPosition(Position position) {

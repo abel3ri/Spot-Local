@@ -149,33 +149,34 @@ class ProfileView extends GetView<ProfileController> {
                     title: "helpAndSupport".tr,
                     onPressed: () {},
                     icon: Icons.help,
-                    trailing: Icon(Icons.arrow_forward_ios_rounded),
+                    trailing: Icon(Icons.arrow_right_alt_rounded),
                   ),
                   ProfilePageTile(
                     title: "privacyAndPolicy".tr,
                     icon: Icons.shield,
                     onPressed: () {},
-                    trailing: Icon(Icons.arrow_forward_ios_rounded),
+                    trailing: Icon(Icons.arrow_right_alt_rounded),
                   ),
                   ProfilePageTile(
                     title: "termsAndConditions".tr,
                     icon: Icons.article_sharp,
                     onPressed: () {},
-                    trailing: Icon(Icons.arrow_forward_ios_rounded),
+                    trailing: Icon(Icons.arrow_right_alt_rounded),
                   ),
                   if (user != null)
                     ListTile(
                       leading: Icon(Icons.logout),
                       title: Text("Logout"),
-                      trailing: Icon(Icons.arrow_forward_ios_rounded),
+                      trailing: Icon(Icons.arrow_right_alt_rounded),
                       iconColor: Get.theme.colorScheme.error,
                       textColor: Get.theme.colorScheme.error,
                       titleTextStyle: Get.textTheme.bodyLarge!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
-                      onTap: () async {
-                        await authController.logout();
-                        Get.offAllNamed("get-started");
+                      onTap: () {
+                        authController.logout().then((_) {
+                          Get.offAllNamed("get-started");
+                        });
                       },
                     ),
                 ],

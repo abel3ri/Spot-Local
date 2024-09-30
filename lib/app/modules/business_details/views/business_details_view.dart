@@ -1,6 +1,6 @@
 import 'package:business_dir/app/data/models/business_model.dart';
 import 'package:business_dir/app/modules/business_details/views/business_profile_card.dart';
-import 'package:business_dir/app/widgets/header_text.dart';
+import 'package:business_dir/app/widgets/r_header_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -53,7 +53,7 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
               description: business.description ?? "",
               isVerified: business.isVerified!,
             ),
-            const HeaderText(headerText: "Categories"),
+            const RHeaderText(headerText: "Categories"),
             Align(
               alignment: Alignment.centerLeft,
               child: Wrap(
@@ -71,7 +71,7 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                     .toList(),
               ),
             ),
-            const HeaderText(headerText: "Average Rating"),
+            const RHeaderText(headerText: "Average Rating"),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -96,7 +96,7 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
               ],
             ),
             if (business.images!.isNotEmpty) ...[
-              const HeaderText(headerText: "Gallery"),
+              const RHeaderText(headerText: "Gallery"),
               SizedBox(
                 height: Get.height * 0.3,
                 child: Container(
@@ -128,7 +128,7 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                 ),
               ),
             ],
-            const HeaderText(headerText: "Contact Information"),
+            const RHeaderText(headerText: "Contact Information"),
             if (business.phone != null)
               RContactInfoRow(
                 icon: Icons.phone,
@@ -168,7 +168,7 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                   ),
                 ),
               ),
-            const HeaderText(headerText: "User ratings"),
+            const RHeaderText(headerText: "User ratings"),
             business.ratings != null
                 ? ListView.separated(
                     shrinkWrap: true,

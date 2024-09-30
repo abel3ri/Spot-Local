@@ -1,7 +1,8 @@
 import 'package:business_dir/app/controllers/auth_controller.dart';
-import 'package:business_dir/app/widgets/form_footer.dart';
-import 'package:business_dir/app/widgets/input_field_row.dart';
 import 'package:business_dir/app/widgets/r_button.dart';
+import 'package:business_dir/app/widgets/r_circular_indicator.dart';
+import 'package:business_dir/app/widgets/r_form_footer.dart';
+import 'package:business_dir/app/widgets/r_input_field_row.dart';
 import 'package:business_dir/utils/form_validation.dart';
 import 'package:flutter/material.dart';
 
@@ -76,28 +77,24 @@ class LoginView extends GetView<LoginController> {
                   () {
                     return RButton(
                       child: authController.isLoading.isTrue
-                          ? SizedBox(
-                              width: 16,
-                              height: 16,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                              ),
-                            )
+                          ? RCircularIndicator()
                           : Text("login".tr),
                       onPressed: () async {
                         if (controller.formKey.currentState!.validate()) {
+                          if (Get.focusScope?.hasFocus ?? false) {
+                            Get.focusScope?.unfocus();
+                          }
                           Map<String, dynamic> userData = {
                             "email": controller.emailController.text,
                             "password": controller.passwordController.text,
                           };
                           await authController.login(userData: userData);
-                          Get.offAllNamed("/home-wrapper");
                         }
                       },
                     );
                   },
                 ),
-                FormFooter(
+                RFormFooter(
                   label: "dontHaveAccount".tr,
                   text: 'signup'.tr,
                   onPressed: () {

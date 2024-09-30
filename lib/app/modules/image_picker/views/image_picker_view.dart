@@ -20,12 +20,26 @@ class ImagePickerView extends GetView<ImagePickerController> {
         RListTile(
           title: "Gallery",
           leadingIcon: Icons.image,
-          onPressed: () {},
+          onPressed: () async {
+            final res = await controller.pickImageFromGallery();
+            res.fold((l) {
+              l.showError();
+            }, (r) {
+              Get.back();
+            });
+          },
         ),
         RListTile(
           title: "Camera",
           leadingIcon: Icons.camera,
-          onPressed: () {},
+          onPressed: () async {
+            final res = await controller.pickImageFromCamera();
+            res.fold((l) {
+              l.showError();
+            }, (r) {
+              Get.back();
+            });
+          },
         ),
         RListTile(
           title: "Cancel",
