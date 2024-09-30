@@ -32,7 +32,6 @@ class AuthProvider extends GetConnect {
   Future<Either<AppErrorModel, UserModel>> login(
       {required Map<String, dynamic> userData}) async {
     try {
-      print("login called");
       print(httpClient.baseUrl);
       final res = await post("/auth/login", userData);
       if (res.hasError) {
