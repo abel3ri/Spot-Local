@@ -9,17 +9,17 @@ class AuthProvider extends GetConnect {
   @override
   void onInit() {
     secureStorage = const FlutterSecureStorage();
-    // httpClient.baseUrl = 'http://10.0.2.2:8000/api/v1/auth';
-    httpClient.baseUrl = "http://192.168.22.202:8000/api/v1/auth";
+    // httpClient.baseUrl = 'http://10.0.2.2:8000/api/v1';
+    httpClient.baseUrl = "http://192.168.22.202:8000/api/v1";
   }
 
-  Future<Either<AppErrorModel, UserModel>> signupUser({
+  Future<Either<AppErrorModel, UserModel>> signup({
     required Map<String, dynamic> userData,
   }) async {
     try {
-      final res = await post("/signup", userData);
+      final res = await post("/auth/signup", userData);
       if (res.hasError) {
-        throw res.bodyString ?? "Connection Problem";
+        throw res.body['message'] ?? "Connection problem";
       }
       await secureStorage.write(key: "jwtToken", value: res.body['token']);
       final UserModel user = UserModel.fromJson(res.body['user']);
@@ -29,12 +29,14 @@ class AuthProvider extends GetConnect {
     }
   }
 
-  Future<Either<AppErrorModel, UserModel>> loginUser(
+  Future<Either<AppErrorModel, UserModel>> login(
       {required Map<String, dynamic> userData}) async {
     try {
-      final res = await post("/login", userData);
+      print("login called");
+      print(httpClient.baseUrl);
+      final res = await post("/auth/login", userData);
       if (res.hasError) {
-        throw res.body['message'];
+        throw res.body['message'] ?? "Connection problem";
       }
       await secureStorage.write(key: "jwtToken", value: res.body['token']);
       final UserModel user = UserModel.fromJson(res.body['user']);
@@ -59,10 +61,11 @@ class AuthProvider extends GetConnect {
     try {
       final token = await secureStorage.read(key: "jwtToken");
       if (token == null) {
-        // return left(const AppErrorModel(body: "user not found"));
+        throw "No user found!";
       }
       final res = await get("/users/profile",
           headers: {"Authorization": "Bearer $token"});
+      if (res.hasError) throw res.body['message'] ?? "Connection problem";
       UserModel user = UserModel.fromJson(res.body['data']);
       return right(user);
     } catch (e) {
