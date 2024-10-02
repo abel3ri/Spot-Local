@@ -72,7 +72,21 @@ class LoginView extends GetView<LoginController> {
                   ),
                   validator: FormValidator.passwordValidtor,
                 ),
-                SizedBox(height: Get.height * 0.02),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      Get.toNamed("forgot-password");
+                    },
+                    child: Text(
+                      "Forgot password?",
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Get.theme.primaryColor,
+                          ),
+                    ),
+                  ),
+                ),
                 Obx(
                   () {
                     return RButton(
