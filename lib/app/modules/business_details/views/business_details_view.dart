@@ -1,5 +1,6 @@
 import 'package:business_dir/app/data/models/business_model.dart';
-import 'package:business_dir/app/modules/business_details/views/business_profile_card.dart';
+import 'package:business_dir/app/modules/business_details/widgets/business_profile_card.dart';
+import 'package:business_dir/app/widgets/r_card.dart';
 import 'package:business_dir/app/widgets/r_header_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -31,14 +32,17 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () async {},
-            icon: Icon(
-              Icons.abc,
-              size: 2,
-              color: Get.theme.colorScheme.primary,
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: IconButton(
+              onPressed: () async {},
+              icon: Icon(
+                Icons.explore_rounded,
+                color: Get.theme.colorScheme.primary,
+                size: 28,
+              ),
             ),
-          ),
+          )
         ],
       ),
       body: SingleChildScrollView(
@@ -57,10 +61,14 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
             Align(
               alignment: Alignment.centerLeft,
               child: Wrap(
+                spacing: 4,
                 children: business.categories!
                     .map((category) => Chip(
-                          shape: const StadiumBorder(
-                            side: BorderSide.none,
+                          padding: EdgeInsets.symmetric(horizontal: 0),
+                          shape: StadiumBorder(
+                            side: BorderSide(
+                              color: Colors.transparent,
+                            ),
                           ),
                           backgroundColor: Get.theme.primaryColor,
                           labelStyle: Get.textTheme.bodyMedium!.copyWith(
@@ -176,17 +184,19 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       final rating = business.ratings![index];
-                      return RRatingRow(
-                        userFirstName: rating.ratedBy.firstName ?? "",
-                        userLastName: rating.ratedBy.lastName ?? "",
-                        rating: rating.rating.toDouble(),
-                        createdAt: rating.createdAt,
-                        updatedAt: rating.updatedAt,
-                        comment: rating.comment,
-                        helpful: rating.helpful,
-                        userProfileImage: business
-                                .ratings![index].ratedBy.profileImageUrl ??
-                            "https://eu.ui-avatars.com/api/?name=${rating.ratedBy.firstName}+${business.ratings![index].ratedBy.lastName}&size=250",
+                      return RCard(
+                        child: RRatingRow(
+                          userFirstName: rating.ratedBy.firstName ?? "",
+                          userLastName: rating.ratedBy.lastName ?? "",
+                          rating: rating.rating.toDouble(),
+                          createdAt: rating.createdAt,
+                          updatedAt: rating.updatedAt,
+                          comment: rating.comment,
+                          helpful: rating.helpful,
+                          userProfileImage: business
+                                  .ratings![index].ratedBy.profileImageUrl ??
+                              "https://eu.ui-avatars.com/api/?name=${rating.ratedBy.firstName}+${business.ratings![index].ratedBy.lastName}&size=250",
+                        ),
                       );
                     },
                     separatorBuilder: (context, index) => SizedBox(
@@ -252,84 +262,74 @@ class RRatingRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: Colors.grey.shade800,
-          )),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
           children: [
-            Row(
+            CircleAvatar(
+              foregroundImage: NetworkImage(userProfileImage),
+              backgroundColor: Colors.transparent,
+            ),
+            SizedBox(width: Get.width * 0.02),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  foregroundImage: NetworkImage(userProfileImage),
-                  backgroundColor: Colors.transparent,
-                ),
-                SizedBox(width: Get.width * 0.02),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '$userFirstName $userLastName',
-                      overflow: TextOverflow.ellipsis,
-                      style: Get.textTheme.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      DateFormat.yMMMd("en-us").format(createdAt),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                RatingBarIndicator(
-                  itemSize: 20,
-                  rating: rating,
-                  itemBuilder: (context, index) => Icon(
-                    Icons.star,
-                    color: Get.theme.colorScheme.primary,
+                Text(
+                  '$userFirstName $userLastName',
+                  overflow: TextOverflow.ellipsis,
+                  style: Get.textTheme.bodyLarge!.copyWith(
+                    fontWeight: FontWeight.bold,
                   ),
+                ),
+                Text(
+                  DateFormat.yMMMd("en-us").format(createdAt),
                 ),
               ],
             ),
-            if (comment != null) ...[
-              SizedBox(height: Get.height * 0.02),
-              Text(
-                comment!,
-                style: Get.textTheme.bodyMedium!.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            const Spacer(),
+            RatingBarIndicator(
+              itemSize: 20,
+              rating: rating,
+              itemBuilder: (context, index) => Icon(
+                Icons.star,
+                color: Get.theme.colorScheme.primary,
               ),
-              SizedBox(height: Get.height * 0.01),
-            ],
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                if (createdAt != updatedAt) const Text("edited"),
-                const Spacer(),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton.icon(
-                    onPressed: () {},
-                    label: Text(
-                      "Helpful ($helpful)",
-                      style: Get.textTheme.bodySmall,
-                    ),
-                    icon: const Icon(
-                      Icons.thumb_up_alt_rounded,
-                      size: 16,
-                    ),
-                  ),
-                ),
-              ],
-            )
+            ),
           ],
         ),
-      ),
+        if (comment != null) ...[
+          SizedBox(height: Get.height * 0.02),
+          Text(
+            comment!,
+            style: Get.textTheme.bodyMedium!.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: Get.height * 0.01),
+        ],
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            if (createdAt != updatedAt) const Text("edited"),
+            const Spacer(),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton.icon(
+                onPressed: () {},
+                label: Text(
+                  "Helpful ($helpful)",
+                  style: Get.textTheme.bodySmall,
+                ),
+                icon: const Icon(
+                  Icons.thumb_up_alt_rounded,
+                  size: 16,
+                ),
+              ),
+            ),
+          ],
+        )
+      ],
     );
   }
 }
