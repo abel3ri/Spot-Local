@@ -1,4 +1,5 @@
 import 'package:business_dir/app/data/models/app_error_model.dart';
+import 'package:business_dir/app/data/models/business_model.dart';
 import 'package:business_dir/app/data/models/category_model.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:get/get.dart';
@@ -45,6 +46,24 @@ class CategoryProvider extends GetConnect {
       final res = await get("/", query: {"id": id});
       final CategoryModel category = CategoryModel.fromJson(res.body);
       return right(category);
+    } catch (e) {
+      return left(AppErrorModel(body: e.toString()));
+    }
+  }
+
+  Future<Either<AppErrorModel, List<BusinessModel>>> findAllBusinessOfCategory({
+    required String id,
+  }) async {
+    try {
+      final res = await get("/${id}/businesses");
+      if (res.hasError) throw res.bodyString ?? "Connection problem";
+      final List<BusinessModel> businesses = List.from(
+        res.body['data'].map((business) {
+          return BusinessModel.fromJson(business);
+        }),
+      );
+
+      return right(businesses);
     } catch (e) {
       return left(AppErrorModel(body: e.toString()));
     }
