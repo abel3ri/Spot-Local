@@ -15,6 +15,8 @@ abstract class Routes {
   static const SEARCH = _Paths.SEARCH;
   static const SPLASH = _Paths.SPLASH;
   static const FAVORITE = _Paths.FAVORITE;
+  static const CATEGORY = _Paths.CATEGORY;
+  static const FORGOT_PASSWORD = _Paths.FORGOT_PASSWORD;
 }
 
 abstract class _Paths {
@@ -31,4 +33,6 @@ abstract class _Paths {
   static const SEARCH = '/search';
   static const SPLASH = '/splash';
   static const FAVORITE = '/favorite';
+  static const CATEGORY = '/category';
+  static const FORGOT_PASSWORD = '/forgot-password';
 }
