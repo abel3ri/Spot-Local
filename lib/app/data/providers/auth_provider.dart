@@ -18,6 +18,10 @@ class AuthProvider extends GetConnect {
   }) async {
     try {
       final res = await post("/auth/signup", userData);
+
+      if (res.statusCode == 429) {
+        throw res.bodyString ?? "Connection problem";
+      }
       if (res.hasError) {
         throw res.body['message'] ?? "Connection problem";
       }
@@ -32,8 +36,12 @@ class AuthProvider extends GetConnect {
   Future<Either<AppErrorModel, UserModel>> login(
       {required Map<String, dynamic> userData}) async {
     try {
-      print(httpClient.baseUrl);
       final res = await post("/auth/login", userData);
+
+      if (res.statusCode == 429) {
+        throw res.bodyString ?? "Connection problem";
+      }
+
       if (res.hasError) {
         throw res.body['message'] ?? "Connection problem";
       }
@@ -64,6 +72,10 @@ class AuthProvider extends GetConnect {
       }
       final res = await get("/users/profile",
           headers: {"Authorization": "Bearer $token"});
+
+      if (res.statusCode == 429) {
+        throw res.bodyString ?? "Connection problem";
+      }
       if (res.hasError) throw res.body['message'] ?? "Connection problem";
       UserModel user = UserModel.fromJson(res.body['data']);
       return right(user);
