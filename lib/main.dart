@@ -20,6 +20,7 @@ void main() {
       translations: AppTranslations(),
       locale: Locale("en", "us"),
       fallbackLocale: Locale("en", "us"),
+      defaultTransition: Transition.cupertino,
     ),
   );
 }
