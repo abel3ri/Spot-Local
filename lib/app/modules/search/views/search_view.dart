@@ -43,9 +43,11 @@ class SearchView extends GetView<SearchController> {
             }
 
             return MasonryGridView.builder(
-              physics: NeverScrollableScrollPhysics(),
+              physics: BouncingScrollPhysics(),
               shrinkWrap: true,
               itemCount: controller.searchResults.value.length,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
               gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
               ),
