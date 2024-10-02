@@ -1,5 +1,5 @@
 import 'package:business_dir/app/data/models/business_model.dart';
-import 'package:business_dir/utils/utils.dart';
+import 'package:business_dir/app/widgets/r_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
@@ -28,15 +28,7 @@ class RBusinessContainer extends StatelessWidget {
           },
         );
       },
-      child: Card(
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        color: Get.isDarkMode
-            ? darken(Get.theme.scaffoldBackgroundColor, 0.1)
-            : lighten(Get.theme.scaffoldBackgroundColor, 0.1),
-        elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+      child: RCard(
         child: Stack(
           children: [
             Padding(

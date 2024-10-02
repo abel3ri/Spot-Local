@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class RFormFooter extends StatelessWidget {
   const RFormFooter({
@@ -20,7 +21,13 @@ class RFormFooter extends StatelessWidget {
         Text(label),
         TextButton(
           onPressed: onPressed,
-          child: Text(text),
+          child: Text(
+            text,
+            style: Get.textTheme.bodyMedium!.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Get.theme.primaryColor,
+            ),
+          ),
         ),
       ],
     );
