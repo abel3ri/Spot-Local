@@ -26,10 +26,15 @@ class CategoryItemsGrid extends GetView<HomeController> {
         itemBuilder: (context, index) {
           final category = controller.categories.value[index];
           return CategoryItem(
-            onTap: () {},
             name: category.name,
-            icon: Icons.business,
+            icon: category.icon,
             color: getCategoryItemColor(index),
+            onTap: () async {
+              Get.toNamed("category", arguments: {
+                "id": category.id,
+                "name": category.name,
+              });
+            },
           );
         },
       ),

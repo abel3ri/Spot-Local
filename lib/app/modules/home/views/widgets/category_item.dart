@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class CategoryItem extends StatelessWidget {
   String name;
-  IconData icon;
+  String icon;
   Color? color;
   Function()? onTap;
   CategoryItem({
@@ -23,9 +24,11 @@ class CategoryItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           CircleAvatar(
-            child: Icon(
+            child: SvgPicture.string(
               icon,
-              color: Colors.white,
+              width: 24,
+              height: 24,
+              alignment: Alignment.center,
             ),
             backgroundColor: color ?? Get.theme.colorScheme.primary,
           ),

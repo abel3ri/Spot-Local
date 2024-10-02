@@ -28,9 +28,7 @@ class HomePageSearchPlaceHolder extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8),
             width: Get.width * 0.9,
             height: 48,
-            color: Get.isDarkMode
-                ? Get.theme.scaffoldBackgroundColor
-                : Get.theme.scaffoldBackgroundColor,
+            color: Get.theme.scaffoldBackgroundColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
