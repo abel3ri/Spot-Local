@@ -14,6 +14,7 @@ class HomeController extends GetxController {
   Rx<bool> isCategoryLoading = false.obs;
   Rx<bool> isLoading = false.obs;
   Rx<Position?> userPosition = Rx<Position?>(null);
+  late CategoryProvider categoryProvider;
 
   void setUserPosition(Position position) {
     userPosition.value = position;
@@ -23,6 +24,7 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     Get.find<AuthController>().getUserData();
+    categoryProvider = Get.find<CategoryProvider>();
     getAllCategories();
     getAllBusinesses();
   }
@@ -52,7 +54,6 @@ class HomeController extends GetxController {
   }
 
   Future<void> getAllCategories() async {
-    final categoryProvider = Get.find<CategoryProvider>();
     isCategoryLoading(true);
     final res = await categoryProvider.findAll();
     isCategoryLoading(false);
