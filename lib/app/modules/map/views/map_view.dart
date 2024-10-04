@@ -56,8 +56,8 @@ class MapView extends GetView<MapController> {
                             controller.userPosition.value!.longitude,
                           ),
                           child: Icon(
-                            Icons.location_on,
-                            color: Get.theme.colorScheme.primary,
+                            Icons.my_location,
+                            color: Colors.blue.shade800,
                             size: 32,
                           ),
                         ),
@@ -67,7 +67,7 @@ class MapView extends GetView<MapController> {
                             controller.businessCoords.longitude,
                           ),
                           child: Icon(
-                            Icons.my_location_rounded,
+                            Icons.location_on,
                             color: Get.theme.colorScheme.primary,
                             size: 32,
                           ),
