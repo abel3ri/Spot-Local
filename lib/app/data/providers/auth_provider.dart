@@ -1,4 +1,5 @@
 import 'package:business_dir/app/data/models/app_error_model.dart';
+import 'package:business_dir/app/data/models/app_success_model.dart';
 import 'package:business_dir/app/data/models/user_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fpdart/fpdart.dart';
@@ -43,7 +44,8 @@ class AuthProvider extends GetConnect {
       }
 
       if (res.hasError) {
-        throw res.body['message'] ?? "Connection problem";
+        if (res.body == null) throw "Something went wrong";
+        throw res.body['message'];
       }
       await secureStorage.write(key: "jwtToken", value: res.body['token']);
       final UserModel user = UserModel.fromJson(res.body['user']);
@@ -79,6 +81,47 @@ class AuthProvider extends GetConnect {
       if (res.hasError) throw res.body['message'] ?? "Connection problem";
       UserModel user = UserModel.fromJson(res.body['data']);
       return right(user);
+    } catch (e) {
+      return left(AppErrorModel(body: e.toString()));
+    }
+  }
+
+  Future<Either<AppErrorModel, AppSuccessModel>> sendOTP(
+      {required String email}) async {
+    try {
+      final res = await httpClient
+          .post("/auth/forgot-password", body: {"email": email});
+      if (res.hasError) {
+        if (res.body == null) {
+          return left(AppErrorModel(body: "something went wrong"));
+        }
+        return left(AppErrorModel(body: res.body['message']));
+      }
+      return right(AppSuccessModel(body: res.body['message']));
+    } catch (e) {
+      return left(AppErrorModel(body: e.toString()));
+    }
+  }
+
+  Future<Either<AppErrorModel, UserModel>> resetPassword({
+    required int otp,
+    required String password,
+    required String confirmPassword,
+  }) async {
+    try {
+      final res = await httpClient.patch("/auth/reset-password", body: {
+        "otp": otp,
+        "password": password,
+        "confirmPassword": confirmPassword,
+      });
+      if (res.hasError) {
+        if (res.body == null) {
+          return left(AppErrorModel(body: "something went wrong"));
+        }
+        return left(AppErrorModel(body: res.body['message']));
+      }
+      await secureStorage.write(key: "jwtToken", value: res.body['token']);
+      return right(UserModel.fromJson(res.body['data']));
     } catch (e) {
       return left(AppErrorModel(body: e.toString()));
     }
