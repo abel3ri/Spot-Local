@@ -53,4 +53,23 @@ class FormValidator {
     if (value!.isEmpty) return "Please fill out this field".tr;
     return null;
   }
+
+  static String? otpValidator(String? value) {
+    if (value!.isEmpty) return "Please provide OTP";
+    if (value.length != 6) return "OTP must be 6 characters long";
+    return null;
+  }
+
+  static rePasswordValidator({String? password, String? rePassword}) {
+    if (rePassword == null || rePassword.isEmpty) {
+      return 'Please re-enter your password';
+    }
+    if (rePassword.length < 8) {
+      return "Password must be at least 8 characters long";
+    }
+    if (rePassword != password) {
+      return "Passwords do not match";
+    }
+    return null;
+  }
 }
