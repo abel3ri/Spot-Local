@@ -1,3 +1,4 @@
+import 'package:business_dir/app/controllers/location_controller.dart';
 import 'package:business_dir/app/modules/category/controllers/category_controller.dart';
 import 'package:business_dir/app/widgets/r_business_container.dart';
 import 'package:business_dir/app/widgets/r_info.dart';
@@ -62,7 +63,13 @@ class CategoryView extends GetView<CategoryController> {
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(2),
           child: Obx(
-            () => controller.isLoading.isTrue ? RLinearIndicator() : SizedBox(),
+            () {
+              if (controller.isLoading.value ||
+                  Get.find<LocationController>().isLoading.value) {
+                return RLinearIndicator();
+              }
+              return SizedBox();
+            },
           ),
         ),
       ),
@@ -91,7 +98,6 @@ class CategoryView extends GetView<CategoryController> {
               return RBusinessContainer(
                 tag: "s${business.name}",
                 business: business,
-                onShowDirectionTap: () async {},
               );
             },
           );

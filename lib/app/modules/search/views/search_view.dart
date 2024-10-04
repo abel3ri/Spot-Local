@@ -1,6 +1,8 @@
+import 'package:business_dir/app/controllers/location_controller.dart';
 import 'package:business_dir/app/modules/search/views/widgets/search_input.dart';
 import 'package:business_dir/app/widgets/r_business_container.dart';
 import 'package:business_dir/app/widgets/r_info.dart';
+import 'package:business_dir/app/widgets/r_linear_indicator.dart';
 import 'package:business_dir/app/widgets/shimmers/business_shimmer_grid.dart';
 import 'package:flutter/material.dart' hide SearchController;
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -16,6 +18,14 @@ class SearchView extends GetView<SearchController> {
     return Scaffold(
       appBar: AppBar(
         title: SearchInput(),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(4),
+          child: Obx(
+            () => Get.find<LocationController>().isLoading.isTrue
+                ? RLinearIndicator()
+                : SizedBox(),
+          ),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(8),
@@ -56,7 +66,6 @@ class SearchView extends GetView<SearchController> {
                 return RBusinessContainer(
                   tag: "s${business.name}",
                   business: business,
-                  onShowDirectionTap: () async {},
                 );
               },
             );

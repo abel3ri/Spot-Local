@@ -37,7 +37,7 @@ class MapView extends GetView<MapController> {
                           'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                       userAgentPackageName: 'com.example.app',
                     ),
-                    if (!controller.isLoading.value &&
+                    if (!locationController.isLoading.value &&
                         controller.routePoints.value != null)
                       FlutterMap.PolylineLayer(
                         polylines: [

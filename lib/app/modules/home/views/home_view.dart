@@ -33,7 +33,9 @@ class HomeView extends GetView<HomeController> {
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(4),
           child: Obx(
-            () => controller.isLoading.isTrue ? RLinearIndicator() : SizedBox(),
+            () => Get.find<LocationController>().isLoading.isTrue
+                ? RLinearIndicator()
+                : SizedBox(),
           ),
         ),
         actions: [
@@ -165,19 +167,8 @@ class HomeView extends GetView<HomeController> {
                         itemBuilder: (context, index) {
                           final business = controller.businesses.value[index];
                           return RBusinessContainer(
-                            tag: "h${business.name}",
+                            tag: "${business.name}",
                             business: business,
-                            onShowDirectionTap: () async {
-                              controller.isLoading(true);
-                              final locationController =
-                                  Get.find<LocationController>();
-                              await locationController.getUserCurrentPosition();
-                              controller.isLoading(false);
-                              locationController.setBusinessInfo(
-                                coords: business.latLng!,
-                                name: business.name!,
-                              );
-                            },
                           );
                         },
                       );
