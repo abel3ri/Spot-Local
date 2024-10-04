@@ -1,3 +1,4 @@
+import 'package:business_dir/app/widgets/r_circular_indicator.dart';
 import 'package:business_dir/app/widgets/r_input_field_row.dart';
 import 'package:business_dir/utils/form_validation.dart';
 import 'package:flutter/material.dart';
@@ -43,9 +44,16 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
               ),
               SizedBox(height: Get.height * 0.02),
               FilledButton(
-                child: Text("Reset password"),
-                onPressed: () {
-                  if (controller.formKey.currentState!.validate()) {}
+                child: Obx(() => controller.isLoading.isTrue
+                    ? RCircularIndicator()
+                    : Text("Send OTP")),
+                onPressed: () async {
+                  if (controller.formKey.currentState!.validate()) {
+                    if (Get.focusScope?.hasFocus ?? false) {
+                      Get.focusScope!.unfocus();
+                    }
+                    await controller.sendOTP();
+                  }
                 },
               ),
             ],
