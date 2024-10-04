@@ -164,7 +164,7 @@ class SignupView extends GetView<SignupController> {
                     obscureText: controller.obscureText.value,
                     textInputAction: TextInputAction.next,
                     validator: (value) {
-                      return FormValidator.rePasswordValidator(
+                      return FormValidator.confirmPasswordValidator(
                         password: controller.passwordController.text,
                         rePassword: value,
                       );

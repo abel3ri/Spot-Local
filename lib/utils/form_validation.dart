@@ -60,7 +60,7 @@ class FormValidator {
     return null;
   }
 
-  static rePasswordValidator({String? password, String? rePassword}) {
+  static confirmPasswordValidator({String? password, String? rePassword}) {
     if (rePassword == null || rePassword.isEmpty) {
       return 'Please re-enter your password';
     }

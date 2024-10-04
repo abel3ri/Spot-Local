@@ -89,7 +89,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                   keyboardType: TextInputType.visiblePassword,
                   textInputAction: TextInputAction.done,
                   validator: (value) {
-                    return FormValidator.rePasswordValidator(
+                    return FormValidator.confirmPasswordValidator(
                       password: controller.passwordController.text,
                       rePassword: value,
                     );
