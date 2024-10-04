@@ -31,103 +31,100 @@ class RBusinessContainer extends StatelessWidget {
       child: RCard(
         child: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 8, left: 4, right: 4),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 64,
-                    width: 64,
-                    child: Hero(
-                      tag: tag,
-                      child: FadeInImage.assetNetwork(
-                        placeholder: "assets/image.png",
-                        image: business.logo!,
-                        fit: BoxFit.cover,
-                        imageErrorBuilder: (context, error, stackTrace) {
-                          return Image.asset(
-                            "assets/image.png",
-                            fit: BoxFit.cover,
-                          );
-                        },
-                      ),
+            Column(
+              children: [
+                SizedBox(
+                  height: 64,
+                  width: 64,
+                  child: Hero(
+                    tag: tag,
+                    child: FadeInImage.assetNetwork(
+                      placeholder: "assets/image.png",
+                      image: business.logo!,
+                      fit: BoxFit.cover,
+                      imageErrorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          "assets/image.png",
+                          fit: BoxFit.cover,
+                        );
+                      },
                     ),
                   ),
-                  SizedBox(height: Get.height * 0.01),
-                  Text(
-                    business.name!,
-                    overflow: TextOverflow.ellipsis,
-                    style: Get.textTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                ),
+                SizedBox(height: Get.height * 0.01),
+                Text(
+                  business.name!,
+                  overflow: TextOverflow.ellipsis,
+                  style: Get.textTheme.bodyLarge!.copyWith(
+                    fontWeight: FontWeight.bold,
                   ),
+                ),
 
-                  SizedBox(height: Get.height * 0.01),
-                  Text(
-                    '${business.description}',
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: Get.textTheme.bodySmall!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                SizedBox(height: Get.height * 0.01),
+                Text(
+                  '${business.description}',
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Get.textTheme.bodySmall!.copyWith(
+                    fontWeight: FontWeight.bold,
                   ),
-                  const Divider(thickness: .2),
-                  Wrap(
-                    children: business.categories!
-                        .map((category) => Chip(
-                              shape: const StadiumBorder(),
-                              backgroundColor: Colors.transparent,
-                              padding: const EdgeInsets.all(0),
-                              side: BorderSide.none,
-                              label: Text(
-                                category.name.toUpperCase(),
-                                overflow: TextOverflow.ellipsis,
-                                style: Get.textTheme.bodySmall!.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 8,
-                                ),
+                ),
+                const Divider(thickness: .2),
+                Wrap(
+                  children: business.categories!
+                      .map((category) => Chip(
+                            shape: const StadiumBorder(),
+                            backgroundColor: Colors.transparent,
+                            padding: const EdgeInsets.all(0),
+                            side: BorderSide.none,
+                            label: Text(
+                              category.name.toUpperCase(),
+                              overflow: TextOverflow.ellipsis,
+                              style: Get.textTheme.bodySmall!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 8,
                               ),
-                            ))
-                        .toList(),
-                  ),
-                  const Divider(thickness: .1),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "${business.averageRating ?? "No ratings"}",
-                        style: Get.textTheme.bodyMedium!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                            ),
+                          ))
+                      .toList(),
+                ),
+                const Divider(thickness: .1),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "${business.averageRating ?? "No ratings"}",
+                      style: Get.textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
                       ),
-                      Icon(
-                        Icons.star_rounded,
-                        size: 16,
-                        color: Get.theme.colorScheme.primary,
-                      ),
-                    ],
-                  ),
-                  const Divider(thickness: .1),
-                  Text(
-                    business.address!,
-                    overflow: TextOverflow.ellipsis,
-                    style: Get.textTheme.bodySmall,
-                    textAlign: TextAlign.center,
-                  ),
-                  // Spacer(),
-                  TextButton.icon(
-                    label: Text(
-                      "showDirection".tr,
-                      style: Get.textTheme.bodySmall,
                     ),
-                    onPressed: onShowDirectionTap,
-                    iconAlignment: IconAlignment.end,
-                    icon: const Icon(Icons.directions),
-                  )
-                ],
-              ),
+                    Icon(
+                      Icons.star_rounded,
+                      size: 16,
+                      color: Get.theme.colorScheme.primary,
+                    ),
+                  ],
+                ),
+                const Divider(thickness: .1),
+                Text(
+                  business.address!,
+                  overflow: TextOverflow.ellipsis,
+                  style: Get.textTheme.bodySmall,
+                  textAlign: TextAlign.center,
+                ),
+                // Spacer(),
+                TextButton.icon(
+                  label: Text(
+                    "showDirection".tr,
+                    style: Get.textTheme.bodySmall,
+                  ),
+                  onPressed: onShowDirectionTap,
+                  iconAlignment: IconAlignment.end,
+                  icon: const Icon(Icons.directions),
+                )
+              ],
             ),
             Positioned(
               right: 0,
