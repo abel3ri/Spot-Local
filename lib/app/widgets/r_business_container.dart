@@ -1,3 +1,4 @@
+import 'package:business_dir/app/controllers/location_controller.dart';
 import 'package:business_dir/app/data/models/business_model.dart';
 import 'package:business_dir/app/widgets/r_card.dart';
 import 'package:business_dir/utils/social_share.dart';
@@ -9,17 +10,14 @@ class RBusinessContainer extends StatelessWidget {
   const RBusinessContainer({
     super.key,
     required this.business,
-    required this.onShowDirectionTap,
     required this.tag,
   });
 
   final BusinessModel business;
-  final Function() onShowDirectionTap;
   final String tag;
 
   @override
   Widget build(BuildContext context) {
-    print(business.logo);
     List<String> socialMedias = [
       "facebook",
       "telegram",
@@ -130,7 +128,15 @@ class RBusinessContainer extends StatelessWidget {
                     "showDirection".tr,
                     style: Get.textTheme.bodySmall,
                   ),
-                  onPressed: onShowDirectionTap,
+                  onPressed: () async {
+                    final locationController = Get.find<LocationController>();
+                    locationController.isLoading.value = true;
+                    await locationController.getUserCurrentPosition();
+                    locationController.setBusinessInfo(
+                      coords: business.latLng!,
+                      name: business.name!,
+                    );
+                  },
                   iconAlignment: IconAlignment.end,
                   icon: const Icon(Icons.directions),
                 )
@@ -182,7 +188,7 @@ class RBusinessContainer extends StatelessWidget {
                                           SocialShare.shareBusiness(
                                             socialMedia: socialMedias[index],
                                             url:
-                                                "Hey! Check out ${business.name!} on BUsiness Directory app.",
+                                                "Hey! check out ${business.name!} on Business Directory app.",
                                           );
                                         }
 
