@@ -7,6 +7,7 @@ class LocationController extends GetxController {
   Rx<Position?> userPosition = Rx<Position?>(null);
   Rx<LatLng?> businessCoords = Rx<LatLng?>(null);
   Rx<String> businessName = Rx<String>("");
+  Rx<bool> isLoading = false.obs;
   late GeolocatorPlatform geolocator;
 
   @override
@@ -18,7 +19,9 @@ class LocationController extends GetxController {
 
   Future<void> getUserCurrentPosition() async {
     final locationProvider = Get.find<LocationProvider>();
+    isLoading(true);
     final res = await locationProvider.getCurrentPosition();
+    isLoading(false);
     res.fold((l) {
       l.showError();
     }, (r) {
