@@ -31,11 +31,16 @@ class HomeWrapperView extends GetView<HomeWrapperController> {
           onDestinationSelected: controller.onPageChanged,
           indicatorColor: Get.theme.primaryColor.withOpacity(.25),
           selectedIndex: controller.index.value,
+          elevation: 0,
           destinations: [
             NavigationDestination(
               icon: Icon(Icons.home, color: Get.theme.primaryColor),
               label: "Home",
               tooltip: "Home",
+              selectedIcon: Icon(
+                Icons.home_filled,
+                color: Get.theme.primaryColor,
+              ),
             ),
             NavigationDestination(
               icon: Icon(Icons.search, color: Get.theme.primaryColor),
@@ -43,14 +48,24 @@ class HomeWrapperView extends GetView<HomeWrapperController> {
               tooltip: "Search",
             ),
             NavigationDestination(
-              icon: Icon(Icons.favorite, color: Get.theme.primaryColor),
+              icon: Icon(Icons.favorite_border_rounded,
+                  color: Get.theme.primaryColor),
               label: "Favorites",
               tooltip: "Favorites",
+              selectedIcon: Icon(
+                Icons.favorite,
+                color: Get.theme.primaryColor,
+              ),
             ),
             NavigationDestination(
-              icon: Icon(Icons.person, color: Get.theme.primaryColor),
+              icon:
+                  Icon(Icons.person_2_outlined, color: Get.theme.primaryColor),
               label: "Profile",
               tooltip: "Profile",
+              selectedIcon: Icon(
+                Icons.person_2_rounded,
+                color: Get.theme.primaryColor,
+              ),
             ),
           ],
         ),
