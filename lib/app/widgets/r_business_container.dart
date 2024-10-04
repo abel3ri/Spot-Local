@@ -1,8 +1,9 @@
 import 'package:business_dir/app/data/models/business_model.dart';
 import 'package:business_dir/app/widgets/r_card.dart';
+import 'package:business_dir/utils/social_share.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:share_plus/share_plus.dart';
 
 class RBusinessContainer extends StatelessWidget {
   const RBusinessContainer({
@@ -18,6 +19,15 @@ class RBusinessContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(business.logo);
+    List<String> socialMedias = [
+      "facebook",
+      "telegram",
+      "whatsapp",
+      "linkedin",
+      "twitter",
+      "instagram",
+    ];
     return GestureDetector(
       onTap: () {
         Get.toNamed(
@@ -145,14 +155,60 @@ class RBusinessContainer extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        if (business.website != null) {
-                          await Share.shareUri(Uri.parse(business.website!));
-                        } else {
-                          await Share.shareUri(
-                            Uri.parse(
-                                "https://www.google.com/search?q=${business.name}"),
-                          );
-                        }
+                        showModalBottomSheet(
+                          backgroundColor: Get.theme.scaffoldBackgroundColor,
+                          context: context,
+                          builder: (context) => Column(
+                            children: [
+                              Text(
+                                "Share to a friend!",
+                                style: Get.textTheme.titleLarge,
+                              ),
+                              SizedBox(height: Get.height * 0.02),
+                              Expanded(
+                                child: ListView.separated(
+                                  itemCount: socialMedias.length,
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        if (business.website != null) {
+                                          SocialShare.shareBusiness(
+                                            socialMedia: socialMedias[index],
+                                            url: business.website!,
+                                          );
+                                        } else {
+                                          SocialShare.shareBusiness(
+                                            socialMedia: socialMedias[index],
+                                            url:
+                                                "Hey! Check out ${business.name!} on BUsiness Directory app.",
+                                          );
+                                        }
+
+                                        Get.back();
+                                      },
+                                      child: SvgPicture.asset(
+                                        "assets/social_media/${socialMedias[index]}-logo-fill.svg",
+                                        width: 48,
+                                        height: 48,
+                                      ),
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) =>
+                                      SizedBox(
+                                    width: Get.width * 0.02,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          constraints: BoxConstraints(
+                            maxHeight: Get.height * 0.2,
+                            minWidth: Get.width,
+                          ),
+                          showDragHandle: true,
+                        );
                       },
                       child: Icon(
                         Icons.share_rounded,
