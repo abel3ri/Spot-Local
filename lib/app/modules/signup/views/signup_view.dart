@@ -163,7 +163,12 @@ class SignupView extends GetView<SignupController> {
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: controller.obscureText.value,
                     textInputAction: TextInputAction.next,
-                    validator: FormValidator.passwordValidtor,
+                    validator: (value) {
+                      return FormValidator.rePasswordValidator(
+                        password: controller.passwordController.text,
+                        rePassword: value,
+                      );
+                    },
                   ),
                   SizedBox(height: Get.height * 0.02),
                   Obx(
