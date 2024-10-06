@@ -72,4 +72,9 @@ class FormValidator {
     }
     return null;
   }
+
+  static String? reviewValidator(String? value) {
+    if (value!.isEmpty) return "Please provide a review";
+    return null;
+  }
 }
