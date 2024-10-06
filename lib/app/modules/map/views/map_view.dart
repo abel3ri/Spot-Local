@@ -1,6 +1,7 @@
 import 'package:business_dir/app/controllers/location_controller.dart';
 import 'package:business_dir/app/modules/map/controllers/map_controller.dart';
 import 'package:business_dir/app/modules/map/views/widgets/map_zoom_button.dart';
+import 'package:business_dir/app/widgets/r_circular_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart' as FlutterMap;
 import 'package:get/get.dart';
@@ -147,13 +148,17 @@ class MapView extends GetView<MapController> {
                   Obx(
                     () => Padding(
                       padding: const EdgeInsets.only(right: 16),
-                      child: Text(
-                        "~ ${controller.distance.value.toStringAsFixed(2)} Kms",
-                        style: Get.textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Get.theme.colorScheme.primary,
-                        ),
-                      ),
+                      child: controller.isLoading.value
+                          ? RCircularIndicator(
+                              color: Get.theme.primaryColor,
+                            )
+                          : Text(
+                              "~ ${controller.distance.value.toStringAsFixed(2)} Kms",
+                              style: Get.textTheme.bodyLarge!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Get.theme.colorScheme.primary,
+                              ),
+                            ),
                     ),
                   )
                 ],
