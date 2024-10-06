@@ -1,4 +1,3 @@
-import 'package:business_dir/app/modules/review/views/edit_review_view.dart';
 import 'package:get/get.dart';
 
 import '../modules/business_details/bindings/business_details_binding.dart';
@@ -11,6 +10,7 @@ import '../modules/forgot_password/bindings/forgot_password_binding.dart';
 import '../modules/forgot_password/views/forgot_password_view.dart';
 import '../modules/get_started/bindings/get_started_binding.dart';
 import '../modules/get_started/views/get_started_view.dart';
+import '../modules/help_and_support/views/help_and_support_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/home_wrapper/bindings/home_wrapper_binding.dart';
@@ -21,11 +21,14 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/map/bindings/map_binding.dart';
 import '../modules/map/views/map_view.dart';
+import '../modules/privacy_policy/bindings/privacy_policy_binding.dart';
+import '../modules/privacy_policy/views/privacy_policy_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/reset_password/bindings/reset_password_binding.dart';
 import '../modules/reset_password/views/reset_password_view.dart';
 import '../modules/review/bindings/review_binding.dart';
+import '../modules/review/views/edit_review_view.dart';
 import '../modules/review/views/review_view.dart';
 import '../modules/search/bindings/search_binding.dart';
 import '../modules/search/views/search_view.dart';
@@ -33,6 +36,8 @@ import '../modules/signup/bindings/signup_binding.dart';
 import '../modules/signup/views/signup_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
+import '../modules/terms_and_conditions/bindings/terms_and_conditions_binding.dart';
+import '../modules/terms_and_conditions/views/terms_and_conditions_view.dart';
 
 part 'app_routes.dart';
 
@@ -132,6 +137,20 @@ class AppPages {
       name: _Paths.EDIT_REVIEW,
       page: () => const EditReviewView(),
       binding: ReviewBinding(),
+    ),
+    GetPage(
+      name: _Paths.HELP_AND_SUPPORT,
+      page: () => const HelpAndSupportView(),
+    ),
+    GetPage(
+      name: _Paths.PRIVACY_POLICY,
+      page: () => const PrivacyPolicyView(),
+      binding: PrivacyPolicyBinding(),
+    ),
+    GetPage(
+      name: _Paths.TERMS_AND_CONDITIONS,
+      page: () => const TermsAndConditionsView(),
+      binding: TermsAndConditionsBinding(),
     ),
   ];
 }

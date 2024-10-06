@@ -65,7 +65,9 @@ class HomeView extends GetView<HomeController> {
         ],
         title: Text(
           "businessDirectory".tr,
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: Get.textTheme.bodyMedium!.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true,
       ),

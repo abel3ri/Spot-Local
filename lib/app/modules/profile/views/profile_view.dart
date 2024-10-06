@@ -16,7 +16,7 @@ class ProfileView extends GetView<ProfileController> {
         leading: null,
         title: Text(
           "Profile",
-          style: Get.textTheme.bodyLarge!.copyWith(
+          style: Get.textTheme.bodyMedium!.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -157,20 +157,26 @@ class ProfileView extends GetView<ProfileController> {
                     ),
                     ProfilePageTile(
                       title: "helpAndSupport".tr,
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed("help-and-support");
+                      },
                       icon: Icons.help,
                       trailing: Icon(Icons.arrow_right_alt_rounded),
                     ),
                     ProfilePageTile(
                       title: "privacyAndPolicy".tr,
                       icon: Icons.shield,
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed("privacy-policy");
+                      },
                       trailing: Icon(Icons.arrow_right_alt_rounded),
                     ),
                     ProfilePageTile(
                       title: "termsAndConditions".tr,
                       icon: Icons.article_sharp,
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed("terms-and-conditions");
+                      },
                       trailing: Icon(Icons.arrow_right_alt_rounded),
                     ),
                     if (user != null)

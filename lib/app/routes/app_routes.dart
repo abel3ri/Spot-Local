@@ -19,6 +19,9 @@ abstract class Routes {
   static const FORGOT_PASSWORD = _Paths.FORGOT_PASSWORD;
   static const RESET_PASSWORD = _Paths.RESET_PASSWORD;
   static const REVIEW = _Paths.REVIEW;
+  static const HELP_AND_SUPPORT = _Paths.HELP_AND_SUPPORT;
+  static const PRIVACY_POLICY = _Paths.PRIVACY_POLICY;
+  static const TERMS_AND_CONDITIONS = _Paths.TERMS_AND_CONDITIONS;
 }
 
 abstract class _Paths {
@@ -40,4 +43,7 @@ abstract class _Paths {
   static const RESET_PASSWORD = '/reset-password';
   static const REVIEW = '/review';
   static const EDIT_REVIEW = '/edit-review';
+  static const HELP_AND_SUPPORT = '/help-and-support';
+  static const PRIVACY_POLICY = '/privacy-policy';
+  static const TERMS_AND_CONDITIONS = '/terms-and-conditions';
 }
