@@ -1,7 +1,7 @@
 import 'package:business_dir/app/data/models/user_model.dart';
 
-class RatingModel {
-  RatingModel({
+class ReviewModel {
+  ReviewModel({
     required this.id,
     required this.rating,
     required this.ratedBy,
@@ -19,8 +19,8 @@ class RatingModel {
   final DateTime updatedAt;
   final UserModel ratedBy;
 
-  factory RatingModel.fromJson(Map<String, dynamic> json) {
-    return RatingModel(
+  factory ReviewModel.fromJson(Map<String, dynamic> json) {
+    return ReviewModel(
       id: json["id"],
       rating: json['rating'],
       comment: json['comment'],
