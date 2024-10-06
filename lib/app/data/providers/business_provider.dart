@@ -1,5 +1,6 @@
 import 'package:business_dir/app/data/models/app_error_model.dart';
 import 'package:business_dir/app/data/models/business_model.dart';
+import 'package:business_dir/app/data/models/business_performance_model.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +14,10 @@ class BusinessProvider extends GetConnect {
   Future<Either<AppErrorModel, List<BusinessModel>>> findAll() async {
     try {
       final res = await get("/");
-      if (res.hasError) throw res.bodyString ?? "Connection problem";
+      if (res.hasError) {
+        if (res.body == null) throw "Something went wrong";
+        throw res.body['message'];
+      }
       final List<BusinessModel> businesses = List.from(
         res.body['data'].map((business) {
           return BusinessModel.fromJson(business);
@@ -30,6 +34,10 @@ class BusinessProvider extends GetConnect {
   }) async {
     try {
       final res = await post("/", business.toJson());
+      if (res.hasError) {
+        if (res.body == null) throw "Something went wrong";
+        throw res.body['message'];
+      }
       return right(BusinessModel.fromJson(res.body));
     } catch (e) {
       return left(AppErrorModel(body: e.toString()));
@@ -41,8 +49,29 @@ class BusinessProvider extends GetConnect {
   }) async {
     try {
       final res = await get("/", query: {"id": id});
+      if (res.hasError) {
+        if (res.body == null) throw "Something went wrong";
+        throw res.body['message'];
+      }
       final BusinessModel business = BusinessModel.fromJson(res.body);
       return right(business);
+    } catch (e) {
+      return left(AppErrorModel(body: e.toString()));
+    }
+  }
+
+  Future<Either<AppErrorModel, BusinessPerformanceModel>>
+      getBusinessPerformance({required String businessId}) async {
+    try {
+      final res = await get("/${businessId}/performance");
+      if (res.hasError) {
+        if (res.body == null) throw "Something went wrong";
+        throw res.body['message'];
+      }
+      final businessPerformance = BusinessPerformanceModel.fromJson(
+        res.body['data'],
+      );
+      return right(businessPerformance);
     } catch (e) {
       return left(AppErrorModel(body: e.toString()));
     }
