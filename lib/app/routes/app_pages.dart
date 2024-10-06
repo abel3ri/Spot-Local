@@ -1,3 +1,4 @@
+import 'package:business_dir/app/modules/review/views/edit_review_view.dart';
 import 'package:get/get.dart';
 
 import '../modules/business_details/bindings/business_details_binding.dart';
@@ -24,6 +25,8 @@ import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/reset_password/bindings/reset_password_binding.dart';
 import '../modules/reset_password/views/reset_password_view.dart';
+import '../modules/review/bindings/review_binding.dart';
+import '../modules/review/views/review_view.dart';
 import '../modules/search/bindings/search_binding.dart';
 import '../modules/search/views/search_view.dart';
 import '../modules/signup/bindings/signup_binding.dart';
@@ -119,6 +122,16 @@ class AppPages {
       name: _Paths.RESET_PASSWORD,
       page: () => const ResetPasswordView(),
       binding: ResetPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.REVIEW,
+      page: () => const ReviewView(),
+      binding: ReviewBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_REVIEW,
+      page: () => const EditReviewView(),
+      binding: ReviewBinding(),
     ),
   ];
 }
