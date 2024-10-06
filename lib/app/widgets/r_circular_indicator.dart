@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 class RCircularIndicator extends StatelessWidget {
   const RCircularIndicator({
     super.key,
+    this.color = Colors.white,
   });
+
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +14,7 @@ class RCircularIndicator extends StatelessWidget {
       width: 16,
       height: 16,
       child: CircularProgressIndicator(
-        color: Colors.white,
+        color: color,
       ),
     );
   }

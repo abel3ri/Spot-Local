@@ -1,5 +1,6 @@
 import 'package:business_dir/app/controllers/location_controller.dart';
 import 'package:business_dir/app/data/models/business_model.dart';
+import 'package:business_dir/app/modules/home/controllers/home_controller.dart';
 import 'package:business_dir/app/widgets/r_card.dart';
 import 'package:business_dir/utils/social_share.dart';
 import 'package:flutter/material.dart';
@@ -28,13 +29,8 @@ class RBusinessContainer extends StatelessWidget {
     ];
     return GestureDetector(
       onTap: () {
-        Get.toNamed(
-          "business-details",
-          arguments: {
-            "business": business,
-            "tag": tag,
-          },
-        );
+        Get.find<HomeController>().business.value = business;
+        Get.toNamed("business-details");
       },
       child: RCard(
         child: Stack(
@@ -103,7 +99,7 @@ class RBusinessContainer extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "${business.averageRating ?? "No ratings"}",
+                      "${business.averageRating?.toStringAsFixed(1) ?? "No ratings"}",
                       style: Get.textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -188,7 +184,7 @@ class RBusinessContainer extends StatelessWidget {
                                           SocialShare.shareBusiness(
                                             socialMedia: socialMedias[index],
                                             url:
-                                                "Hey! check out ${business.name!} on Business Directory app.",
+                                                "Hey! check out ${business.name!} on eTech's Business Directory Mobile App.",
                                           );
                                         }
 
