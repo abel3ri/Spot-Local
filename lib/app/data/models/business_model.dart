@@ -1,5 +1,5 @@
 import 'package:business_dir/app/data/models/category_model.dart';
-import 'package:business_dir/app/data/models/rating_model.dart';
+import 'package:business_dir/app/data/models/review_model.dart';
 import 'package:business_dir/app/data/models/user_model.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -22,6 +22,7 @@ class BusinessModel {
     this.phone,
     this.website,
     this.averageRating,
+    this.totalRatings,
     this.ratings,
     this.socialMedia,
   });
@@ -41,9 +42,10 @@ class BusinessModel {
   final DateTime? createdAt;
   final num? averageRating;
   final UserModel? owner;
-  final List<RatingModel>? ratings;
+  final List<ReviewModel>? ratings;
   final List<String>? socialMedia;
   final List<CategoryModel>? categories;
+  final num? totalRatings;
 
   factory BusinessModel.fromJson(Map<String, dynamic> json) {
     return BusinessModel(
@@ -62,9 +64,10 @@ class BusinessModel {
       phone: List<String>.from(json['phone'] ?? []),
       website: json['website'],
       averageRating: json['averageRating'],
-      ratings: List<RatingModel>.from(json['ratings'].map(
+      totalRatings: json['totalRatings'],
+      ratings: List<ReviewModel>.from(json['ratings'].map(
             (rating) {
-              return RatingModel.fromJson(rating);
+              return ReviewModel.fromJson(rating);
             },
           ) ??
           []),
@@ -99,6 +102,7 @@ class BusinessModel {
       'phone': phone ?? [],
       'website': website ?? '',
       'averageRating': averageRating ?? 0,
+      'totalRatings': totalRatings ?? 0,
       'ratings': ratings?.map((rating) => rating.toJson()).toList() ?? [],
       'user': owner?.toJson() ?? null,
       'socialMedia': socialMedia ?? [],
