@@ -115,7 +115,7 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                   }
                   final averageRating = controller
                           .businessPerformance.value?.averageRating
-                          .toStringAsFixed(1) ??
+                          .toDouble() ??
                       0.0;
                   final totalReviews =
                       controller.businessPerformance.value?.totalReviews ?? 0;
@@ -126,7 +126,7 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "${averageRating}",
+                            "${averageRating.toStringAsFixed(1)}",
                             style: GoogleFonts.stardosStencil(
                               fontSize: 48,
                               fontWeight: FontWeight.bold,
@@ -134,7 +134,7 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                           ),
                           RatingBarIndicator(
                             itemSize: 32,
-                            rating: business.averageRating?.toDouble() ?? 0,
+                            rating: averageRating,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) => Icon(
                               Icons.star_rounded,
