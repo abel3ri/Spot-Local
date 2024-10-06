@@ -15,6 +15,7 @@ class HomeController extends GetxController {
   Rx<bool> isLoading = false.obs;
   Rx<Position?> userPosition = Rx<Position?>(null);
   late CategoryProvider categoryProvider;
+  Rx<BusinessModel?> business = Rx<BusinessModel?>(null);
 
   void setUserPosition(Position position) {
     userPosition.value = position;
