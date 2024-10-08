@@ -87,11 +87,10 @@ class LoginView extends GetView<LoginController> {
                     ),
                   ),
                 ),
-                Obx(
-                  () {
-                    return RButton(
-                      child: authController.isLoading.isTrue
-                          ? RCircularIndicator()
+                RButton(
+                  child: Obx(() {
+                    return authController.isLoading.isTrue
+                        ? RCircularIndicator()
                           : Text("login".tr),
                       onPressed: () async {
                         if (controller.formKey.currentState!.validate()) {
