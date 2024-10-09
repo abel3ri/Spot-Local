@@ -128,7 +128,8 @@ class ProfileView extends GetView<ProfileController> {
                         onPressed: null,
                         icon: Icons.color_lens_rounded,
                         trailing: DropdownButton(
-                          value: "system",
+                          value: themeController.currentTheme.value.name,
+                          alignment: Alignment.centerRight,
                           style: Get.textTheme.bodyMedium!.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
