@@ -21,6 +21,8 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/map/bindings/map_binding.dart';
 import '../modules/map/views/map_view.dart';
+import '../modules/my_businesses/bindings/my_businesses_binding.dart';
+import '../modules/my_businesses/views/my_businesses_view.dart';
 import '../modules/privacy_policy/bindings/privacy_policy_binding.dart';
 import '../modules/privacy_policy/views/privacy_policy_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
@@ -151,6 +153,11 @@ class AppPages {
       name: _Paths.TERMS_AND_CONDITIONS,
       page: () => const TermsAndConditionsView(),
       binding: TermsAndConditionsBinding(),
+    ),
+    GetPage(
+      name: _Paths.MY_BUSINESSES,
+      page: () => const MyBusinessesView(),
+      binding: MyBusinessesBinding(),
     ),
   ];
 }

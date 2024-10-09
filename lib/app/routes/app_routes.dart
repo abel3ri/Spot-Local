@@ -22,6 +22,7 @@ abstract class Routes {
   static const HELP_AND_SUPPORT = _Paths.HELP_AND_SUPPORT;
   static const PRIVACY_POLICY = _Paths.PRIVACY_POLICY;
   static const TERMS_AND_CONDITIONS = _Paths.TERMS_AND_CONDITIONS;
+  static const MY_BUSINESSES = _Paths.MY_BUSINESSES;
 }
 
 abstract class _Paths {
@@ -46,4 +47,5 @@ abstract class _Paths {
   static const HELP_AND_SUPPORT = '/help-and-support';
   static const PRIVACY_POLICY = '/privacy-policy';
   static const TERMS_AND_CONDITIONS = '/terms-and-conditions';
+  static const MY_BUSINESSES = '/my-businesses';
 }
