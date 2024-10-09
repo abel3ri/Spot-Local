@@ -8,6 +8,7 @@ import 'package:flutter/material.dart' hide SearchController;
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 import '../controllers/search_controller.dart';
 
@@ -35,11 +36,15 @@ class SearchView extends GetView<SearchController> {
               return BusinessShimmerGrid();
             }
 
-            if (controller.searchInputController.value.text.isEmpty) {
+            if (controller.searchInputController.value.text.isEmpty &&
+                controller.animateSearchLottie.isTrue) {
               return Center(
-                child: RInfo(
-                  message: "Try Searching a Business!",
-                  imagePath: "assets/utils/search.svg",
+                child: Lottie.asset(
+                  width: Get.width * 0.8,
+                  height: Get.height * 0.4,
+                  fit: BoxFit.cover,
+                  repeat: controller.animateSearchLottie.value,
+                  "assets/lotties/search.json",
                 ),
               );
             }

@@ -11,6 +11,7 @@ class SearchController extends GetConnect {
   Timer? _debounce;
   Rx<List<BusinessModel>> searchResults = Rx<List<BusinessModel>>([]);
   Rx<bool> isLoading = false.obs;
+  Rx<bool> animateSearchLottie = true.obs;
 
   @override
   onInit() {
