@@ -408,7 +408,6 @@ class RRatingRow extends StatelessWidget {
                     label: "Delete",
                     icon: Icons.delete,
                     onPressed: () async {
-                      print(review.id);
                       await Get.find<BusinessDetailsController>()
                           .deleteReview(reviewId: review.id);
                     },

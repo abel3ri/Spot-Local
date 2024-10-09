@@ -10,7 +10,6 @@ class HomePageSearchPlaceHolder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(Get.isDarkMode);
     return GestureDetector(
       onTap: () {
         Get.find<HomeWrapperController>().index.value = 1;

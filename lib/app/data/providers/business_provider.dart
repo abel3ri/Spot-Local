@@ -26,7 +26,6 @@ class BusinessProvider extends GetConnect {
       );
       return right(businesses);
     } catch (e) {
-      print(e.toString());
       return left(AppErrorModel(body: e.toString()));
     }
   }

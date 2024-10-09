@@ -53,9 +53,6 @@ class MapController extends GetxController {
           distance.value = r['distance'] / 1000;
         });
       } catch (e) {
-        if (kDebugMode) {
-          print(e);
-        }
       } finally {
         isLoading.value = false;
       }

@@ -33,7 +33,6 @@ class SearchController extends GetConnect {
           if (res.hasError) {
             throw "Unknown Error";
           }
-          print(res.body);
           searchResults.value = List.from(res.body['data']).map((business) {
             return BusinessModel.fromJson(business);
           }).toList();

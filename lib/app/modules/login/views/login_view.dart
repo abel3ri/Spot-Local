@@ -93,7 +93,12 @@ class LoginView extends GetView<LoginController> {
                 child: Obx(() {
                   return controller.isLoading.isTrue
                       ? RCircularIndicator()
-                      : Text("login".tr);
+                      : Text(
+                          "login".tr,
+                          style: Get.textTheme.bodyMedium!.copyWith(
+                            color: Colors.white,
+                          ),
+                        );
                 }),
                 onPressed: () async {
                   if (controller.formKey.currentState!.validate()) {
