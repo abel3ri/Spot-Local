@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class RButton extends StatelessWidget {
@@ -16,6 +17,12 @@ class RButton extends StatelessWidget {
       onPressed: onPressed,
       style: ButtonStyle(
         fixedSize: WidgetStatePropertyAll(Size(112, 16)),
+        textStyle: WidgetStatePropertyAll(
+          Get.textTheme.bodyMedium!.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        foregroundColor: WidgetStatePropertyAll(Colors.white),
       ),
       child: child,
     );

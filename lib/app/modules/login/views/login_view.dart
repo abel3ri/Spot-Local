@@ -90,16 +90,13 @@ class LoginView extends GetView<LoginController> {
                 ),
               ),
               RButton(
-                child: Obx(() {
-                  return controller.isLoading.isTrue
-                      ? RCircularIndicator()
-                      : Text(
-                          "login".tr,
-                          style: Get.textTheme.bodyMedium!.copyWith(
-                            color: Colors.white,
-                          ),
-                        );
-                }),
+                child: Obx(
+                  () {
+                    return controller.isLoading.isTrue
+                        ? RCircularIndicator()
+                        : Text("login".tr);
+                  },
+                ),
                 onPressed: () async {
                   if (controller.formKey.currentState!.validate()) {
                     if (Get.focusScope?.hasFocus ?? false) {
