@@ -30,7 +30,7 @@ class CategoryItem extends StatelessWidget {
               height: 24,
               alignment: Alignment.center,
             ),
-            backgroundColor: color ?? Get.theme.colorScheme.primary,
+            backgroundColor: color ?? context.theme.colorScheme.primary,
           ),
           SizedBox(height: 4),
           Text(name),

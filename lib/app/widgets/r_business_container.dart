@@ -107,7 +107,7 @@ class RBusinessContainer extends StatelessWidget {
                     Icon(
                       Icons.star_rounded,
                       size: 16,
-                      color: Get.theme.colorScheme.primary,
+                      color: context.theme.colorScheme.primary,
                     ),
                   ],
                 ),
@@ -149,7 +149,7 @@ class RBusinessContainer extends StatelessWidget {
                       onTap: () {},
                       child: Icon(
                         Icons.favorite_border_rounded,
-                        color: Get.theme.colorScheme.secondary,
+                        color: context.theme.colorScheme.secondary,
                       ),
                     ),
                     SizedBox(
@@ -158,7 +158,8 @@ class RBusinessContainer extends StatelessWidget {
                     GestureDetector(
                       onTap: () async {
                         showModalBottomSheet(
-                          backgroundColor: Get.theme.scaffoldBackgroundColor,
+                          backgroundColor:
+                              context.theme.scaffoldBackgroundColor,
                           context: context,
                           builder: (context) => Column(
                             children: [
@@ -220,7 +221,7 @@ class RBusinessContainer extends StatelessWidget {
                       },
                       child: Icon(
                         Icons.share_rounded,
-                        color: Get.theme.colorScheme.secondary,
+                        color: context.theme.colorScheme.secondary,
                       ),
                     ),
                   ],
@@ -231,7 +232,7 @@ class RBusinessContainer extends StatelessWidget {
               Positioned(
                 top: 0,
                 left: 0,
-                child: Icon(Icons.verified, color: Get.theme.primaryColor),
+                child: Icon(Icons.verified, color: context.theme.primaryColor),
               ),
           ],
         ),

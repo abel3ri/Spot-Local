@@ -16,11 +16,7 @@ class RCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: color == null
-            ? Get.isDarkMode
-                ? Get.theme.scaffoldBackgroundColor
-                : Get.theme.scaffoldBackgroundColor
-            : color,
+        color: color ?? context.theme.scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(15.0),
         boxShadow: [
           BoxShadow(

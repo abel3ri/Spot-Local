@@ -25,7 +25,7 @@ class SearchInput extends GetView<SearchController> {
           ),
           border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Get.theme.primaryColor,
+              color: context.theme.primaryColor,
               width: 2,
             ),
             borderRadius: BorderRadius.circular(8),
@@ -33,14 +33,14 @@ class SearchInput extends GetView<SearchController> {
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(100),
             borderSide: BorderSide(
-              color: Get.theme.primaryColor,
+              color: context.theme.primaryColor,
               width: 2,
             ),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(100),
             borderSide: BorderSide(
-              color: Get.theme.primaryColor,
+              color: context.theme.primaryColor,
               width: 2,
             ),
           ),

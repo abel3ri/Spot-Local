@@ -12,15 +12,15 @@ class CategoryShimmerItem extends StatelessWidget {
       children: [
         CircleAvatar(
           backgroundColor: Get.isDarkMode
-              ? lighten(Get.theme.scaffoldBackgroundColor)
-              : darken(Get.theme.scaffoldBackgroundColor),
+              ? lighten(context.theme.scaffoldBackgroundColor)
+              : darken(context.theme.scaffoldBackgroundColor),
           child: Shimmer.fromColors(
             baseColor: Get.isDarkMode
-                ? Get.theme.scaffoldBackgroundColor
-                : Get.theme.scaffoldBackgroundColor,
+                ? context.theme.scaffoldBackgroundColor
+                : context.theme.scaffoldBackgroundColor,
             highlightColor: Get.isDarkMode
-                ? lighten(Get.theme.scaffoldBackgroundColor, 0.2)
-                : darken(Get.theme.scaffoldBackgroundColor, 0.2),
+                ? lighten(context.theme.scaffoldBackgroundColor, 0.2)
+                : darken(context.theme.scaffoldBackgroundColor, 0.2),
             child: const Icon(
               Icons.business,
               color: Colors.white,
@@ -31,8 +31,8 @@ class CategoryShimmerItem extends StatelessWidget {
         Shimmer.fromColors(
           baseColor: Get.textTheme.bodyMedium!.color!,
           highlightColor: Get.isDarkMode
-              ? lighten(Get.theme.scaffoldBackgroundColor, 0.25)
-              : darken(Get.theme.scaffoldBackgroundColor, 0.25),
+              ? lighten(context.theme.scaffoldBackgroundColor, 0.25)
+              : darken(context.theme.scaffoldBackgroundColor, 0.25),
           child: const Text(
             "Name",
           ),

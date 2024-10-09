@@ -100,7 +100,7 @@ class MyBusinessesView extends GetView<MyBusinessesController> {
                           Icon(
                             Icons.star_rounded,
                             size: 16,
-                            color: Get.theme.primaryColor,
+                            color: context.theme.primaryColor,
                           ),
                         ],
                       ),

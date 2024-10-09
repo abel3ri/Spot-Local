@@ -96,7 +96,7 @@ class HomeView extends GetView<HomeController> {
                         height: Get.height * 0.3,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         decoration: BoxDecoration(
-                          color: Get.theme.colorScheme.primary,
+                          color: context.theme.colorScheme.primary,
                           borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(8),
                             topRight: Radius.circular(8),

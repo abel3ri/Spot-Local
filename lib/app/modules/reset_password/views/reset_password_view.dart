@@ -56,7 +56,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                     child: Text(
                       "Resend OTP",
                       style: TextStyle(
-                        color: Get.theme.colorScheme.secondary,
+                        color: context.theme.colorScheme.secondary,
                       ),
                     ),
                   ),

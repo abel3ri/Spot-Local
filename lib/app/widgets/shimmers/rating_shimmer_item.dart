@@ -18,16 +18,16 @@ class RRatingRowShimmer extends StatelessWidget {
             children: [
               Shimmer.fromColors(
                 baseColor: Get.isDarkMode
-                    ? lighten(Get.theme.scaffoldBackgroundColor)
-                    : darken(Get.theme.scaffoldBackgroundColor),
+                    ? lighten(context.theme.scaffoldBackgroundColor)
+                    : darken(context.theme.scaffoldBackgroundColor),
                 highlightColor: Get.isDarkMode
-                    ? lighten(Get.theme.scaffoldBackgroundColor, 0.2)
-                    : darken(Get.theme.scaffoldBackgroundColor, 0.2),
+                    ? lighten(context.theme.scaffoldBackgroundColor, 0.2)
+                    : darken(context.theme.scaffoldBackgroundColor, 0.2),
                 child: CircleAvatar(
                   radius: 24,
                   backgroundColor: Get.isDarkMode
-                      ? lighten(Get.theme.scaffoldBackgroundColor)
-                      : darken(Get.theme.scaffoldBackgroundColor),
+                      ? lighten(context.theme.scaffoldBackgroundColor)
+                      : darken(context.theme.scaffoldBackgroundColor),
                 ),
               ),
               SizedBox(width: Get.width * 0.02),
@@ -36,11 +36,11 @@ class RRatingRowShimmer extends StatelessWidget {
                 children: [
                   Shimmer.fromColors(
                     baseColor: Get.isDarkMode
-                        ? lighten(Get.theme.scaffoldBackgroundColor)
-                        : darken(Get.theme.scaffoldBackgroundColor),
+                        ? lighten(context.theme.scaffoldBackgroundColor)
+                        : darken(context.theme.scaffoldBackgroundColor),
                     highlightColor: Get.isDarkMode
-                        ? lighten(Get.theme.scaffoldBackgroundColor, 0.2)
-                        : darken(Get.theme.scaffoldBackgroundColor, 0.2),
+                        ? lighten(context.theme.scaffoldBackgroundColor, 0.2)
+                        : darken(context.theme.scaffoldBackgroundColor, 0.2),
                     child: RContainerPlaceholder(
                       width: Get.width * 0.3,
                       height: 16,
@@ -49,11 +49,11 @@ class RRatingRowShimmer extends StatelessWidget {
                   SizedBox(height: Get.height * 0.01),
                   Shimmer.fromColors(
                     baseColor: Get.isDarkMode
-                        ? lighten(Get.theme.scaffoldBackgroundColor)
-                        : darken(Get.theme.scaffoldBackgroundColor),
+                        ? lighten(context.theme.scaffoldBackgroundColor)
+                        : darken(context.theme.scaffoldBackgroundColor),
                     highlightColor: Get.isDarkMode
-                        ? lighten(Get.theme.scaffoldBackgroundColor, 0.2)
-                        : darken(Get.theme.scaffoldBackgroundColor, 0.2),
+                        ? lighten(context.theme.scaffoldBackgroundColor, 0.2)
+                        : darken(context.theme.scaffoldBackgroundColor, 0.2),
                     child: RContainerPlaceholder(
                       width: Get.width * 0.2,
                       height: 12,
@@ -64,18 +64,18 @@ class RRatingRowShimmer extends StatelessWidget {
               const Spacer(),
               Shimmer.fromColors(
                 baseColor: Get.isDarkMode
-                    ? lighten(Get.theme.scaffoldBackgroundColor)
-                    : darken(Get.theme.scaffoldBackgroundColor),
+                    ? lighten(context.theme.scaffoldBackgroundColor)
+                    : darken(context.theme.scaffoldBackgroundColor),
                 highlightColor: Get.isDarkMode
-                    ? lighten(Get.theme.scaffoldBackgroundColor, 0.2)
-                    : darken(Get.theme.scaffoldBackgroundColor, 0.2),
+                    ? lighten(context.theme.scaffoldBackgroundColor, 0.2)
+                    : darken(context.theme.scaffoldBackgroundColor, 0.2),
                 child: Row(
                   children: List.generate(5, (index) {
                     return Icon(
                       Icons.star,
                       color: Get.isDarkMode
-                          ? lighten(Get.theme.scaffoldBackgroundColor)
-                          : darken(Get.theme.scaffoldBackgroundColor),
+                          ? lighten(context.theme.scaffoldBackgroundColor)
+                          : darken(context.theme.scaffoldBackgroundColor),
                       size: 20,
                     );
                   }),
@@ -86,11 +86,11 @@ class RRatingRowShimmer extends StatelessWidget {
           SizedBox(height: Get.height * 0.02),
           Shimmer.fromColors(
             baseColor: Get.isDarkMode
-                ? lighten(Get.theme.scaffoldBackgroundColor)
-                : darken(Get.theme.scaffoldBackgroundColor),
+                ? lighten(context.theme.scaffoldBackgroundColor)
+                : darken(context.theme.scaffoldBackgroundColor),
             highlightColor: Get.isDarkMode
-                ? lighten(Get.theme.scaffoldBackgroundColor, 0.2)
-                : darken(Get.theme.scaffoldBackgroundColor, 0.2),
+                ? lighten(context.theme.scaffoldBackgroundColor, 0.2)
+                : darken(context.theme.scaffoldBackgroundColor, 0.2),
             child: RContainerPlaceholder(
               width: Get.width * 0.7,
               height: 16,
@@ -99,11 +99,11 @@ class RRatingRowShimmer extends StatelessWidget {
           SizedBox(height: Get.height * 0.01),
           Shimmer.fromColors(
             baseColor: Get.isDarkMode
-                ? lighten(Get.theme.scaffoldBackgroundColor)
-                : darken(Get.theme.scaffoldBackgroundColor),
+                ? lighten(context.theme.scaffoldBackgroundColor)
+                : darken(context.theme.scaffoldBackgroundColor),
             highlightColor: Get.isDarkMode
-                ? lighten(Get.theme.scaffoldBackgroundColor, 0.2)
-                : darken(Get.theme.scaffoldBackgroundColor, 0.2),
+                ? lighten(context.theme.scaffoldBackgroundColor, 0.2)
+                : darken(context.theme.scaffoldBackgroundColor, 0.2),
             child: RContainerPlaceholder(
               width: Get.width * 0.5,
               height: 12,
@@ -116,11 +116,11 @@ class RRatingRowShimmer extends StatelessWidget {
               const Spacer(),
               Shimmer.fromColors(
                 baseColor: Get.isDarkMode
-                    ? lighten(Get.theme.scaffoldBackgroundColor)
-                    : darken(Get.theme.scaffoldBackgroundColor),
+                    ? lighten(context.theme.scaffoldBackgroundColor)
+                    : darken(context.theme.scaffoldBackgroundColor),
                 highlightColor: Get.isDarkMode
-                    ? lighten(Get.theme.scaffoldBackgroundColor, 0.2)
-                    : darken(Get.theme.scaffoldBackgroundColor, 0.2),
+                    ? lighten(context.theme.scaffoldBackgroundColor, 0.2)
+                    : darken(context.theme.scaffoldBackgroundColor, 0.2),
                 child: RContainerPlaceholder(
                   width: Get.width * 0.2,
                   height: 12,

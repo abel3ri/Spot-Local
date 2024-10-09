@@ -77,7 +77,7 @@ class BusinessProfileCard extends StatelessWidget {
             right: 0,
             child: Icon(
               Icons.verified_rounded,
-              color: Get.theme.colorScheme.primary,
+              color: context.theme.colorScheme.primary,
               size: 32,
             ),
           ),

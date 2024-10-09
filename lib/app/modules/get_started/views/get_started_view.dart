@@ -28,7 +28,7 @@ class GetStartedView extends GetView<GetStartedController> {
                     height: 4,
                     decoration: BoxDecoration(
                       color: controller.currentIndex.value == index
-                          ? Get.theme.primaryColor
+                          ? context.theme.primaryColor
                           : Colors.grey,
                       borderRadius: BorderRadius.circular(8),
                     ),

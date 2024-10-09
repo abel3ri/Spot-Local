@@ -25,7 +25,8 @@ class RNextPrevButton extends StatelessWidget {
           duration: Duration(seconds: 3),
           child: IconButton(
             style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(Get.theme.primaryColor),
+              backgroundColor:
+                  WidgetStatePropertyAll(context.theme.primaryColor),
               padding: WidgetStatePropertyAll(EdgeInsets.all(16)),
               iconColor: WidgetStatePropertyAll(Colors.white),
             ),

@@ -37,7 +37,7 @@ class LoginView extends GetView<LoginController> {
                 child: Text(
                   "welcomeBack".tr,
                   style: Get.textTheme.headlineSmall!.copyWith(
-                    color: Get.theme.colorScheme.primary,
+                    color: context.theme.colorScheme.primary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -84,7 +84,7 @@ class LoginView extends GetView<LoginController> {
                     "Forgot password?",
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: Get.theme.primaryColor,
+                          color: context.theme.primaryColor,
                         ),
                   ),
                 ),

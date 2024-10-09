@@ -1,7 +1,6 @@
 import 'package:business_dir/app/data/models/app_error_model.dart';
 import 'package:business_dir/app/data/models/user_model.dart';
 import 'package:business_dir/app/data/providers/auth_provider.dart';
-import 'package:business_dir/app/modules/home/controllers/home_controller.dart';
 import 'package:business_dir/app/modules/login/controllers/login_controller.dart';
 import 'package:business_dir/app/modules/profile/controllers/profile_controller.dart';
 import 'package:business_dir/app/modules/signup/controllers/signup_controller.dart';
@@ -10,6 +9,7 @@ import 'package:get/get.dart';
 class AuthController extends GetxController {
   Rx<UserModel?> currentUser = Rx<UserModel?>(null);
   AuthProvider authProvider = Get.put(AuthProvider());
+  Rx<bool> isLoading = false.obs;
 
   Future<void> signup({required Map<String, dynamic> userData}) async {
     final signupController = Get.find<SignupController>();
@@ -38,10 +38,9 @@ class AuthController extends GetxController {
   }
 
   Future<void> getUserData() async {
-    final homeController = Get.find<HomeController>();
-    homeController.isLoading(true);
+    isLoading(true);
     final res = await authProvider.getUserData();
-    homeController.isLoading(false);
+    isLoading(false);
     res.fold((AppErrorModel l) {
       if (l.body != "No user found!") l.showError();
     }, (UserModel user) {

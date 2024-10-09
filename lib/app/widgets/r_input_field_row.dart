@@ -53,20 +53,20 @@ class RInputField extends StatelessWidget {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                color: Get.theme.colorScheme.primary,
+                color: context.theme.colorScheme.primary,
               ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                color: Get.theme.colorScheme.primary,
+                color: context.theme.colorScheme.primary,
                 width: 1.5,
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                color: Get.theme.colorScheme.primary,
+                color: context.theme.colorScheme.primary,
                 width: 1.5,
               ),
             ),

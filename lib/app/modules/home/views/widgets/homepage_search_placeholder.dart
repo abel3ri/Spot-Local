@@ -10,6 +10,7 @@ class HomePageSearchPlaceHolder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(Get.isDarkMode);
     return GestureDetector(
       onTap: () {
         Get.find<HomeWrapperController>().index.value = 1;
@@ -20,15 +21,15 @@ class HomePageSearchPlaceHolder extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           decoration: BoxDecoration(
             color: Get.isDarkMode
-                ? lighten(Get.theme.scaffoldBackgroundColor, 0.15)
-                : darken(Get.theme.scaffoldBackgroundColor, 0.15),
+                ? lighten(context.theme.scaffoldBackgroundColor, 0.15)
+                : darken(context.theme.scaffoldBackgroundColor, 0.15),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             width: Get.width * 0.9,
             height: 48,
-            color: Get.theme.scaffoldBackgroundColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

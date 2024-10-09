@@ -43,7 +43,7 @@ class SignupView extends GetView<SignupController> {
                 child: Text(
                   "readyToExplore".tr,
                   style: Get.textTheme.headlineSmall!.copyWith(
-                    color: Get.theme.colorScheme.primary,
+                    color: context.theme.colorScheme.primary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -55,7 +55,7 @@ class SignupView extends GetView<SignupController> {
                     () => CircleAvatar(
                       radius: 36,
                       backgroundColor:
-                          Get.theme.colorScheme.primary.withOpacity(.2),
+                          context.theme.colorScheme.primary.withOpacity(.2),
                       backgroundImage:
                           imagePickController.imagePath.value != null
                               ? FileImage(
@@ -72,7 +72,8 @@ class SignupView extends GetView<SignupController> {
                     child: GestureDetector(
                       onTap: () {
                         showModalBottomSheet(
-                          backgroundColor: Get.theme.scaffoldBackgroundColor,
+                          backgroundColor:
+                              context.theme.scaffoldBackgroundColor,
                           context: context,
                           builder: (context) => const ImagePickerView(),
                           constraints: BoxConstraints(
@@ -84,7 +85,7 @@ class SignupView extends GetView<SignupController> {
                       child: Icon(
                         Icons.add,
                         size: 24,
-                        color: Get.theme.colorScheme.primary,
+                        color: context.theme.colorScheme.primary,
                       ),
                     ),
                   ),

@@ -1,6 +1,7 @@
 import 'package:business_dir/app/data/models/app_error_model.dart';
 import 'package:business_dir/app/data/models/business_model.dart';
 import 'package:business_dir/app/data/models/business_performance_model.dart';
+import 'package:business_dir/app/data/providers/auth_provider.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:get/get.dart';
 
@@ -25,6 +26,7 @@ class BusinessProvider extends GetConnect {
       );
       return right(businesses);
     } catch (e) {
+      print(e.toString());
       return left(AppErrorModel(body: e.toString()));
     }
   }
@@ -72,6 +74,35 @@ class BusinessProvider extends GetConnect {
         res.body['data'],
       );
       return right(businessPerformance);
+    } catch (e) {
+      return left(AppErrorModel(body: e.toString()));
+    }
+  }
+
+  Future<Either<AppErrorModel, List<BusinessModel>>> getMyBusinesses() async {
+    try {
+      final token =
+          await Get.find<AuthProvider>().secureStorage.read(key: "jwtToken");
+      if (token == null) {
+        throw "No user found!";
+      }
+      final res = await get(
+        "/my-businesses",
+        headers: {"Authorization": "Bearer $token"},
+      );
+      if (res.hasError) {
+        if (res.body == null) throw "Something went wrong";
+        throw res.body['message'];
+      }
+
+      final businesses = List<BusinessModel>.from(
+        res.body['data'].map(
+          (business) {
+            return BusinessModel.fromJson(business);
+          },
+        ).toList(),
+      );
+      return right(businesses);
     } catch (e) {
       return left(AppErrorModel(body: e.toString()));
     }

@@ -57,7 +57,7 @@ class EditReviewView extends GetView<ReviewController> {
                   itemBuilder: (context, index) {
                     return Icon(
                       Icons.star_rounded,
-                      color: Get.theme.primaryColor,
+                      color: context.theme.primaryColor,
                     );
                   },
                   onRatingUpdate: controller.onRatingChanged,

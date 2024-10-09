@@ -25,7 +25,7 @@ class RFormFooter extends StatelessWidget {
             text,
             style: Get.textTheme.bodyMedium!.copyWith(
               fontWeight: FontWeight.bold,
-              color: Get.theme.primaryColor,
+              color: context.theme.primaryColor,
             ),
           ),
         ),

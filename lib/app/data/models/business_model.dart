@@ -23,7 +23,7 @@ class BusinessModel {
     this.website,
     this.averageRating,
     this.totalRatings,
-    this.ratings,
+    this.reviews,
     this.socialMedia,
   });
   final String? id;
@@ -42,7 +42,7 @@ class BusinessModel {
   final DateTime? createdAt;
   final num? averageRating;
   final UserModel? owner;
-  final List<ReviewModel>? ratings;
+  final List<ReviewModel>? reviews;
   final List<String>? socialMedia;
   final List<CategoryModel>? categories;
   final num? totalRatings;
@@ -65,22 +65,16 @@ class BusinessModel {
       website: json['website'],
       averageRating: json['averageRating'],
       totalRatings: json['totalRatings'],
-      ratings: List<ReviewModel>.from(json['ratings'].map(
-            (rating) {
-              return ReviewModel.fromJson(rating);
-            },
-          ) ??
-          []),
+      reviews: List<ReviewModel>.from(
+        json['ratings'].map((review) => ReviewModel.fromJson(review)) ?? [],
+      ),
       owner: UserModel.fromJson(json['user']),
       socialMedia: List<String>.from(
         json['socialMedia'] ?? [],
       ),
       categories: List<CategoryModel>.from(
-        json['categories'].map(
-              (category) {
-                return CategoryModel.fromJson(category);
-              },
-            ) ??
+        json['categories']
+                .map((category) => CategoryModel.fromJson(category)) ??
             [],
       ),
     );
@@ -103,7 +97,7 @@ class BusinessModel {
       'website': website ?? '',
       'averageRating': averageRating ?? 0,
       'totalRatings': totalRatings ?? 0,
-      'ratings': ratings?.map((rating) => rating.toJson()).toList() ?? [],
+      'ratings': reviews?.map((rating) => rating.toJson()).toList() ?? [],
       'user': owner?.toJson() ?? null,
       'socialMedia': socialMedia ?? [],
       'categories':

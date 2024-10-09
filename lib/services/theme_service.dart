@@ -123,7 +123,7 @@ class AppTheme {
     scaffoldBackgroundColor: const Color(0xFFF5F5F5),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     useMaterial3: true,
-    fontFamily: GoogleFonts.quicksand().fontFamily,
+    fontFamily: GoogleFonts.openSans().fontFamily,
     textTheme: const TextTheme(
       bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
       bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
@@ -146,7 +146,7 @@ class AppTheme {
     scaffoldBackgroundColor: const Color(0xFF303030),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     useMaterial3: true,
-    fontFamily: GoogleFonts.quicksand().fontFamily,
+    fontFamily: GoogleFonts.openSans().fontFamily,
     textTheme: const TextTheme(
       bodySmall: TextStyle(
           fontSize: 12, fontWeight: FontWeight.normal, color: Colors.white),

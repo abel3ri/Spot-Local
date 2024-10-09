@@ -94,7 +94,7 @@ class RContactInfoRow extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: Get.textTheme.bodyMedium!.copyWith(
               decoration: onPressed != null ? TextDecoration.underline : null,
-              color: Get.theme.colorScheme.primary,
+              color: context.theme.colorScheme.primary,
             ),
           ),
         ),

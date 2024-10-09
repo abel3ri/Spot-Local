@@ -13,8 +13,8 @@ class BusinessShimmerItem extends StatelessWidget {
       height: Get.height * 0.28,
       decoration: BoxDecoration(
         color: Get.isDarkMode
-            ? Get.theme.scaffoldBackgroundColor
-            : Get.theme.scaffoldBackgroundColor,
+            ? context.theme.scaffoldBackgroundColor
+            : context.theme.scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(12),
         boxShadow: const [
           BoxShadow(
@@ -31,27 +31,27 @@ class BusinessShimmerItem extends StatelessWidget {
             Center(
               child: Shimmer.fromColors(
                 baseColor: Get.isDarkMode
-                    ? lighten(Get.theme.scaffoldBackgroundColor)
-                    : darken(Get.theme.scaffoldBackgroundColor),
+                    ? lighten(context.theme.scaffoldBackgroundColor)
+                    : darken(context.theme.scaffoldBackgroundColor),
                 highlightColor: Get.isDarkMode
-                    ? lighten(Get.theme.scaffoldBackgroundColor, 0.2)
-                    : darken(Get.theme.scaffoldBackgroundColor, 0.2),
+                    ? lighten(context.theme.scaffoldBackgroundColor, 0.2)
+                    : darken(context.theme.scaffoldBackgroundColor, 0.2),
                 child: CircleAvatar(
                   radius: 30,
                   backgroundColor: Get.isDarkMode
-                      ? lighten(Get.theme.scaffoldBackgroundColor)
-                      : darken(Get.theme.scaffoldBackgroundColor),
+                      ? lighten(context.theme.scaffoldBackgroundColor)
+                      : darken(context.theme.scaffoldBackgroundColor),
                 ),
               ),
             ),
             SizedBox(height: Get.height * 0.01),
             Shimmer.fromColors(
               baseColor: Get.isDarkMode
-                  ? lighten(Get.theme.scaffoldBackgroundColor)
-                  : darken(Get.theme.scaffoldBackgroundColor),
+                  ? lighten(context.theme.scaffoldBackgroundColor)
+                  : darken(context.theme.scaffoldBackgroundColor),
               highlightColor: Get.isDarkMode
-                  ? lighten(Get.theme.scaffoldBackgroundColor, 0.2)
-                  : darken(Get.theme.scaffoldBackgroundColor, 0.2),
+                  ? lighten(context.theme.scaffoldBackgroundColor, 0.2)
+                  : darken(context.theme.scaffoldBackgroundColor, 0.2),
               child: RContainerPlaceholder(
                 width: Get.width * 0.2,
                 height: 16,
@@ -60,11 +60,11 @@ class BusinessShimmerItem extends StatelessWidget {
             SizedBox(height: Get.height * 0.01),
             Shimmer.fromColors(
               baseColor: Get.isDarkMode
-                  ? lighten(Get.theme.scaffoldBackgroundColor)
-                  : darken(Get.theme.scaffoldBackgroundColor),
+                  ? lighten(context.theme.scaffoldBackgroundColor)
+                  : darken(context.theme.scaffoldBackgroundColor),
               highlightColor: Get.isDarkMode
-                  ? lighten(Get.theme.scaffoldBackgroundColor, 0.2)
-                  : darken(Get.theme.scaffoldBackgroundColor, 0.2),
+                  ? lighten(context.theme.scaffoldBackgroundColor, 0.2)
+                  : darken(context.theme.scaffoldBackgroundColor, 0.2),
               child: RContainerPlaceholder(
                 width: Get.width * 0.4,
                 height: 12,
@@ -73,11 +73,11 @@ class BusinessShimmerItem extends StatelessWidget {
             SizedBox(height: Get.height * 0.01),
             Shimmer.fromColors(
               baseColor: Get.isDarkMode
-                  ? lighten(Get.theme.scaffoldBackgroundColor)
-                  : darken(Get.theme.scaffoldBackgroundColor),
+                  ? lighten(context.theme.scaffoldBackgroundColor)
+                  : darken(context.theme.scaffoldBackgroundColor),
               highlightColor: Get.isDarkMode
-                  ? lighten(Get.theme.scaffoldBackgroundColor, 0.2)
-                  : darken(Get.theme.scaffoldBackgroundColor, 0.2),
+                  ? lighten(context.theme.scaffoldBackgroundColor, 0.2)
+                  : darken(context.theme.scaffoldBackgroundColor, 0.2),
               child: RContainerPlaceholder(
                 width: Get.width * 0.4,
                 height: 12,
@@ -86,11 +86,11 @@ class BusinessShimmerItem extends StatelessWidget {
             SizedBox(height: Get.height * 0.01),
             Shimmer.fromColors(
               baseColor: Get.isDarkMode
-                  ? lighten(Get.theme.scaffoldBackgroundColor)
-                  : darken(Get.theme.scaffoldBackgroundColor),
+                  ? lighten(context.theme.scaffoldBackgroundColor)
+                  : darken(context.theme.scaffoldBackgroundColor),
               highlightColor: Get.isDarkMode
-                  ? lighten(Get.theme.scaffoldBackgroundColor, 0.2)
-                  : darken(Get.theme.scaffoldBackgroundColor, 0.2),
+                  ? lighten(context.theme.scaffoldBackgroundColor, 0.2)
+                  : darken(context.theme.scaffoldBackgroundColor, 0.2),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -101,7 +101,7 @@ class BusinessShimmerItem extends StatelessWidget {
               ),
             ),
             SizedBox(height: Get.height * 0.01),
-            Icon(Icons.star_rounded, color: Get.theme.primaryColor),
+            Icon(Icons.star_rounded, color: context.theme.primaryColor),
           ],
         ),
       ),
@@ -125,8 +125,8 @@ class RContainerPlaceholder extends StatelessWidget {
       width: width,
       height: height,
       color: Get.isDarkMode
-          ? lighten(Get.theme.scaffoldBackgroundColor, 0.5)
-          : darken(Get.theme.scaffoldBackgroundColor, 0.3),
+          ? lighten(context.theme.scaffoldBackgroundColor, 0.5)
+          : darken(context.theme.scaffoldBackgroundColor, 0.3),
     );
   }
 }
@@ -144,8 +144,8 @@ class CategoryPlaceholder extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),
         color: Get.isDarkMode
-            ? lighten(Get.theme.scaffoldBackgroundColor)
-            : darken(Get.theme.scaffoldBackgroundColor),
+            ? lighten(context.theme.scaffoldBackgroundColor)
+            : darken(context.theme.scaffoldBackgroundColor),
       ),
     );
   }

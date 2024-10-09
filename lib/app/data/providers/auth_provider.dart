@@ -24,7 +24,8 @@ class AuthProvider extends GetConnect {
         throw res.bodyString ?? "Connection problem";
       }
       if (res.hasError) {
-        throw res.body['message'] ?? "Connection problem";
+        if (res.body == null) throw "Something went wrong";
+        throw res.body['message'];
       }
       await secureStorage.write(key: "jwtToken", value: res.body['token']);
       final UserModel user = UserModel.fromJson(res.body['user']);
@@ -78,7 +79,10 @@ class AuthProvider extends GetConnect {
       if (res.statusCode == 429) {
         throw res.bodyString ?? "Connection problem";
       }
-      if (res.hasError) throw res.body['message'] ?? "Connection problem";
+      if (res.hasError) {
+        if (res.body == null) throw "Something went wrong";
+        throw res.body['message'];
+      }
       UserModel user = UserModel.fromJson(res.body['data']);
       return right(user);
     } catch (e) {

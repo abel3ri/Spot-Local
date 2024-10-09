@@ -24,7 +24,7 @@ class MapView extends GetView<MapController> {
                 () => FlutterMap.FlutterMap(
                   mapController: _mapController,
                   options: FlutterMap.MapOptions(
-                    backgroundColor: Get.theme.scaffoldBackgroundColor,
+                    backgroundColor: context.theme.scaffoldBackgroundColor,
                     // maxZoom: 14,
                     onPositionChanged: (camera, hasGesture) {
                       controller.updateCenter(camera.center);
@@ -44,7 +44,7 @@ class MapView extends GetView<MapController> {
                         polylines: [
                           FlutterMap.Polyline(
                             points: controller.routePoints.value!,
-                            color: Get.theme.colorScheme.primary,
+                            color: context.theme.colorScheme.primary,
                             strokeWidth: 6,
                           )
                         ],
@@ -69,7 +69,7 @@ class MapView extends GetView<MapController> {
                           ),
                           child: Icon(
                             Icons.location_on,
-                            color: Get.theme.colorScheme.primary,
+                            color: context.theme.colorScheme.primary,
                             size: 32,
                           ),
                         ),
@@ -81,7 +81,7 @@ class MapView extends GetView<MapController> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                         decoration: BoxDecoration(
-                          color: Get.theme.scaffoldBackgroundColor,
+                          color: context.theme.scaffoldBackgroundColor,
                         ),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -111,7 +111,7 @@ class MapView extends GetView<MapController> {
             ),
             child: Container(
               decoration: BoxDecoration(
-                color: Get.theme.scaffoldBackgroundColor.withOpacity(.8),
+                color: context.theme.scaffoldBackgroundColor.withOpacity(.8),
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
@@ -150,13 +150,13 @@ class MapView extends GetView<MapController> {
                       padding: const EdgeInsets.only(right: 16),
                       child: controller.isLoading.value
                           ? RCircularIndicator(
-                              color: Get.theme.primaryColor,
+                              color: context.theme.primaryColor,
                             )
                           : Text(
                               "~ ${controller.distance.value.toStringAsFixed(2)} Kms",
                               style: Get.textTheme.bodyLarge!.copyWith(
                                 fontWeight: FontWeight.bold,
-                                color: Get.theme.colorScheme.primary,
+                                color: context.theme.colorScheme.primary,
                               ),
                             ),
                     ),

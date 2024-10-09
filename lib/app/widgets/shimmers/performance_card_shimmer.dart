@@ -18,11 +18,11 @@ class PerformanceShimmer extends StatelessWidget {
           children: [
             Shimmer.fromColors(
               baseColor: Get.isDarkMode
-                  ? lighten(Get.theme.scaffoldBackgroundColor)
-                  : darken(Get.theme.scaffoldBackgroundColor),
+                  ? lighten(context.theme.scaffoldBackgroundColor)
+                  : darken(context.theme.scaffoldBackgroundColor),
               highlightColor: Get.isDarkMode
-                  ? lighten(Get.theme.scaffoldBackgroundColor, 0.2)
-                  : darken(Get.theme.scaffoldBackgroundColor, 0.2),
+                  ? lighten(context.theme.scaffoldBackgroundColor, 0.2)
+                  : darken(context.theme.scaffoldBackgroundColor, 0.2),
               child: RContainerPlaceholder(
                 width: Get.width * 0.2,
                 height: 48,
@@ -31,19 +31,19 @@ class PerformanceShimmer extends StatelessWidget {
             SizedBox(height: Get.height * 0.02),
             Shimmer.fromColors(
               baseColor: Get.isDarkMode
-                  ? lighten(Get.theme.scaffoldBackgroundColor)
-                  : darken(Get.theme.scaffoldBackgroundColor),
+                  ? lighten(context.theme.scaffoldBackgroundColor)
+                  : darken(context.theme.scaffoldBackgroundColor),
               highlightColor: Get.isDarkMode
-                  ? lighten(Get.theme.scaffoldBackgroundColor, 0.2)
-                  : darken(Get.theme.scaffoldBackgroundColor, 0.2),
+                  ? lighten(context.theme.scaffoldBackgroundColor, 0.2)
+                  : darken(context.theme.scaffoldBackgroundColor, 0.2),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: List.generate(5, (index) {
                   return Icon(
                     Icons.star_rounded,
                     color: Get.isDarkMode
-                        ? lighten(Get.theme.scaffoldBackgroundColor)
-                        : darken(Get.theme.scaffoldBackgroundColor),
+                        ? lighten(context.theme.scaffoldBackgroundColor)
+                        : darken(context.theme.scaffoldBackgroundColor),
                     size: 32,
                   );
                 }),
@@ -52,11 +52,11 @@ class PerformanceShimmer extends StatelessWidget {
             SizedBox(height: Get.height * 0.01),
             Shimmer.fromColors(
               baseColor: Get.isDarkMode
-                  ? lighten(Get.theme.scaffoldBackgroundColor)
-                  : darken(Get.theme.scaffoldBackgroundColor),
+                  ? lighten(context.theme.scaffoldBackgroundColor)
+                  : darken(context.theme.scaffoldBackgroundColor),
               highlightColor: Get.isDarkMode
-                  ? lighten(Get.theme.scaffoldBackgroundColor, 0.2)
-                  : darken(Get.theme.scaffoldBackgroundColor, 0.2),
+                  ? lighten(context.theme.scaffoldBackgroundColor, 0.2)
+                  : darken(context.theme.scaffoldBackgroundColor, 0.2),
               child: RContainerPlaceholder(
                 width: Get.width * 0.3,
                 height: 16,

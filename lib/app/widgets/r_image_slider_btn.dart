@@ -23,7 +23,7 @@ class RImageSliderBtn extends StatelessWidget {
           alignment: alignment,
           child: Container(
             decoration: BoxDecoration(
-              color: Get.theme.primaryColor,
+              color: context.theme.primaryColor,
               borderRadius: BorderRadius.circular(100),
             ),
             padding: const EdgeInsets.all(6),

@@ -1,5 +1,8 @@
 import 'package:business_dir/app/controllers/auth_controller.dart';
+import 'package:business_dir/app/controllers/theme_controller.dart';
 import 'package:business_dir/app/modules/profile/controllers/profile_controller.dart';
+import 'package:business_dir/app/modules/profile/views/widgets/r_profile_details_row.dart';
+import 'package:business_dir/app/modules/profile/views/widgets/r_profile_page_tile.dart';
 import 'package:business_dir/app/widgets/r_button.dart';
 import 'package:business_dir/app/widgets/r_card.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +11,7 @@ import 'package:intl/intl.dart';
 
 class ProfileView extends GetView<ProfileController> {
   final authController = Get.find<AuthController>();
+  final themeController = Get.find<ThemeController>();
   ProfileView({super.key});
 
   @override
@@ -32,7 +36,7 @@ class ProfileView extends GetView<ProfileController> {
             child: Column(
               children: [
                 RCard(
-                  color: Get.theme.primaryColor,
+                  color: context.theme.primaryColor,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -67,17 +71,17 @@ class ProfileView extends GetView<ProfileController> {
                           ),
                         ),
                         SizedBox(height: Get.height * 0.02),
-                        ProfileDetailRow(
+                        RProfileDetailRow(
                           label: "email".tr,
                           data: "${user.email}".toLowerCase(),
                         ),
                         SizedBox(height: Get.height * 0.02),
-                        ProfileDetailRow(
+                        RProfileDetailRow(
                           label: "username".tr,
                           data: '@${user.username}',
                         ),
                         SizedBox(height: Get.height * 0.02),
-                        ProfileDetailRow(
+                        RProfileDetailRow(
                           label: "dateJoined".tr,
                           data:
                               DateFormat.yMMMd("en-us").format(user.createdAt!),
@@ -119,7 +123,7 @@ class ProfileView extends GetView<ProfileController> {
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
                     children: [
-                      ProfilePageTile(
+                      RProfilePageTile(
                         title: "theme".tr,
                         onPressed: null,
                         icon: Icons.color_lens_rounded,
@@ -147,17 +151,12 @@ class ProfileView extends GetView<ProfileController> {
                             )
                           ],
                           onChanged: (value) {
-                            if (value == 'system') {
-                              Get.changeThemeMode(ThemeMode.system);
-                            } else if (value == "light") {
-                              Get.changeThemeMode(ThemeMode.light);
-                            } else
-                              Get.changeThemeMode(ThemeMode.dark);
+                            themeController.changeTheme(value ?? "system");
                           },
                         ),
                       ),
                       if (authController.currentUser.value?.role == "user")
-                        ProfilePageTile(
+                        RProfilePageTile(
                           title: "Become an Owner".tr,
                           icon: Icons.business_center_rounded,
                           onPressed: () {
@@ -167,7 +166,7 @@ class ProfileView extends GetView<ProfileController> {
                         ),
                       if (authController.currentUser.value?.role ==
                           "business_owner")
-                        ProfilePageTile(
+                        RProfilePageTile(
                           title: "My Businesses".tr,
                           icon: Icons.business_center_rounded,
                           onPressed: () {
@@ -175,7 +174,7 @@ class ProfileView extends GetView<ProfileController> {
                           },
                           trailing: Icon(Icons.arrow_right_alt_rounded),
                         ),
-                      ProfilePageTile(
+                      RProfilePageTile(
                         title: "helpAndSupport".tr,
                         onPressed: () {
                           Get.toNamed("help-and-support");
@@ -183,7 +182,7 @@ class ProfileView extends GetView<ProfileController> {
                         icon: Icons.help,
                         trailing: Icon(Icons.arrow_right_alt_rounded),
                       ),
-                      ProfilePageTile(
+                      RProfilePageTile(
                         title: "privacyAndPolicy".tr,
                         icon: Icons.shield,
                         onPressed: () {
@@ -191,7 +190,7 @@ class ProfileView extends GetView<ProfileController> {
                         },
                         trailing: Icon(Icons.arrow_right_alt_rounded),
                       ),
-                      ProfilePageTile(
+                      RProfilePageTile(
                         title: "termsAndConditions".tr,
                         icon: Icons.article_sharp,
                         onPressed: () {
@@ -204,8 +203,8 @@ class ProfileView extends GetView<ProfileController> {
                           leading: Icon(Icons.logout),
                           title: Text("logout".tr),
                           trailing: Icon(Icons.arrow_right_alt_rounded),
-                          iconColor: Get.theme.colorScheme.error,
-                          textColor: Get.theme.colorScheme.error,
+                          iconColor: context.theme.colorScheme.error,
+                          textColor: context.theme.colorScheme.error,
                           titleTextStyle: Get.textTheme.bodyMedium!.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -221,76 +220,6 @@ class ProfileView extends GetView<ProfileController> {
           );
         },
       ),
-    );
-  }
-}
-
-class ProfileDetailRow extends StatelessWidget {
-  const ProfileDetailRow({
-    super.key,
-    required this.label,
-    required this.data,
-  });
-
-  final String label;
-  final String data;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          label,
-          style: Get.textTheme.bodyMedium!.copyWith(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(width: Get.width * 0.02),
-        Expanded(
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              data,
-              overflow: TextOverflow.ellipsis,
-              style: Get.textTheme.bodyMedium!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class ProfilePageTile extends StatelessWidget {
-  const ProfilePageTile({
-    super.key,
-    required this.title,
-    required this.onPressed,
-    required this.icon,
-    required this.trailing,
-  });
-
-  final String title;
-  final Function()? onPressed;
-  final IconData icon;
-  final Widget trailing;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon),
-      onTap: onPressed,
-      title: Text(
-        title,
-        style: Get.textTheme.bodyMedium,
-      ),
-      trailing: trailing,
-      iconColor: Get.theme.colorScheme.primary,
     );
   }
 }

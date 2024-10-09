@@ -52,7 +52,7 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
               },
               icon: Icon(
                 Icons.explore_rounded,
-                color: Get.theme.colorScheme.primary,
+                color: context.theme.colorScheme.primary,
                 size: 28,
               ),
             ),
@@ -99,7 +99,7 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                                   color: Colors.transparent,
                                 ),
                               ),
-                              backgroundColor: Get.theme.primaryColor,
+                              backgroundColor: context.theme.primaryColor,
                               labelStyle: Get.textTheme.bodyMedium!.copyWith(
                                 color: Colors.white,
                               ),
@@ -138,7 +138,7 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) => Icon(
                               Icons.star_rounded,
-                              color: Get.theme.colorScheme.primary,
+                              color: context.theme.colorScheme.primary,
                             ),
                           ),
                           SizedBox(height: Get.height * 0.01),
@@ -270,7 +270,7 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
             left: 0,
             right: 0,
             child: BottomAppBar(
-              color: Get.theme.cardColor,
+              color: context.theme.cardColor,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 child: FilledButton(
@@ -374,7 +374,7 @@ class RRatingRow extends StatelessWidget {
               rating: ratingValue,
               itemBuilder: (context, index) => Icon(
                 Icons.star,
-                color: Get.theme.colorScheme.primary,
+                color: context.theme.colorScheme.primary,
               ),
             ),
           ],
@@ -465,9 +465,9 @@ class RTextIconButton extends StatelessWidget {
         icon,
         size: 16,
         color: label == "Edit"
-            ? Get.theme.colorScheme.secondary
+            ? context.theme.colorScheme.secondary
             : label == "Delete"
-                ? Get.theme.colorScheme.error
+                ? context.theme.colorScheme.error
                 : null,
       ),
     );
