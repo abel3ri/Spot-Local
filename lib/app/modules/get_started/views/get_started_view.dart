@@ -1,8 +1,7 @@
-import 'package:business_dir/app/widgets/r_button.dart';
+import 'package:business_dir/app/modules/get_started/widgets/r_onboarding_page.dart';
+import 'package:business_dir/app/widgets/r_text_icon_button.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import '../controllers/get_started_controller.dart';
 
 class GetStartedView extends GetView<GetStartedController> {
@@ -12,93 +11,68 @@ class GetStartedView extends GetView<GetStartedController> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        leadingWidth: Get.width * 0.4,
         surfaceTintColor: Colors.transparent,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 16),
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              return Obx(
+                () => Center(
+                  child: Container(
+                    width: controller.currentIndex.value == index ? 32 : 16,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: controller.currentIndex.value == index
+                          ? Get.theme.primaryColor
+                          : Colors.grey,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              );
+            },
+            separatorBuilder: (context, index) => SizedBox(width: 12),
+          ),
+        ),
         actions: [
-          TextButton(
+          RTextIconButton(
+            label: "skip".tr,
+            icon: Icons.arrow_right_alt_rounded,
             onPressed: () {
               Get.offNamed("home-wrapper");
             },
-            style: ButtonStyle(
-              textStyle: WidgetStatePropertyAll(
-                Get.textTheme.bodyLarge!.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            child: Text(
-              "skip".tr,
-            ),
           ),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: EdgeInsets.fromLTRB(16, 48, 16, 24),
+        child: PageView(
+          controller: controller.pageController,
+          onPageChanged: (value) {
+            controller.currentIndex.value = value;
+          },
+          physics: BouncingScrollPhysics(),
+          pageSnapping: true,
           children: [
-            Text(
-              "welcomeToeTech".tr,
-              textAlign: TextAlign.center,
-              style: Get.textTheme.headlineLarge!.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+            ROnBoardingPage(
+              heading: "findItFast".tr,
+              description: "needSomethingNearBy".tr,
+              imagePath: "assets/on_boarding/find_businesses.svg",
             ),
-            SizedBox(height: Get.height * 0.02),
-            Text(
-              "letUsHelp".tr,
-              textAlign: TextAlign.center,
-              style: Get.textTheme.bodyLarge,
+            ROnBoardingPage(
+              heading: "unlockYourNeighborhood".tr,
+              description: "exploreYourCommunity".tr,
+              imagePath: "assets/on_boarding/explore_local.svg",
             ),
-            SizedBox(height: Get.height * 0.04),
-            const Center(
-              child: Icon(
-                Icons.business,
-                size: 260,
-              ),
-            ),
-            const Spacer(),
-            Text.rich(
-              textAlign: TextAlign.center,
-              style: Get.textTheme.bodyMedium!.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-              TextSpan(
-                text: "iAgreeTo".tr,
-                children: [
-                  TextSpan(
-                    text: "termsOfServices".tr,
-                    style: TextStyle(
-                      color: Get.theme.colorScheme.primary,
-                    ),
-                  ),
-                  TextSpan(
-                    text: "confirmThat".tr,
-                  ),
-                  TextSpan(
-                    text: "privacyPolicy".tr,
-                    style: TextStyle(
-                      color: Get.theme.colorScheme.primary,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(height: Get.height * 0.02),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RButton(
-                    child: Text("login".tr),
-                    onPressed: () {
-                      Get.toNamed("login");
-                    }),
-                SizedBox(width: Get.width * 0.02),
-                RButton(
-                    child: Text("signup".tr),
-                    onPressed: () {
-                      Get.toNamed("signup");
-                    }),
-              ],
+            ROnBoardingPage(
+              heading: "elevateYourLocal".tr,
+              description: "goBeyondTheUsual".tr,
+              imagePath: "assets/on_boarding/hidden_treasures.svg",
             ),
           ],
         ),

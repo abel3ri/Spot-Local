@@ -33,7 +33,7 @@ class HomePageSearchPlaceHolder extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Search Business...",
+                  "searchBusiness".tr,
                   style: Get.textTheme.bodyLarge,
                 ),
                 const Icon(

@@ -5,18 +5,22 @@ class RCard extends StatelessWidget {
   const RCard({
     super.key,
     required this.child,
+    this.color,
   });
 
   final Widget child;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Get.isDarkMode
-            ? Get.theme.scaffoldBackgroundColor
-            : Get.theme.scaffoldBackgroundColor,
+        color: color == null
+            ? Get.isDarkMode
+                ? Get.theme.scaffoldBackgroundColor
+                : Get.theme.scaffoldBackgroundColor
+            : color,
         borderRadius: BorderRadius.circular(15.0),
         boxShadow: [
           BoxShadow(

@@ -282,9 +282,13 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                     }
                   },
                   child: Text(
-                      Get.find<AuthController>().currentUser.value != null
-                          ? "Write a Review"
-                          : "Login or Sign up to make review"),
+                    Get.find<AuthController>().currentUser.value != null
+                        ? "Write a Review"
+                        : "Login or Sign up to make review",
+                    style: Get.textTheme.bodyMedium!.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ),

@@ -29,31 +29,31 @@ class LoginView extends GetView<LoginController> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Form(
           key: controller.formKey,
-          child: Obx(
-            () => Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                  child: Text(
-                    "welcomeBack".tr,
-                    style: Get.textTheme.headlineSmall!.copyWith(
-                      color: Get.theme.colorScheme.primary,
-                      fontWeight: FontWeight.bold,
-                    ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(
+                child: Text(
+                  "welcomeBack".tr,
+                  style: Get.textTheme.headlineSmall!.copyWith(
+                    color: Get.theme.colorScheme.primary,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: Get.height * 0.04),
-                RInputField(
-                  controller: controller.emailController,
-                  label: "email".tr,
-                  hintText: "enterEmail".tr,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  validator: FormValidator.emailValidator,
-                ),
-                SizedBox(height: Get.height * 0.02),
-                RInputField(
+              ),
+              SizedBox(height: Get.height * 0.04),
+              RInputField(
+                controller: controller.emailController,
+                label: "email".tr,
+                hintText: "enterEmail".tr,
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+                validator: FormValidator.emailValidator,
+              ),
+              SizedBox(height: Get.height * 0.02),
+              Obx(
+                () => RInputField(
                   controller: controller.passwordController,
                   label: "password".tr,
                   hintText: "enterPassword".tr,
@@ -61,6 +61,7 @@ class LoginView extends GetView<LoginController> {
                   keyboardType: TextInputType.visiblePassword,
                   textInputAction: TextInputAction.next,
                   suffixIcon: IconButton(
+                    focusNode: FocusNode(skipTraversal: true),
                     onPressed: () {
                       controller.toggleShowPassword();
                     },
@@ -72,50 +73,49 @@ class LoginView extends GetView<LoginController> {
                   ),
                   validator: FormValidator.passwordValidtor,
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {
-                      Get.toNamed("forgot-password");
-                    },
-                    child: Text(
-                      "Forgot password?",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Get.theme.primaryColor,
-                          ),
-                    ),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    Get.toNamed("forgot-password");
+                  },
+                  child: Text(
+                    "Forgot password?",
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Get.theme.primaryColor,
+                        ),
                   ),
                 ),
-                RButton(
-                  child: Obx(() {
-                    return authController.isLoading.isTrue
-                        ? RCircularIndicator()
-                          : Text("login".tr),
-                      onPressed: () async {
-                        if (controller.formKey.currentState!.validate()) {
-                          if (Get.focusScope?.hasFocus ?? false) {
-                            Get.focusScope?.unfocus();
-                          }
-                          Map<String, dynamic> userData = {
-                            "email": controller.emailController.text,
-                            "password": controller.passwordController.text,
-                          };
-                          await authController.login(userData: userData);
-                        }
-                      },
-                    );
-                  },
-                ),
-                RFormFooter(
-                  label: "dontHaveAccount".tr,
-                  text: 'signup'.tr,
-                  onPressed: () {
-                    Get.offNamed("signup");
-                  },
-                ),
-              ],
-            ),
+              ),
+              RButton(
+                child: Obx(() {
+                  return controller.isLoading.isTrue
+                      ? RCircularIndicator()
+                      : Text("login".tr);
+                }),
+                onPressed: () async {
+                  if (controller.formKey.currentState!.validate()) {
+                    if (Get.focusScope?.hasFocus ?? false) {
+                      Get.focusScope?.unfocus();
+                    }
+                    Map<String, dynamic> userData = {
+                      "email": controller.emailController.text,
+                      "password": controller.passwordController.text,
+                    };
+                    await authController.login(userData: userData);
+                  }
+                },
+              ),
+              RFormFooter(
+                label: "dontHaveAccount".tr,
+                text: 'signup'.tr,
+                onPressed: () {
+                  Get.offNamed("signup");
+                },
+              ),
+            ],
           ),
         ),
       ),

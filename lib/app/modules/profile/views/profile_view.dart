@@ -1,6 +1,7 @@
 import 'package:business_dir/app/controllers/auth_controller.dart';
 import 'package:business_dir/app/modules/profile/controllers/profile_controller.dart';
 import 'package:business_dir/app/widgets/r_button.dart';
+import 'package:business_dir/app/widgets/r_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -26,19 +27,12 @@ class ProfileView extends GetView<ProfileController> {
         () {
           final user = authController.currentUser.value;
           return SingleChildScrollView(
+            padding: EdgeInsets.all(12),
             physics: BouncingScrollPhysics(),
             child: Column(
               children: [
-                Container(
-                  padding: EdgeInsets.all(12),
-                  width: Get.width,
-                  decoration: BoxDecoration(
-                    color: Get.theme.colorScheme.primary,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(16),
-                      bottomRight: Radius.circular(16),
-                    ),
-                  ),
+                RCard(
+                  color: Get.theme.primaryColor,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -51,6 +45,7 @@ class ProfileView extends GetView<ProfileController> {
                             child: user.profileImageUrl != null
                                 ? Image.network(
                                     user.profileImageUrl!,
+                                    fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) {
                                       return Image.asset("assets/image.png");
                                     },
@@ -118,84 +113,108 @@ class ProfileView extends GetView<ProfileController> {
                     ],
                   ),
                 ),
-                ListView(
-                  shrinkWrap: true,
-                  physics: BouncingScrollPhysics(),
-                  children: [
-                    ProfilePageTile(
-                      title: "theme".tr,
-                      onPressed: null,
-                      icon: Icons.color_lens,
-                      trailing: DropdownButton(
-                        value: "system",
-                        underline: SizedBox.shrink(),
-                        elevation: 1,
-                        borderRadius: BorderRadius.circular(8),
-                        items: [
-                          DropdownMenuItem(
-                            child: Text("system".tr),
-                            value: "system",
+                SizedBox(height: Get.height * 0.02),
+                RCard(
+                  child: ListView(
+                    shrinkWrap: true,
+                    physics: BouncingScrollPhysics(),
+                    children: [
+                      ProfilePageTile(
+                        title: "theme".tr,
+                        onPressed: null,
+                        icon: Icons.color_lens_rounded,
+                        trailing: DropdownButton(
+                          value: "system",
+                          style: Get.textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
                           ),
-                          DropdownMenuItem(
-                            child: Text("light".tr),
-                            value: "light",
-                          ),
-                          DropdownMenuItem(
-                            child: Text("dark".tr),
-                            value: "dark",
-                          )
-                        ],
-                        onChanged: (value) {
-                          if (value == 'system') {
-                            Get.changeThemeMode(ThemeMode.system);
-                          } else if (value == "light") {
-                            Get.changeThemeMode(ThemeMode.light);
-                          } else
-                            Get.changeThemeMode(ThemeMode.dark);
-                        },
-                      ),
-                    ),
-                    ProfilePageTile(
-                      title: "helpAndSupport".tr,
-                      onPressed: () {
-                        Get.toNamed("help-and-support");
-                      },
-                      icon: Icons.help,
-                      trailing: Icon(Icons.arrow_right_alt_rounded),
-                    ),
-                    ProfilePageTile(
-                      title: "privacyAndPolicy".tr,
-                      icon: Icons.shield,
-                      onPressed: () {
-                        Get.toNamed("privacy-policy");
-                      },
-                      trailing: Icon(Icons.arrow_right_alt_rounded),
-                    ),
-                    ProfilePageTile(
-                      title: "termsAndConditions".tr,
-                      icon: Icons.article_sharp,
-                      onPressed: () {
-                        Get.toNamed("terms-and-conditions");
-                      },
-                      trailing: Icon(Icons.arrow_right_alt_rounded),
-                    ),
-                    if (user != null)
-                      ListTile(
-                        leading: Icon(Icons.logout),
-                        title: Text("Logout"),
-                        trailing: Icon(Icons.arrow_right_alt_rounded),
-                        iconColor: Get.theme.colorScheme.error,
-                        textColor: Get.theme.colorScheme.error,
-                        titleTextStyle: Get.textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
+                          underline: SizedBox.shrink(),
+                          icon: Icon(Icons.keyboard_arrow_down_rounded),
+                          elevation: 0,
+                          borderRadius: BorderRadius.circular(8),
+                          items: [
+                            DropdownMenuItem(
+                              child: Text("system".tr),
+                              value: "system",
+                            ),
+                            DropdownMenuItem(
+                              child: Text("light".tr),
+                              value: "light",
+                            ),
+                            DropdownMenuItem(
+                              child: Text("dark".tr),
+                              value: "dark",
+                            )
+                          ],
+                          onChanged: (value) {
+                            if (value == 'system') {
+                              Get.changeThemeMode(ThemeMode.system);
+                            } else if (value == "light") {
+                              Get.changeThemeMode(ThemeMode.light);
+                            } else
+                              Get.changeThemeMode(ThemeMode.dark);
+                          },
                         ),
-                        onTap: () {
-                          authController.logout().then((_) {
-                            Get.offAllNamed("get-started");
-                          });
-                        },
                       ),
-                  ],
+                      if (authController.currentUser.value?.role == "user")
+                        ProfilePageTile(
+                          title: "Become an Owner".tr,
+                          icon: Icons.business_center_rounded,
+                          onPressed: () {
+                            Get.toNamed("privacy-policy");
+                          },
+                          trailing: Icon(Icons.arrow_right_alt_rounded),
+                        ),
+                      if (authController.currentUser.value?.role ==
+                          "business_owner")
+                        ProfilePageTile(
+                          title: "My Businesses".tr,
+                          icon: Icons.business_center_rounded,
+                          onPressed: () {
+                            Get.toNamed("my-businesses");
+                          },
+                          trailing: Icon(Icons.arrow_right_alt_rounded),
+                        ),
+                      ProfilePageTile(
+                        title: "helpAndSupport".tr,
+                        onPressed: () {
+                          Get.toNamed("help-and-support");
+                        },
+                        icon: Icons.help,
+                        trailing: Icon(Icons.arrow_right_alt_rounded),
+                      ),
+                      ProfilePageTile(
+                        title: "privacyAndPolicy".tr,
+                        icon: Icons.shield,
+                        onPressed: () {
+                          Get.toNamed("privacy-policy");
+                        },
+                        trailing: Icon(Icons.arrow_right_alt_rounded),
+                      ),
+                      ProfilePageTile(
+                        title: "termsAndConditions".tr,
+                        icon: Icons.article_sharp,
+                        onPressed: () {
+                          Get.toNamed("terms-and-conditions");
+                        },
+                        trailing: Icon(Icons.arrow_right_alt_rounded),
+                      ),
+                      if (user != null)
+                        ListTile(
+                          leading: Icon(Icons.logout),
+                          title: Text("logout".tr),
+                          trailing: Icon(Icons.arrow_right_alt_rounded),
+                          iconColor: Get.theme.colorScheme.error,
+                          textColor: Get.theme.colorScheme.error,
+                          titleTextStyle: Get.textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          onTap: () async {
+                            await authController.logout();
+                          },
+                        ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -223,16 +242,23 @@ class ProfileDetailRow extends StatelessWidget {
       children: [
         Text(
           label,
-          style: Get.textTheme.bodyLarge!.copyWith(
+          style: Get.textTheme.bodyMedium!.copyWith(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
-        Text(
-          data,
-          style: Get.textTheme.bodyLarge!.copyWith(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+        SizedBox(width: Get.width * 0.02),
+        Expanded(
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              data,
+              overflow: TextOverflow.ellipsis,
+              style: Get.textTheme.bodyMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
       ],
@@ -259,7 +285,10 @@ class ProfilePageTile extends StatelessWidget {
     return ListTile(
       leading: Icon(icon),
       onTap: onPressed,
-      title: Text(title),
+      title: Text(
+        title,
+        style: Get.textTheme.bodyMedium,
+      ),
       trailing: trailing,
       iconColor: Get.theme.colorScheme.primary,
     );

@@ -39,7 +39,7 @@ class SearchView extends GetView<SearchController> {
               return Center(
                 child: RInfo(
                   message: "Try Searching a Business!",
-                  imagePath: "assets/find.png",
+                  imagePath: "assets/utils/search.svg",
                 ),
               );
             }
@@ -48,7 +48,7 @@ class SearchView extends GetView<SearchController> {
                 controller.searchResults.value.isEmpty) {
               return RInfo(
                 message: "No business found!",
-                imagePath: "assets/not_found.png",
+                imagePath: "assets/utils/not_found.svg",
               );
             }
 

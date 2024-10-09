@@ -35,7 +35,7 @@ class HomeWrapperView extends GetView<HomeWrapperController> {
           destinations: [
             NavigationDestination(
               icon: Icon(Icons.home, color: Get.theme.primaryColor),
-              label: "Home",
+              label: "homeBottom".tr,
               tooltip: "Home",
               selectedIcon: Icon(
                 Icons.home_filled,
@@ -44,13 +44,13 @@ class HomeWrapperView extends GetView<HomeWrapperController> {
             ),
             NavigationDestination(
               icon: Icon(Icons.search, color: Get.theme.primaryColor),
-              label: "Search",
+              label: "searchBottom".tr,
               tooltip: "Search",
             ),
             NavigationDestination(
               icon: Icon(Icons.favorite_border_rounded,
                   color: Get.theme.primaryColor),
-              label: "Favorites",
+              label: "favoritesBottom".tr,
               tooltip: "Favorites",
               selectedIcon: Icon(
                 Icons.favorite,
@@ -60,7 +60,7 @@ class HomeWrapperView extends GetView<HomeWrapperController> {
             NavigationDestination(
               icon:
                   Icon(Icons.person_2_outlined, color: Get.theme.primaryColor),
-              label: "Profile",
+              label: "profileBottom".tr,
               tooltip: "Profile",
               selectedIcon: Icon(
                 Icons.person_2_rounded,

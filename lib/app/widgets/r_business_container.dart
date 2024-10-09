@@ -194,6 +194,12 @@ class RBusinessContainer extends StatelessWidget {
                                         "assets/social_media/${socialMedias[index]}-logo-fill.svg",
                                         width: 48,
                                         height: 48,
+                                        colorFilter: ColorFilter.mode(
+                                          Get.isDarkMode
+                                              ? Colors.white
+                                              : Colors.black,
+                                          BlendMode.srcIn,
+                                        ),
                                       ),
                                     );
                                   },

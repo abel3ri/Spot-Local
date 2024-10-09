@@ -6,6 +6,7 @@ class LoginController extends GetxController {
   final TextEditingController passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   final obscureText = true.obs;
+  Rx<bool> isLoading = false.obs;
 
   void toggleShowPassword() {
     obscureText.value = !obscureText.value;

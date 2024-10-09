@@ -9,7 +9,8 @@ class SignupController extends GetxController {
   final TextEditingController rePasswordController = TextEditingController();
   final TextEditingController userNameController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  final obscureText = false.obs;
+  final obscureText = true.obs;
+  Rx<bool> isLoading = false.obs;
 
   void toggleShowPassword() {
     obscureText.value = !obscureText.value;

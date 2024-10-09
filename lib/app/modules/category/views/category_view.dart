@@ -80,8 +80,9 @@ class CategoryView extends GetView<CategoryController> {
               controller.isLoading.isFalse) {
             return Center(
               child: RInfo(
-                  message: "No Businesses in this Category!",
-                  imagePath: "assets/not_found.png"),
+                message: "No Businesses in this Category!",
+                imagePath: "assets/utils/not_found.svg",
+              ),
             );
           }
           return MasonryGridView.builder(

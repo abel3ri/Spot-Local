@@ -137,7 +137,7 @@ class HomeView extends GetView<HomeController> {
                     if (controller.categories.value.isEmpty) {
                       return RInfo(
                         message: "No Category Found!",
-                        imagePath: "assets/not_found.png",
+                        imagePath: "assets/utils/not_found.svg",
                       );
                     }
 
@@ -153,7 +153,7 @@ class HomeView extends GetView<HomeController> {
                       } else if (controller.businesses.value.isEmpty) {
                         return RInfo(
                           message: "No Business Found!",
-                          imagePath: "assets/not_found.png",
+                          imagePath: "assets/utils/not_found.svg",
                         );
                       }
                       return MasonryGridView.builder(
