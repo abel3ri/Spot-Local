@@ -1,3 +1,4 @@
+import 'package:business_dir/app/widgets/r_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,16 +13,13 @@ class AppErrorModel {
     Get.closeAllSnackbars();
     Get.showSnackbar(
       GetSnackBar(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         duration: const Duration(seconds: 3),
         animationDuration: const Duration(milliseconds: 500),
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        borderRadius: 4,
         dismissDirection: DismissDirection.horizontal,
         snackStyle: SnackStyle.FLOATING,
-        backgroundColor: Colors.red,
-        messageText: Padding(
-          padding: const EdgeInsets.only(bottom: 8),
+        backgroundColor: Colors.transparent,
+        messageText: RCard(
+          color: Colors.red,
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
