@@ -7,6 +7,7 @@ class CityProvider extends GetConnect {
   @override
   void onInit() {
     httpClient.baseUrl = 'http://10.0.2.2:8000/api/v1/cities';
+    // httpClient.baseUrl = "http://192.168.22.202:8000/api/v1/cities";
   }
 
   Future<Either<AppErrorModel, List<CityModel>>> fetchCities() async {

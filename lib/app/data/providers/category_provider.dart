@@ -7,8 +7,8 @@ import 'package:get/get.dart';
 class CategoryProvider extends GetConnect {
   @override
   void onInit() {
-    // httpClient.baseUrl = 'http://10.0.2.2:8000/api/v1/categories';
-    httpClient.baseUrl = "http://192.168.22.202:8000/api/v1/categories";
+    httpClient.baseUrl = 'http://10.0.2.2:8000/api/v1/categories';
+    // httpClient.baseUrl = "http://192.168.22.202:8000/api/v1/categories";
   }
 
   Future<Either<AppErrorModel, List<CategoryModel>>> findAll() async {

@@ -7,6 +7,7 @@ class StateProvider extends GetConnect {
   @override
   void onInit() {
     httpClient.baseUrl = 'http://10.0.2.2:8000/api/v1/states';
+    // httpClient.baseUrl = "http://192.168.22.202:8000/api/v1/states";
   }
 
   Future<Either<AppErrorModel, List<StateModel>>> fetchStates() async {
