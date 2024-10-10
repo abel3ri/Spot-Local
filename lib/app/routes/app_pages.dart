@@ -4,6 +4,8 @@ import '../modules/business_details/bindings/business_details_binding.dart';
 import '../modules/business_details/views/business_details_view.dart';
 import '../modules/category/bindings/category_binding.dart';
 import '../modules/category/views/category_view.dart';
+import '../modules/edit_profile/bindings/edit_profile_binding.dart';
+import '../modules/edit_profile/views/edit_profile_view.dart';
 import '../modules/favorite/bindings/favorite_binding.dart';
 import '../modules/favorite/views/favorite_view.dart';
 import '../modules/forgot_password/bindings/forgot_password_binding.dart';
@@ -158,6 +160,11 @@ class AppPages {
       name: _Paths.MY_BUSINESSES,
       page: () => const MyBusinessesView(),
       binding: MyBusinessesBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_PROFILE,
+      page: () => EditProfileView(),
+      binding: EditProfileBinding(),
     ),
   ];
 }
