@@ -7,7 +7,7 @@ class UserModel {
     required this.lastName,
     required this.createdAt,
     required this.role,
-    this.profileImageUrl,
+    this.profileImage,
   });
 
   final String? id;
@@ -17,7 +17,7 @@ class UserModel {
   final String? lastName;
   final String? role;
   final DateTime? createdAt;
-  String? profileImageUrl;
+  final Map<String, dynamic>? profileImage;
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -28,7 +28,7 @@ class UserModel {
       lastName: json['lastName'],
       role: json['role'],
       createdAt: DateTime.parse(json['createdAt']),
-      profileImageUrl: json['profileImage'],
+      profileImage: json['profileImage'],
     );
   }
   Map<String, dynamic> toJson() {
@@ -41,7 +41,7 @@ class UserModel {
       'role': role,
       'createdAt':
           createdAt?.toIso8601String() ?? DateTime.now().toIso8601String(),
-      'profileImage': profileImageUrl,
+      'profileImage': profileImage,
     };
   }
 }
