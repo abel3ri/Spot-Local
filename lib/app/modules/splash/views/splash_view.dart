@@ -1,23 +1,31 @@
+import 'package:business_dir/app/data/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
-import '../controllers/splash_controller.dart';
-
-class SplashView extends GetView<SplashController> {
+class SplashView extends StatelessWidget {
   const SplashView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('SplashView'),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text(
-          'SplashView is working',
-          style: TextStyle(fontSize: 20),
-        ),
+      body: FutureBuilder<String?>(
+        future: Get.find<AuthProvider>().secureStorage.read(key: 'jwtToken'),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.data == null) {
+            Future.delayed(Duration.zero, () {
+              Get.offAllNamed('/get-started');
+            });
+          } else {
+            Future.delayed(Duration.zero, () {
+              Get.offAllNamed('/home-wrapper');
+            });
+          }
+          return SizedBox();
+        },
       ),
     );
   }

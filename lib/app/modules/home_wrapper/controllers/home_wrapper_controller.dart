@@ -1,23 +1,27 @@
+import 'package:business_dir/app/modules/search/controllers/search_controller.dart';
 import 'package:get/get.dart';
 
 class HomeWrapperController extends GetxController {
-  //TODO: Implement HomeWrapperController
+  Rx<int> index = 0.obs;
+  late SearchController searchController;
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
+    searchController = Get.find<SearchController>();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void onPageChanged(int i) {
+    if (i != 1 && Get.focusScope!.hasFocus) {
+      Get.focusScope!.unfocus();
+      searchController.searchResults.value = [];
+      searchController.searchInputController.text = "";
+    }
+    index.value = i;
+    if (i == 1) {
+      searchController.animateSearchLottie(true);
+    } else {
+      searchController.animateSearchLottie(false);
+    }
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }
