@@ -10,15 +10,27 @@ class AuthProvider extends GetConnect {
   @override
   void onInit() {
     secureStorage = const FlutterSecureStorage();
-    // httpClient.baseUrl = 'http://10.0.2.2:8000/api/v1';
-    httpClient.baseUrl = "http://192.168.22.202:8000/api/v1";
+    httpClient.baseUrl = 'http://10.0.2.2:8000/api/v1';
+    // httpClient.baseUrl = "http://192.168.22.202:8000/api/v1";
   }
 
   Future<Either<AppErrorModel, UserModel>> signup({
     required Map<String, dynamic> userData,
   }) async {
     try {
-      final res = await post("/auth/signup", userData);
+      final formData = FormData({
+        "email": userData['email'],
+        "username": userData['username'],
+        "firstName": userData['firstName'],
+        "lastName": userData['lastName'],
+        "password": userData['password'],
+        "confirmPassword": userData['confirmPassword'],
+        "image": MultipartFile(
+          userData['image'].readAsBytesSync(),
+          filename: userData['image'].path.split('/').last,
+        ),
+      });
+      final res = await post("/auth/signup", formData);
 
       if (res.statusCode == 429) {
         throw res.bodyString ?? "Connection problem";
@@ -28,6 +40,7 @@ class AuthProvider extends GetConnect {
         throw res.body['message'];
       }
       await secureStorage.write(key: "jwtToken", value: res.body['token']);
+
       final UserModel user = UserModel.fromJson(res.body['user']);
       return right(user);
     } catch (e) {
