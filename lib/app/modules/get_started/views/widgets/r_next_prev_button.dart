@@ -22,7 +22,7 @@ class RNextPrevButton extends StatelessWidget {
         alignment: Alignment.centerRight,
         child: FadeIn(
           animate: true,
-          duration: Duration(seconds: 3),
+          duration: Duration(milliseconds: 300),
           child: IconButton(
             style: ButtonStyle(
               backgroundColor:

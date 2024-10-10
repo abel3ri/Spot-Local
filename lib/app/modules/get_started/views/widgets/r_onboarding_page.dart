@@ -1,5 +1,5 @@
 import 'package:business_dir/app/modules/get_started/controllers/get_started_controller.dart';
-import 'package:business_dir/app/modules/get_started/widgets/r_next_prev_button.dart';
+import 'package:business_dir/app/modules/get_started/views/widgets/r_next_prev_button.dart';
 import 'package:business_dir/app/widgets/r_text_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

@@ -87,6 +87,7 @@ class EditProfileView extends GetView<EditProfileController> {
                         );
                       },
                       child: CircleAvatar(
+                        backgroundColor: Get.theme.primaryColor,
                         radius: 12,
                         child: Icon(
                           Icons.edit_rounded,

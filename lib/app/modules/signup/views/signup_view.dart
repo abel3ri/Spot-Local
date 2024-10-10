@@ -77,15 +77,19 @@ class SignupView extends GetView<SignupController> {
                           context: context,
                           builder: (context) => const ImagePickerView(),
                           constraints: BoxConstraints(
-                            maxHeight: Get.height * 0.3,
+                            maxHeight: Get.height * 0.4,
                           ),
                           showDragHandle: true,
                         );
                       },
-                      child: Icon(
-                        Icons.add,
-                        size: 24,
-                        color: context.theme.colorScheme.primary,
+                      child: CircleAvatar(
+                        backgroundColor: Get.theme.primaryColor,
+                        radius: 12,
+                        child: Icon(
+                          Icons.edit_rounded,
+                          size: 18,
+                          // color: context.theme.colorScheme.primary,
+                        ),
                       ),
                     ),
                   ),
@@ -192,6 +196,7 @@ class SignupView extends GetView<SignupController> {
                       "lastName": controller.lastNameController.text,
                       "password": controller.passwordController.text,
                       "confirmPassword": controller.rePasswordController.text,
+                      "image": File(imagePickController.imagePath.value!),
                     };
                     await authController.signup(userData: userData);
                   }

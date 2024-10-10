@@ -213,7 +213,7 @@ class RBusinessContainer extends StatelessWidget {
                             ],
                           ),
                           constraints: BoxConstraints(
-                            maxHeight: Get.height * 0.2,
+                            maxHeight: Get.height * 0.22,
                             minWidth: Get.width,
                           ),
                           showDragHandle: true,

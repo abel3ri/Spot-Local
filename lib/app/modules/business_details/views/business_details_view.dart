@@ -340,8 +340,12 @@ class RRatingRow extends StatelessWidget {
     final String? comment = review.comment;
     final bool isOwner =
         Get.find<AuthController>().currentUser.value?.id == review.ratedBy.id;
-    final String userProfileImage = review.ratedBy.profileImageUrl ??
-        "https://eu.ui-avatars.com/api/?name=${review.ratedBy.firstName}+${review.ratedBy.lastName}&size=250";
+    final Map<String, dynamic> userProfileImage = review.ratedBy.profileImage ??
+        {
+          "url":
+              "https://eu.ui-avatars.com/api/?name=${review.ratedBy.firstName}+${review.ratedBy.lastName}&size=250",
+          "publicId": null,
+        };
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -349,7 +353,7 @@ class RRatingRow extends StatelessWidget {
         Row(
           children: [
             CircleAvatar(
-              foregroundImage: NetworkImage(userProfileImage),
+              foregroundImage: NetworkImage(userProfileImage['url']),
               backgroundColor: Colors.transparent,
             ),
             SizedBox(width: Get.width * 0.02),

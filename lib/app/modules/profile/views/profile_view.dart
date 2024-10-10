@@ -5,6 +5,7 @@ import 'package:business_dir/app/modules/profile/views/widgets/r_profile_details
 import 'package:business_dir/app/modules/profile/views/widgets/r_profile_page_tile.dart';
 import 'package:business_dir/app/widgets/r_button.dart';
 import 'package:business_dir/app/widgets/r_card.dart';
+import 'package:business_dir/app/widgets/r_text_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -26,6 +27,17 @@ class ProfileView extends GetView<ProfileController> {
           ),
         ),
         centerTitle: true,
+        actions: authController.currentUser.value != null
+            ? [
+                RTextIconButton(
+                  label: "Edit",
+                  onPressed: () {
+                    Get.toNamed("/edit-profile");
+                  },
+                  icon: Icons.arrow_right_alt_rounded,
+                ),
+              ]
+            : null,
       ),
       body: Obx(
         () {
@@ -41,25 +53,31 @@ class ProfileView extends GetView<ProfileController> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       if (user != null) ...[
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: SizedBox(
-                            width: 96,
-                            height: 96,
-                            child: user.profileImageUrl != null
-                                ? Image.network(
-                                    user.profileImageUrl!,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Image.asset("assets/image.png");
-                                    },
-                                  )
-                                : Image.network(
-                                    "https://eu.ui-avatars.com/api/?name=${user.firstName}+${user.lastName}&size=250",
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Image.asset("assets/image.png");
-                                    },
-                                  ),
+                        CircleAvatar(
+                          radius: 48,
+                          backgroundColor: Colors.white,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: SizedBox(
+                              width: 84,
+                              height: 84,
+                              child: user.profileImage != null
+                                  ? Image.network(
+                                      user.profileImage!['url'],
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return Image.asset("assets/image.png");
+                                      },
+                                    )
+                                  : Image.network(
+                                      "https://eu.ui-avatars.com/api/?name=${user.firstName}+${user.lastName}&size=250",
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return Image.asset("assets/image.png");
+                                      },
+                                    ),
+                            ),
                           ),
                         ),
                         SizedBox(height: Get.height * 0.01),

@@ -16,7 +16,8 @@ class SearchController extends GetConnect {
   @override
   onInit() {
     super.onInit();
-    httpClient.baseUrl = "http://192.168.22.202:8000/api/v1";
+    // httpClient.baseUrl = "http://192.168.22.202:8000/api/v1";
+    httpClient.baseUrl = 'http://10.0.2.2:8000/api/v1';
   }
 
   Future<Either<AppErrorModel, void>> searchBusiness({
