@@ -17,12 +17,12 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(Icons.arrow_back_ios_new_rounded),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
           iconSize: 24,
         ),
         title: Text(
-          'Forgot password',
-          style: Get.textTheme.bodyMedium!.copyWith(
+          'forgotPassword'.tr,
+          style: context.textTheme.bodyMedium!.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -45,8 +45,14 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
               SizedBox(height: Get.height * 0.02),
               FilledButton(
                 child: Obx(() => controller.isLoading.isTrue
-                    ? RCircularIndicator()
-                    : Text("Send OTP")),
+                    ? const RCircularIndicator()
+                    : Text(
+                        "sendOTP".tr,
+                        style: context.textTheme.bodyMedium!.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
                 onPressed: () async {
                   if (controller.formKey.currentState!.validate()) {
                     if (Get.focusScope?.hasFocus ?? false) {
