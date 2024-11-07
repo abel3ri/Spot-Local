@@ -24,7 +24,7 @@ class ManageRequestsController extends GetxController {
   Future<void> fetchRequests({int pageKey = 1}) async {
     final res = await businessOwnerRequestProvider.findAll(
       query: {
-        "filter": filterBy.value,
+        "status": filterBy.value,
         "limit": limit.toString(),
         "page": pageKey.toString(),
       },
@@ -38,8 +38,7 @@ class ManageRequestsController extends GetxController {
       if (isLastPage) {
         pagingController.appendLastPage(r);
       } else {
-        int nextPageKey = pageKey + 1;
-        pagingController.appendPage(r, nextPageKey);
+        pagingController.appendPage(r, pageKey + 1);
       }
     });
   }

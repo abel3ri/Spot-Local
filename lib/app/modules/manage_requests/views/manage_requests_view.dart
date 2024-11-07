@@ -10,6 +10,7 @@ import 'package:business_dir/app/widgets/r_loading.dart';
 import 'package:business_dir/app/widgets/r_not_found.dart';
 import 'package:business_dir/app/widgets/r_popup_menu_button.dart';
 import 'package:business_dir/app/widgets/r_text_icon_button.dart';
+import 'package:business_dir/app/widgets/shimmers/r_circled_button.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -29,41 +30,39 @@ class ManageRequestsView extends GetView<ManageRequestsController> {
           },
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
-        title: Obx(
-          () => Text(
-            "${controller.filterBy.value.capitalize} - Requests",
-            style: context.textTheme.bodyMedium!.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+        title: Text(
+          "manageRequests".tr,
+          style: context.textTheme.bodyMedium!.copyWith(
+            fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
         actions: [
           Obx(
             () => RPopupMenuBtn(
-              children: [
-                PopupMenuItem(
-                  child: Text("All requests"),
-                  value: "all",
-                ),
-                PopupMenuItem(
-                  child: Text("Pending requests"),
-                  value: "pending",
-                ),
-                PopupMenuItem(
-                  child: Text("Approved requests"),
-                  value: "approved",
-                ),
-                PopupMenuItem(
-                  child: Text("Rejected requests"),
-                  value: "rejected",
-                ),
-              ],
               initialValue: controller.filterBy.value,
               onSelected: (value) {
                 controller.filterBy.value = value;
                 controller.pagingController.refresh();
               },
+              children: [
+                PopupMenuItem(
+                  value: "all",
+                  child: Text("allRequests".tr),
+                ),
+                PopupMenuItem(
+                  value: "pending",
+                  child: Text("pendingRequests".tr),
+                ),
+                PopupMenuItem(
+                  value: "approved",
+                  child: Text("approvedRequests".tr),
+                ),
+                PopupMenuItem(
+                  value: "rejected",
+                  child: Text("rejectedRequests".tr),
+                ),
+              ],
             ),
           ),
         ],
@@ -73,19 +72,20 @@ class ManageRequestsView extends GetView<ManageRequestsController> {
           () => controller.pagingController.refresh(),
         ),
         child: PagedListView.separated(
-          padding: EdgeInsets.all(16),
-          physics: BouncingScrollPhysics(),
+          padding: const EdgeInsets.all(16),
+          physics: const AlwaysScrollableScrollPhysics(
+              parent: BouncingScrollPhysics()),
           pagingController: controller.pagingController,
           builderDelegate: PagedChildBuilderDelegate<BusinessOwnerRequestModel>(
             animateTransitions: true,
             firstPageErrorIndicatorBuilder: (context) =>
-                RNotFound(label: "An error has occured!"),
+                RNotFound(label: "anErrorHasOccured".tr),
             newPageErrorIndicatorBuilder: (context) =>
-                RNotFound(label: "An error has occured!"),
-            firstPageProgressIndicatorBuilder: (context) => RLoading(),
+                RNotFound(label: "anErrorHasOccured".tr),
+            firstPageProgressIndicatorBuilder: (context) => const RLoading(),
             noItemsFoundIndicatorBuilder: (context) =>
-                RNotFound(label: "No business found!"),
-            newPageProgressIndicatorBuilder: (context) => RLoading(),
+                RNotFound(label: "noBusinessFound".tr),
+            newPageProgressIndicatorBuilder: (context) => const RLoading(),
             itemBuilder: (context, request, index) {
               return GestureDetector(
                 onTap: () {
@@ -124,12 +124,12 @@ class ManageRequestsView extends GetView<ManageRequestsController> {
                           ),
                           Text.rich(
                             TextSpan(
-                              text: "Requested on ",
+                              text: "requestedOn".tr,
                               children: [
                                 TextSpan(
-                                  text: "${DateFormat.yMMMd("en-US").format(
+                                  text: DateFormat.yMMMd("en-US").format(
                                     request.createdAt!,
-                                  )}",
+                                  ),
                                   style: context.textTheme.bodyMedium!.copyWith(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -137,95 +137,101 @@ class ManageRequestsView extends GetView<ManageRequestsController> {
                               ],
                             ),
                           ),
-                          Text('${request.business?.address}'),
-                          SizedBox(height: Get.height * 0.01),
-                          RTextIconButton.medium(
-                            label: "Business License",
-                            onPressed: () {
-                              Get.toNamed("/image-preview", arguments: {
-                                "imagePath":
-                                    request.business!.businessLicense!['url'],
-                                "imageType": "network",
-                              });
-                            },
-                            icon: Icons.article_rounded,
+                          Text(
+                            '${request.business?.address}',
+                            style: context.textTheme.bodyMedium!.copyWith(),
                           ),
-                          if (request.status == "pending") ...[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                RTextIconButton.medium(
-                                  label: "Approve",
-                                  color: Colors.green,
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => RApproveAlert(
-                                        requestId: request.id!,
-                                      ),
-                                    );
-                                  },
-                                  icon: Icons.check_rounded,
-                                ),
-                                SizedBox(width: Get.width * 0.01),
-                                RTextIconButton.medium(
-                                  label: "Reject",
-                                  color: Colors.red,
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => RRejectAlert(
-                                        requestId: request.id!,
-                                      ),
-                                    );
-                                  },
-                                  icon: Icons.block_rounded,
+                          SizedBox(height: Get.height * 0.02),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              RCircledButton.large(
+                                icon: Icons.article_rounded,
+                                onTap: () {
+                                  Get.toNamed("/image-preview", arguments: {
+                                    "imagePath": request
+                                        .business!.businessLicense!['url'],
+                                  });
+                                },
+                              ),
+                              if (request.status == "pending") ...[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    RTextIconButton.medium(
+                                      label: "approve".tr,
+                                      color: Colors.green,
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => RApproveAlert(
+                                            requestId: request.id!,
+                                          ),
+                                        );
+                                      },
+                                      icon: Icons.check_rounded,
+                                    ),
+                                    SizedBox(width: Get.width * 0.01),
+                                    RTextIconButton.medium(
+                                      label: "reject".tr,
+                                      color: Colors.red,
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => RRejectAlert(
+                                            requestId: request.id!,
+                                          ),
+                                        );
+                                      },
+                                      icon: Icons.block_rounded,
+                                    ),
+                                  ],
                                 ),
                               ],
-                            ),
-                          ],
-                          if (request.status == 'rejected') ...[
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: RTextIconButton.medium(
-                                label: "Approve",
-                                color: Colors.green,
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => RApproveAlert(
-                                      requestId: request.id!,
-                                    ),
-                                  );
-                                },
-                                icon: Icons.check_rounded,
-                              ),
-                            ),
-                          ],
-                          if (request.status == 'approved') ...[
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: RTextIconButton.medium(
-                                label: "Reject",
-                                color: Colors.red,
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => RRejectAlert(
-                                      requestId: request.id!,
-                                    ),
-                                  );
-                                },
-                                icon: Icons.block_rounded,
-                              ),
-                            ),
-                          ],
+                              if (request.status == 'rejected') ...[
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: RTextIconButton.medium(
+                                    label: "approve".tr,
+                                    color: Colors.green,
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => RApproveAlert(
+                                          requestId: request.id!,
+                                        ),
+                                      );
+                                    },
+                                    icon: Icons.check_rounded,
+                                  ),
+                                ),
+                              ],
+                              if (request.status == 'approved') ...[
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: RTextIconButton.medium(
+                                    label: "reject".tr,
+                                    color: Colors.red,
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => RRejectAlert(
+                                          requestId: request.id!,
+                                        ),
+                                      );
+                                    },
+                                    icon: Icons.block_rounded,
+                                  ),
+                                ),
+                              ]
+                            ],
+                          ),
                         ],
                       ),
                       Positioned(
-                        child: RStatusContainer(status: request.status!),
                         top: 0,
                         right: 0,
+                        child: RStatusContainer(status: request.status!),
                       ),
                     ],
                   ),
