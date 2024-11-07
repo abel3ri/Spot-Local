@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:business_dir/app/controllers/auth_controller.dart';
 import 'package:business_dir/app/data/providers/user_provider.dart';
+import 'package:business_dir/app/modules/image_picker/controllers/image_picker_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -32,7 +35,17 @@ class EditProfileController extends GetxController {
     obscureText.value = !obscureText.value;
   }
 
-  Future<void> updateUser({required Map<String, dynamic> userData}) async {
+  Future<void> updateUser() async {
+    final imagePickController = Get.find<ImagePickerController>();
+    final userData = {
+      "email": emailController.text,
+      "username": userNameController.text,
+      "firstName": firstNameController.text,
+      "lastName": lastNameController.text,
+      "profile_image": imagePickController.profileImagePath.value != null
+          ? File(imagePickController.profileImagePath.value!)
+          : null,
+    };
     isLoading(true);
     final res = await userProvider.updateOne(
         userData: userData, userId: authController.currentUser.value!.id!);

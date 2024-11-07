@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:business_dir/app/modules/image_picker/controllers/image_picker_controller.dart';
-import 'package:business_dir/app/modules/image_picker/views/image_picker_view.dart';
 import 'package:business_dir/app/widgets/r_button.dart';
 import 'package:business_dir/app/widgets/r_circular_indicator.dart';
 import 'package:business_dir/app/widgets/r_input_field_row.dart';
+import 'package:business_dir/app/widgets/r_picked_image_placeholder.dart';
 import 'package:business_dir/utils/form_validation.dart';
 import 'package:flutter/material.dart';
 
@@ -24,13 +22,13 @@ class EditProfileView extends GetView<EditProfileController> {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios_new_rounded,
           ),
         ),
         title: Text(
-          "Edit profile",
-          style: Get.textTheme.bodyMedium!.copyWith(
+          "editProfile".tr,
+          style: context.textTheme.bodyMedium!.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -45,59 +43,12 @@ class EditProfileView extends GetView<EditProfileController> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Stack(
-                children: [
-                  Obx(
-                    () {
-                      if (imagePickController.imagePath.value != null) {
-                        return CircleAvatar(
-                          radius: 32,
-                          backgroundImage: FileImage(
-                            File(imagePickController.imagePath.value!),
-                          ),
-                        );
-                      }
-                      if (controller.currentProfileImage.value!.isNotEmpty) {
-                        return RCircularFadeInAssetNetwork(
-                          imagePath: controller.currentProfileImage.value!,
-                        );
-                      }
-                      return CircleAvatar(
-                        radius: 32,
-                        child: Center(
-                          child: Icon(Icons.person),
-                        ),
-                      );
-                    },
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          backgroundColor:
-                              context.theme.scaffoldBackgroundColor,
-                          context: context,
-                          builder: (context) => const ImagePickerView(),
-                          constraints: BoxConstraints(
-                            maxHeight: Get.height * 0.4,
-                          ),
-                          showDragHandle: true,
-                        );
-                      },
-                      child: CircleAvatar(
-                        backgroundColor: Get.theme.primaryColor,
-                        radius: 12,
-                        child: Icon(
-                          Icons.edit_rounded,
-                          size: 18,
-                          // color: context.theme.colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              RPickedImagePlaceholder(
+                imageType: "profile_image",
+                label: "Pick profile image",
+                placeholderText: "profile",
+                imagePath: imagePickController.profileImagePath,
+                currentImageUrl: controller.currentProfileImage.value,
               ),
               SizedBox(height: Get.height * 0.04),
               Row(
@@ -146,55 +97,26 @@ class EditProfileView extends GetView<EditProfileController> {
               SizedBox(height: Get.height * 0.02),
               RButton(
                 child: Obx(() => controller.isLoading.isTrue
-                    ? RCircularIndicator()
-                    : Text("Submit".tr)),
+                    ? const RCircularIndicator()
+                    : Text(
+                        "submit".tr,
+                        style: context.textTheme.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      )),
                 onPressed: () async {
                   if (controller.formKey.currentState!.validate()) {
                     if (Get.focusScope?.hasFocus ?? false) {
                       Get.focusScope?.unfocus();
                     }
-                    final userData = {
-                      "email": controller.emailController.text,
-                      "username": controller.userNameController.text,
-                      "firstName": controller.firstNameController.text,
-                      "lastName": controller.lastNameController.text,
-                      "image": imagePickController.imagePath.value != null
-                          ? File(imagePickController.imagePath.value!)
-                          : null,
-                    };
-                    await controller.updateUser(userData: userData);
+
+                    await controller.updateUser();
                   }
                 },
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class RCircularFadeInAssetNetwork extends StatelessWidget {
-  const RCircularFadeInAssetNetwork({
-    super.key,
-    required this.imagePath,
-  });
-
-  final String imagePath;
-
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: 32,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(100),
-        child: FadeInImage.assetNetwork(
-          placeholder: "assets/image.png",
-          image: imagePath,
-          fit: BoxFit.cover,
-          imageErrorBuilder: (context, error, stackTrace) {
-            return Image.asset("assets/image.png");
-          },
         ),
       ),
     );
