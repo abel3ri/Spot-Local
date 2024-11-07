@@ -13,11 +13,12 @@ class ManageBusinessesController extends GetxController {
   TextEditingController searchController = TextEditingController();
   final limit = 10;
 
-  Future<void> fetBusinesses(int pageKey) async {
+  Future<void> fetchBusinesses(int pageKey) async {
     final res = await businessProvider.findAll(query: {
       "limit": limit.toString(),
       "page": pageKey.toString(),
       "q": searchController.text,
+      parseQuery(): true.toString(),
     });
     res.fold(
       (l) {
@@ -68,8 +69,20 @@ class ManageBusinessesController extends GetxController {
     super.onInit();
     businessProvider = Get.find<BusinessProvider>();
     pagingController.addPageRequestListener(
-      (pageKey) => fetBusinesses(pageKey),
+      (pageKey) => fetchBusinesses(pageKey),
     );
+  }
+
+  String parseQuery() {
+    String filter_by;
+    if (filterBy.value == 'suspended')
+      filter_by = "isSuspended";
+    else if (filterBy.value == "verified")
+      filter_by = "isVerified";
+    else
+      filter_by = "";
+
+    return filter_by;
   }
 
   @override
