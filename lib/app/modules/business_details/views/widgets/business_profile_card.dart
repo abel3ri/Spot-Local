@@ -7,15 +7,13 @@ class BusinessProfileCard extends StatelessWidget {
   final String name;
   final bool isVerified;
   final String description;
-  final String tag;
 
   const BusinessProfileCard({
     super.key,
-    required this.logoUrl,
+    this.logoUrl,
     required this.name,
     required this.description,
     required this.isVerified,
-    required this.tag,
   });
 
   @override
@@ -26,10 +24,9 @@ class BusinessProfileCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Hero(
-                  tag: tag,
+              if (logoUrl != null)
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
                   child: FadeInImage.assetNetwork(
                     placeholder: "assets/image.png",
                     image: logoUrl!,
@@ -45,8 +42,16 @@ class BusinessProfileCard extends StatelessWidget {
                       );
                     },
                   ),
+                )
+              else
+                Center(
+                  child: CircleAvatar(
+                    child: Text(
+                      name[0],
+                      style: context.textTheme.titleLarge,
+                    ),
+                  ),
                 ),
-              ),
               SizedBox(width: Get.width * 0.04),
               Expanded(
                 child: Column(
@@ -54,14 +59,14 @@ class BusinessProfileCard extends StatelessWidget {
                   children: [
                     Text(
                       name,
-                      style: Get.textTheme.titleLarge!.copyWith(
+                      style: context.textTheme.titleLarge!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       description,
-                      style: Get.textTheme.bodyLarge,
+                      style: context.textTheme.bodyLarge,
                       maxLines: 12,
                       overflow: TextOverflow.ellipsis,
                     ),

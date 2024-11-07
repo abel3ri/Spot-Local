@@ -1,18 +1,22 @@
 import 'package:business_dir/app/controllers/auth_controller.dart';
 import 'package:business_dir/app/controllers/location_controller.dart';
-import 'package:business_dir/app/data/models/review_model.dart';
-import 'package:business_dir/app/modules/business_details/widgets/business_profile_card.dart';
+import 'package:business_dir/app/modules/business_details/views/widgets/business_profile_card.dart';
+import 'package:business_dir/app/modules/business_details/views/widgets/r_info_container.dart';
+import 'package:business_dir/app/modules/business_details/views/widgets/r_rating_row.dart';
 import 'package:business_dir/app/modules/home/controllers/home_controller.dart';
 import 'package:business_dir/app/widgets/r_card.dart';
+import 'package:business_dir/app/widgets/r_chip.dart';
+import 'package:business_dir/app/widgets/r_circled_image_avatar.dart';
 import 'package:business_dir/app/widgets/r_header_text.dart';
 import 'package:business_dir/app/widgets/r_linear_indicator.dart';
 import 'package:business_dir/app/widgets/shimmers/performance_card_shimmer.dart';
+import 'package:business_dir/app/widgets/shimmers/r_circled_button.dart';
 import 'package:business_dir/app/widgets/shimmers/rating_shimmer_grid.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../controllers/business_details_controller.dart';
@@ -32,7 +36,7 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
         ),
         title: Text(
           business.name!,
-          style: Get.textTheme.bodyMedium!.copyWith(
+          style: context.textTheme.bodyMedium!.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -59,11 +63,11 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
           ),
         ],
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(4),
+          preferredSize: const Size.fromHeight(4),
           child: Obx(
             () => Get.find<LocationController>().isLoading.isTrue
-                ? RLinearIndicator()
-                : SizedBox(),
+                ? const RLinearIndicator()
+                : const SizedBox(),
           ),
         ),
       ),
@@ -80,38 +84,45 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
             child: Column(
               children: [
                 BusinessProfileCard(
-                  tag: "tag",
-                  logoUrl: business.logo,
+                  logoUrl: business.logo != null ? business.logo!['url'] : null,
                   name: business.name!,
                   description: business.description ?? "",
                   isVerified: business.isVerified!,
                 ),
-                const RHeaderText(headerText: "Categories"),
+                SizedBox(height: Get.height * 0.02),
+                const Divider(thickness: .1),
+                RHeaderText(headerText: "categories".tr),
+                const Divider(thickness: .1),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Wrap(
                     spacing: 4,
                     children: business.categories!
-                        .map((category) => Chip(
-                              padding: EdgeInsets.symmetric(horizontal: 0),
-                              shape: StadiumBorder(
-                                side: BorderSide(
-                                  color: Colors.transparent,
-                                ),
-                              ),
-                              backgroundColor: context.theme.primaryColor,
-                              labelStyle: Get.textTheme.bodyMedium!.copyWith(
-                                color: Colors.white,
-                              ),
-                              label: Text(category.name),
-                            ))
+                        .map(
+                          (category) => RChip(
+                            label: category.name,
+                            onTap: () {
+                              Get.toNamed(
+                                "category",
+                                arguments: {
+                                  "id": category.id,
+                                  "name": category.name,
+                                  "description": category.description,
+                                },
+                              );
+                            },
+                          ),
+                        )
                         .toList(),
                   ),
                 ),
-                const RHeaderText(headerText: "Performance"),
+                const Divider(thickness: .1),
+                RHeaderText(headerText: "performance".tr),
+                const Divider(thickness: .1),
+                SizedBox(height: Get.height * 0.02),
                 Obx(() {
                   if (controller.isLoading.isTrue) {
-                    return PerformanceShimmer();
+                    return const PerformanceShimmer();
                   }
                   final averageRating = controller
                           .businessPerformance.value?.averageRating
@@ -126,7 +137,7 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "${averageRating.toStringAsFixed(1)}",
+                            averageRating.toStringAsFixed(1),
                             style: GoogleFonts.stardosStencil(
                               fontSize: 48,
                               fontWeight: FontWeight.bold,
@@ -143,7 +154,7 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                           ),
                           SizedBox(height: Get.height * 0.01),
                           Text(
-                            '${totalReviews} Review(s)',
+                            '$totalReviews ${'review'.tr}',
                             style: GoogleFonts.poppins(
                               fontSize: 16,
                             ),
@@ -153,31 +164,27 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                     ),
                   );
                 }),
-                if (business.images!.isNotEmpty) ...[
-                  const RHeaderText(headerText: "Gallery"),
-                  SizedBox(
-                    height: Get.height * 0.3,
-                    child: Container(
-                      child: ScrollConfiguration(
-                        behavior: ScrollBehavior().copyWith(
-                          overscroll: false,
-                        ),
-                        child: CarouselView(
-                          itemExtent: Get.width * 0.85,
-                          itemSnapping: true,
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
+                if (business.images?.isNotEmpty ?? false) ...[
+                  SizedBox(height: Get.height * 0.02),
+                  const Divider(thickness: .1),
+                  RHeaderText(headerText: "gallery".tr),
+                  const Divider(thickness: .1),
+                  SizedBox(height: Get.height * 0.02),
+                  CarouselSlider.builder(
+                    itemCount: business.images!.length,
+                    itemBuilder: (context, index, page) {
+                      return Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                          ),
-                          padding: EdgeInsets.symmetric(horizontal: 4),
-                          children: List.generate(
-                            business.images?.length ?? 0,
-                            (index) => FadeInImage.assetNetwork(
-                              fadeInDuration: Duration(milliseconds: 300),
-                              fadeOutDuration: Duration(milliseconds: 300),
-                              fit: BoxFit.cover,
+                            child: FadeInImage.assetNetwork(
+                              fadeInDuration: const Duration(milliseconds: 300),
+                              fadeOutDuration:
+                                  const Duration(milliseconds: 300),
+                              fit: BoxFit.fitWidth,
                               placeholder: "assets/image.png",
-                              image: business.images?[index] ?? "",
+                              image: business.images?[index]?['url'] ?? "",
                               imageErrorBuilder: (context, error, stackTrace) {
                                 return Image.asset(
                                   "assets/image.png",
@@ -186,13 +193,31 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                               },
                             ),
                           ),
-                        ),
-                      ),
+                          Positioned(
+                            top: 4,
+                            left: 4,
+                            child: RCircledButton(
+                              icon: Icons.fullscreen_rounded,
+                              onTap: () {
+                                Get.toNamed("/image-preview", arguments: {
+                                  "imagePath": business.images![index]!['url'],
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                    options: CarouselOptions(
+                      enlargeCenterPage: true,
                     ),
                   ),
                 ],
-                const RHeaderText(headerText: "Contact Information"),
-                if (business.phone != null)
+                SizedBox(height: Get.height * 0.02),
+                const Divider(thickness: .1),
+                RHeaderText(headerText: "contactInfo".tr),
+                const Divider(thickness: .1),
+                if (business.phone?.isNotEmpty ?? false)
                   RContactInfoRow(
                     icon: Icons.phone,
                     child: Column(
@@ -204,7 +229,7 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                               },
                               child: Text(
                                 phone,
-                                style: Get.textTheme.bodyLarge!.copyWith(
+                                style: context.textTheme.bodyLarge!.copyWith(
                                   fontWeight: FontWeight.bold,
                                   decoration: TextDecoration.underline,
                                 ),
@@ -214,8 +239,8 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                           .toList(),
                     ),
                   ),
-                SizedBox(height: Get.height * 0.01),
-                if (business.email != null)
+                if (business.email != null) ...[
+                  SizedBox(height: Get.height * 0.01),
                   RContactInfoRow(
                     icon: Icons.email,
                     child: GestureDetector(
@@ -224,23 +249,114 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                       },
                       child: Text(
                         business.email!,
-                        style: Get.textTheme.bodyLarge!.copyWith(
+                        style: context.textTheme.bodyLarge!.copyWith(
                           fontWeight: FontWeight.bold,
                           decoration: TextDecoration.underline,
                         ),
                       ),
                     ),
                   ),
-                const RHeaderText(headerText: "User ratings"),
+                ],
+                if (business.phone == null &&
+                    business.email == null &&
+                    business.website == null) ...[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Business has no contact info",
+                      style: context.textTheme.bodyLarge,
+                    ),
+                  ),
+                ],
+                SizedBox(height: Get.height * 0.01),
+                if (business.website != null)
+                  RContactInfoRow(
+                    icon: Icons.public_rounded,
+                    child: GestureDetector(
+                      onTap: () async {
+                        await launchUrl(Uri.parse(business.website!));
+                      },
+                      child: Text(
+                        business.website!,
+                        style: context.textTheme.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ),
+                if (business.socialMedia?.isNotEmpty ?? false) ...[
+                  SizedBox(height: Get.height * 0.02),
+                  const Divider(thickness: .1),
+                  RHeaderText(headerText: "socialMedia".tr),
+                  const Divider(thickness: .1),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Wrap(
+                      spacing: 8,
+                      children: List.generate(
+                        business.socialMedia!.length,
+                        (index) {
+                          return GestureDetector(
+                            onTap: () async {
+                              await launchUrl(
+                                Uri.parse(
+                                  business.socialMedia![index],
+                                ),
+                              );
+                            },
+                            child: RCircledImageAvatar.small(
+                              fallBackText: "Social",
+                              imageUrl:
+                                  'https://logo.clearbit.com/${Uri.parse(business.socialMedia![index]).host}',
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  )
+                ],
+                SizedBox(height: Get.height * 0.02),
+                const Divider(thickness: .1),
+                RHeaderText(headerText: "businessLocation".tr),
+                const Divider(thickness: .1),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Wrap(
+                    children: [
+                      Text(
+                        '${business.address}, ${business.city?.name}',
+                        style: context.textTheme.bodyLarge,
+                      ),
+                    ],
+                  ),
+                ),
+                if (business.operationHours?.isNotEmpty ?? false) ...[
+                  SizedBox(height: Get.height * 0.02),
+                  const Divider(thickness: .1),
+                  RHeaderText(headerText: "operationHours".tr),
+                  const Divider(thickness: .1),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '${business.operationHours}',
+                      style: context.textTheme.bodyLarge,
+                    ),
+                  ),
+                ],
+                SizedBox(height: Get.height * 0.02),
+                const Divider(thickness: .1),
+                RHeaderText(headerText: "userReviews".tr),
+                const Divider(thickness: .1),
                 Obx(
                   () {
                     if (controller.isLoading.isTrue) {
-                      return RatingShimmerGrid();
+                      return const RatingShimmerGrid();
                     }
                     if (controller.reviews.value.isEmpty) {
                       return Text(
-                        "No reviews yet. Be the first!",
-                        style: Get.textTheme.titleMedium,
+                        "noReviewsYet".tr,
+                        style: context.textTheme.titleMedium,
                       );
                     }
                     return ListView.separated(
@@ -248,11 +364,11 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                       itemCount: controller.reviews.value.length,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        final rating = controller.reviews.value[index];
-
+                        final review = controller.reviews.value[index];
                         return RCard(
                           child: RRatingRow(
-                            review: rating,
+                            review: review,
+                            businessOwnerId: business.owner?.id,
                           ),
                         );
                       },
@@ -278,14 +394,16 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
                     if (Get.find<AuthController>().currentUser.value != null) {
                       Get.toNamed("review");
                     } else {
-                      Get.toNamed("login");
+                      Get.toNamed("login", arguments: {
+                        "previousRoute": Get.currentRoute,
+                      });
                     }
                   },
                   child: Text(
                     Get.find<AuthController>().currentUser.value != null
-                        ? "Write a Review"
-                        : "Login or Sign up to make review",
-                    style: Get.textTheme.bodyMedium!.copyWith(
+                        ? "writeReview".tr
+                        : "loginOrSignUpToMakeReview".tr,
+                    style: context.textTheme.bodyMedium!.copyWith(
                       color: Colors.white,
                     ),
                   ),
@@ -294,184 +412,6 @@ class BusinessDetailsView extends GetView<BusinessDetailsController> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class RContactInfoRow extends StatelessWidget {
-  const RContactInfoRow({
-    super.key,
-    required this.child,
-    required this.icon,
-  });
-
-  final IconData icon;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, size: 32),
-        SizedBox(width: Get.width * 0.03),
-        child,
-      ],
-    );
-  }
-}
-
-class RRatingRow extends StatelessWidget {
-  const RRatingRow({
-    super.key,
-    required this.review,
-  });
-
-  final ReviewModel review;
-
-  @override
-  Widget build(BuildContext context) {
-    final String userFullName =
-        "${review.ratedBy.firstName} ${review.ratedBy.lastName}";
-    final double ratingValue = review.rating.toDouble();
-    final int helpful = review.helpful;
-    final DateTime createdAt = review.createdAt;
-    final DateTime updatedAt = review.updatedAt;
-    final String? comment = review.comment;
-    final bool isOwner =
-        Get.find<AuthController>().currentUser.value?.id == review.ratedBy.id;
-    final Map<String, dynamic> userProfileImage = review.ratedBy.profileImage ??
-        {
-          "url":
-              "https://eu.ui-avatars.com/api/?name=${review.ratedBy.firstName}+${review.ratedBy.lastName}&size=250",
-          "publicId": null,
-        };
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            CircleAvatar(
-              foregroundImage: NetworkImage(userProfileImage['url']),
-              backgroundColor: Colors.transparent,
-            ),
-            SizedBox(width: Get.width * 0.02),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  userFullName,
-                  overflow: TextOverflow.ellipsis,
-                  style: Get.textTheme.bodyLarge!.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  DateFormat.yMMMd("en-us").format(createdAt),
-                ),
-              ],
-            ),
-            const Spacer(),
-            RatingBarIndicator(
-              itemSize: 20,
-              rating: ratingValue,
-              itemBuilder: (context, index) => Icon(
-                Icons.star,
-                color: context.theme.colorScheme.primary,
-              ),
-            ),
-          ],
-        ),
-        if (comment != null) ...[
-          SizedBox(height: Get.height * 0.02),
-          Text(
-            comment,
-            style: Get.textTheme.bodyMedium!.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-        Row(
-          mainAxisAlignment:
-              isOwner ? MainAxisAlignment.spaceBetween : MainAxisAlignment.end,
-          children: [
-            if (isOwner) ...[
-              Row(
-                children: [
-                  RTextIconButton(
-                    label: "Edit",
-                    icon: Icons.edit,
-                    onPressed: () {
-                      Get.find<BusinessDetailsController>().review.value =
-                          review;
-                      Get.toNamed("/edit-review");
-                    },
-                  ),
-                  RTextIconButton(
-                    label: "Delete",
-                    icon: Icons.delete,
-                    onPressed: () async {
-                      await Get.find<BusinessDetailsController>()
-                          .deleteReview(reviewId: review.id);
-                    },
-                  ),
-                ],
-              ),
-            ],
-            Align(
-              alignment: Alignment.centerRight,
-              child: RTextIconButton(
-                label: "Helpful ${helpful}",
-                icon: Icons.thumb_up_off_alt_rounded,
-                onPressed: () {},
-              ),
-            ),
-          ],
-        ),
-        if (createdAt != updatedAt)
-          Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              "edited",
-              style: Get.textTheme.bodyMedium!.copyWith(
-                color: Colors.grey,
-              ),
-            ),
-          ),
-      ],
-    );
-  }
-}
-
-class RTextIconButton extends StatelessWidget {
-  const RTextIconButton({
-    super.key,
-    required this.label,
-    required this.icon,
-    required this.onPressed,
-  });
-
-  final String label;
-  final IconData icon;
-  final Function() onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton.icon(
-      onPressed: onPressed,
-      label: Text(
-        label,
-        style: Get.textTheme.bodySmall,
-      ),
-      icon: Icon(
-        icon,
-        size: 16,
-        color: label == "Edit"
-            ? context.theme.colorScheme.secondary
-            : label == "Delete"
-                ? context.theme.colorScheme.error
-                : null,
       ),
     );
   }
