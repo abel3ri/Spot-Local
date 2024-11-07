@@ -8,11 +8,11 @@ import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 
 class MapView extends GetView<MapController> {
-  MapView({super.key});
+  const MapView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    FlutterMap.MapController _mapController = FlutterMap.MapController();
+    FlutterMap.MapController mapController = FlutterMap.MapController();
     final locationController = Get.find<LocationController>();
     return Scaffold(
       body: Stack(
@@ -22,7 +22,7 @@ class MapView extends GetView<MapController> {
             child: SizedBox(
               child: Obx(
                 () => FlutterMap.FlutterMap(
-                  mapController: _mapController,
+                  mapController: mapController,
                   options: FlutterMap.MapOptions(
                     backgroundColor: context.theme.scaffoldBackgroundColor,
                     // maxZoom: 14,
@@ -78,8 +78,8 @@ class MapView extends GetView<MapController> {
                     Align(
                       alignment: Alignment.bottomRight,
                       child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 12),
                         decoration: BoxDecoration(
                           color: context.theme.scaffoldBackgroundColor,
                         ),
@@ -88,12 +88,12 @@ class MapView extends GetView<MapController> {
                           children: [
                             MapZoomButton(
                               // mapPageController: mapPageController,
-                              mapController: _mapController,
+                              mapController: mapController,
                               icon: Icons.add,
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             MapZoomButton(
-                              mapController: _mapController,
+                              mapController: mapController,
                               icon: Icons.remove,
                             ),
                           ],
@@ -116,7 +116,7 @@ class MapView extends GetView<MapController> {
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.3),
-                    offset: Offset(4, 4),
+                    offset: const Offset(4, 4),
                     blurRadius: 10,
                     spreadRadius: 4,
                   ),
@@ -131,7 +131,7 @@ class MapView extends GetView<MapController> {
                     onPressed: () {
                       Get.back();
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios_new_rounded,
                       size: 24,
                     ),
@@ -140,7 +140,7 @@ class MapView extends GetView<MapController> {
                     child: Text(
                       locationController.businessName.value,
                       overflow: TextOverflow.ellipsis,
-                      style: Get.textTheme.bodyMedium!.copyWith(
+                      style: context.textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -154,7 +154,7 @@ class MapView extends GetView<MapController> {
                             )
                           : Text(
                               "~ ${controller.distance.value.toStringAsFixed(2)} Kms",
-                              style: Get.textTheme.bodyLarge!.copyWith(
+                              style: context.textTheme.bodyLarge!.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: context.theme.colorScheme.primary,
                               ),
