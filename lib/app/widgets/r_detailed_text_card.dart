@@ -18,13 +18,13 @@ class RDetailedTextCard extends StatelessWidget {
       child: Text.rich(
         TextSpan(
           text: heading,
-          style: Get.textTheme.bodyMedium!.copyWith(
+          style: context.textTheme.bodyMedium!.copyWith(
             fontWeight: FontWeight.bold,
           ),
           children: [
             TextSpan(
               text: body,
-              style: Get.textTheme.bodyMedium!.copyWith(
+              style: context.textTheme.bodyMedium!.copyWith(
                 fontWeight: FontWeight.normal,
               ),
             ),

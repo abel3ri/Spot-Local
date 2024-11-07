@@ -7,6 +7,6 @@ class RLinearIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LinearProgressIndicator(minHeight: 2);
+    return const LinearProgressIndicator(minHeight: 2);
   }
 }

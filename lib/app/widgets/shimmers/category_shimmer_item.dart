@@ -29,7 +29,7 @@ class CategoryShimmerItem extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Shimmer.fromColors(
-          baseColor: Get.textTheme.bodyMedium!.color!,
+          baseColor: context.textTheme.bodyMedium!.color!,
           highlightColor: Get.isDarkMode
               ? lighten(context.theme.scaffoldBackgroundColor, 0.25)
               : darken(context.theme.scaffoldBackgroundColor, 0.25),

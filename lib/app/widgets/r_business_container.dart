@@ -1,21 +1,26 @@
 import 'package:business_dir/app/controllers/location_controller.dart';
 import 'package:business_dir/app/data/models/business_model.dart';
+import 'package:business_dir/app/modules/favorite/controllers/favorite_controller.dart';
+
 import 'package:business_dir/app/modules/home/controllers/home_controller.dart';
+
 import 'package:business_dir/app/widgets/r_card.dart';
+import 'package:business_dir/app/widgets/r_circled_image_avatar.dart';
+import 'package:business_dir/app/widgets/r_text_icon_button.dart';
 import 'package:business_dir/utils/social_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class RBusinessContainer extends StatelessWidget {
-  const RBusinessContainer({
+  final homeController = Get.find<HomeController>();
+  final favoriteController = Get.find<FavoriteController>();
+  RBusinessContainer({
     super.key,
     required this.business,
-    required this.tag,
   });
 
   final BusinessModel business;
-  final String tag;
 
   @override
   Widget build(BuildContext context) {
@@ -27,70 +32,56 @@ class RBusinessContainer extends StatelessWidget {
       "twitter",
       "instagram",
     ];
+
     return GestureDetector(
       onTap: () {
-        Get.find<HomeController>().business.value = business;
-        Get.toNamed("business-details");
+        homeController.business.value = business;
+        Get.toNamed("/business-details");
       },
       child: RCard(
         child: Stack(
           children: [
             Column(
               children: [
-                SizedBox(
-                  height: 64,
-                  width: 64,
-                  child: Hero(
-                    tag: tag,
-                    child: FadeInImage.assetNetwork(
-                      placeholder: "assets/image.png",
-                      image: business.logo!,
-                      fit: BoxFit.cover,
-                      imageErrorBuilder: (context, error, stackTrace) {
-                        return Image.asset(
-                          "assets/image.png",
-                          fit: BoxFit.cover,
-                        );
-                      },
-                    ),
-                  ),
+                RCircledImageAvatar.medium(
+                  fallBackText: "logo",
+                  imageUrl: business.logo?['url'],
                 ),
                 SizedBox(height: Get.height * 0.01),
                 Text(
                   business.name!,
                   overflow: TextOverflow.ellipsis,
-                  style: Get.textTheme.bodyLarge!.copyWith(
+                  style: context.textTheme.bodyLarge!.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
                 SizedBox(height: Get.height * 0.01),
                 Text(
                   '${business.description}',
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: Get.textTheme.bodySmall!.copyWith(
+                  style: context.textTheme.bodySmall!.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const Divider(thickness: .2),
                 Wrap(
                   children: business.categories!
-                      .map((category) => Chip(
-                            shape: const StadiumBorder(),
-                            backgroundColor: Colors.transparent,
-                            padding: const EdgeInsets.all(0),
-                            side: BorderSide.none,
-                            label: Text(
-                              category.name.toUpperCase(),
-                              overflow: TextOverflow.ellipsis,
-                              style: Get.textTheme.bodySmall!.copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 8,
-                              ),
+                      .map(
+                        (category) => Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
+                          child: Text(
+                            category.name.toUpperCase(),
+                            overflow: TextOverflow.ellipsis,
+                            style: context.textTheme.bodyMedium!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 8,
                             ),
-                          ))
+                          ),
+                        ),
+                      )
                       .toList(),
                 ),
                 const Divider(thickness: .1),
@@ -99,8 +90,9 @@ class RBusinessContainer extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "${business.averageRating?.toStringAsFixed(1) ?? "No ratings"}",
-                      style: Get.textTheme.bodyMedium!.copyWith(
+                      business.averageRating?.toStringAsFixed(1) ??
+                          "No ratings",
+                      style: context.textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -115,27 +107,25 @@ class RBusinessContainer extends StatelessWidget {
                 Text(
                   business.address!,
                   overflow: TextOverflow.ellipsis,
-                  style: Get.textTheme.bodySmall,
+                  style: context.textTheme.bodySmall,
                   textAlign: TextAlign.center,
                 ),
-                // Spacer(),
-                TextButton.icon(
-                  label: Text(
-                    "showDirection".tr,
-                    style: Get.textTheme.bodySmall,
+                FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: RTextIconButton.small(
+                    label: "showDirection".tr,
+                    onPressed: () async {
+                      final locationController = Get.find<LocationController>();
+                      locationController.isLoading.value = true;
+                      await locationController.getUserCurrentPosition();
+                      locationController.setBusinessInfo(
+                        coords: business.latLng!,
+                        name: business.name!,
+                      );
+                    },
+                    icon: Icons.directions,
                   ),
-                  onPressed: () async {
-                    final locationController = Get.find<LocationController>();
-                    locationController.isLoading.value = true;
-                    await locationController.getUserCurrentPosition();
-                    locationController.setBusinessInfo(
-                      coords: business.latLng!,
-                      name: business.name!,
-                    );
-                  },
-                  iconAlignment: IconAlignment.end,
-                  icon: const Icon(Icons.directions),
-                )
+                ),
               ],
             ),
             Positioned(
@@ -146,10 +136,28 @@ class RBusinessContainer extends StatelessWidget {
                 child: Column(
                   children: [
                     GestureDetector(
-                      onTap: () {},
-                      child: Icon(
-                        Icons.favorite_border_rounded,
-                        color: context.theme.colorScheme.secondary,
+                      onTap: () async {
+                        business.isFavorited.value =
+                            !business.isFavorited.value;
+                        if (business.isFavorited.isFalse) {
+                          await favoriteController.deleteFavorite(
+                            businessId: business.id!,
+                          );
+                        } else {
+                          await favoriteController.create(
+                            businessId: business.id!,
+                          );
+                        }
+                      },
+                      child: Obx(
+                        () => Icon(
+                          business.isFavorited.isTrue
+                              ? Icons.favorite_rounded
+                              : Icons.favorite_border_rounded,
+                          color: business.isFavorited.isTrue
+                              ? context.theme.colorScheme.primary
+                              : context.theme.colorScheme.secondary,
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -164,8 +172,8 @@ class RBusinessContainer extends StatelessWidget {
                           builder: (context) => Column(
                             children: [
                               Text(
-                                "Share to a friend!",
-                                style: Get.textTheme.titleLarge,
+                                "shareToAFriend".tr,
+                                style: context.textTheme.titleLarge,
                               ),
                               SizedBox(height: Get.height * 0.02),
                               Expanded(
