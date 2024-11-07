@@ -1,21 +1,26 @@
 import 'package:business_dir/app/controllers/auth_controller.dart';
 import 'package:business_dir/app/data/models/business_model.dart';
 import 'package:business_dir/app/data/models/category_model.dart';
-import 'package:business_dir/app/data/providers/business_provider.dart';
 import 'package:business_dir/app/data/providers/category_provider.dart';
+import 'package:business_dir/app/data/providers/featured_provider.dart';
 import 'package:business_dir/app/data/providers/location_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  Rx<List<BusinessModel>> businesses = Rx<List<BusinessModel>>([]);
+  Rx<List<BusinessModel>> featuredBusinesses = Rx<List<BusinessModel>>([]);
   Rx<List<CategoryModel>> categories = Rx<List<CategoryModel>>([]);
   Rx<bool> isBusinessLoading = false.obs;
   Rx<bool> isCategoryLoading = false.obs;
   Rx<bool> isLoading = false.obs;
+
   Rx<Position?> userPosition = Rx<Position?>(null);
-  late CategoryProvider categoryProvider;
   Rx<BusinessModel?> business = Rx<BusinessModel?>(null);
+  final ScrollController scrollController = ScrollController();
+
+  late CategoryProvider categoryProvider;
+  late FeaturedProvider featuredProvider;
 
   void setUserPosition(Position position) {
     userPosition.value = position;
@@ -24,21 +29,23 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    Get.find<AuthController>().getUserData();
+    final authController = Get.find<AuthController>();
+    authController.getUserData();
     categoryProvider = Get.find<CategoryProvider>();
+    featuredProvider = Get.find<FeaturedProvider>();
     getAllCategories();
-    getAllBusinesses();
+    getFeaturedBusinesses();
   }
 
-  Future<void> getAllBusinesses() async {
-    final businessProvider = Get.find<BusinessProvider>();
+  Future<void> getFeaturedBusinesses() async {
     isBusinessLoading(true);
-    final res = await businessProvider.findAll();
+    final res = await featuredProvider
+        .findFeaturedBusinesses(query: {"status": "active"});
     isBusinessLoading(false);
     res.fold((l) {
       l.showError();
-    }, (List<BusinessModel> r) {
-      businesses(r);
+    }, (r) {
+      featuredBusinesses.value = r;
     });
   }
 
@@ -64,5 +71,11 @@ class HomeController extends GetxController {
     }, (List<CategoryModel> r) {
       categories(r);
     });
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    scrollController.dispose();
   }
 }

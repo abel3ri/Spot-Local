@@ -12,7 +12,7 @@ class HomePageSearchPlaceHolder extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.find<HomeWrapperController>().index.value = 1;
+        Get.find<HomeWrapperController>().onPageChanged(1);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -34,7 +34,7 @@ class HomePageSearchPlaceHolder extends StatelessWidget {
               children: [
                 Text(
                   "searchBusiness".tr,
-                  style: Get.textTheme.bodyLarge,
+                  style: context.textTheme.bodyLarge,
                 ),
                 const Icon(
                   Icons.search,
