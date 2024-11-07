@@ -1,47 +1,53 @@
 import 'package:business_dir/app/data/models/business_model.dart';
 import 'package:business_dir/app/data/providers/category_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class CategoryController extends GetxController {
-  final Rx<bool> isLoading = false.obs;
-  final Rx<List<BusinessModel>> businesses = Rx<List<BusinessModel>>([]);
   late CategoryProvider categoryProvider;
+  PagingController<int, BusinessModel> pagingController =
+      PagingController(firstPageKey: 1);
   Rx<String> sortBy = Rx<String>("name_asc");
+  final int limit = 10;
+  TextEditingController searchController = TextEditingController();
 
   @override
   void onInit() {
     super.onInit();
     categoryProvider = Get.find<CategoryProvider>();
-    getAllBusinessOfCategory(id: Get.arguments['id']);
-  }
 
-  Future<void> getAllBusinessOfCategory({required String id}) async {
-    isLoading(true);
-    final res = await categoryProvider.findAllBusinessOfCategory(id: id);
-    isLoading(false);
-    res.fold((l) {
-      l.showError();
-    }, (List<BusinessModel> r) {
-      businesses.value = r;
+    pagingController.addPageRequestListener((pageKey) {
+      fetchBusinesses(pageKey);
     });
   }
 
-  void sortBusinesses(String value) {
-    sortBy.value = value;
+  Future<void> fetchBusinesses(int pageKey) async {
+    final res = await categoryProvider.findAllBusinessOfCategory(
+      id: Get.arguments['id'],
+      query: {
+        "limit": limit.toString(),
+        "page": pageKey.toString(),
+        "q": searchController.text,
+        "isVerified": true.toString(),
+      },
+    );
+    res.fold((l) {
+      l.showError();
+    }, (r) {
+      final bool isLastPage = r.length < limit;
+      if (isLastPage) {
+        pagingController.appendLastPage(r);
+      } else {
+        pagingController.appendPage(r, pageKey + 1);
+      }
+    });
+  }
 
-    if (value == "name_asc") {
-      businesses.value.sort(
-        (a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()),
-      );
-    } else if (value == "name_dec") {
-      businesses.value.sort(
-        (a, b) => b.name!.toLowerCase().compareTo(a.name!.toLowerCase()),
-      );
-    } else if (value == 'rating') {
-      businesses.value.sort(
-          (a, b) => ((b.averageRating ?? 0) - (a.averageRating ?? 0)).toInt());
-    }
-
-    businesses.refresh();
+  @override
+  void onClose() {
+    pagingController.dispose();
+    searchController.dispose();
+    super.onClose();
   }
 }

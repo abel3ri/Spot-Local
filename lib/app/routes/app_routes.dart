@@ -24,6 +24,24 @@ abstract class Routes {
   static const TERMS_AND_CONDITIONS = _Paths.TERMS_AND_CONDITIONS;
   static const MY_BUSINESSES = _Paths.MY_BUSINESSES;
   static const EDIT_PROFILE = _Paths.EDIT_PROFILE;
+  static const CREATE_BUSINESS = _Paths.CREATE_BUSINESS;
+  static const IMAGE_VIEW = _Paths.IMAGE_VIEW;
+  static const IMAGE_PREVIEW = _Paths.IMAGE_PREVIEW;
+  static const CATEGORY_SELECTION = _Paths.CATEGORY_SELECTION;
+  static const MANAGE_REQUESTS = _Paths.MANAGE_REQUESTS;
+  static const FEATURE_BUSINESS = _Paths.FEATURE_BUSINESS;
+  static const MANAGE_FEATURE_REQUESTS = _Paths.MANAGE_FEATURE_REQUESTS;
+  static const ADMIN_PANEL = _Paths.ADMIN_PANEL;
+  static const MANAGE_BUSINESSES = _Paths.MANAGE_BUSINESSES;
+  static const MANAGE_USERS = _Paths.MANAGE_USERS;
+  static const MANAGE_REPORTS = _Paths.MANAGE_REPORTS;
+  static const MANAGE_CITIES = _Paths.MANAGE_CITIES;
+  static const MANAGE_STATES = _Paths.MANAGE_STATES;
+  static const MANAGE_CATEGORIES = _Paths.MANAGE_CATEGORIES;
+  static const CREATE_CITY = _Paths.CREATE_CITY;
+  static const CHANGE_LANGUAGE = _Paths.CHANGE_LANGUAGE;
+  static const EDIT_BUSINESS = _Paths.EDIT_BUSINESS;
+  static const FEATURE_HISTORY = _Paths.FEATURE_HISTORY;
 }
 
 abstract class _Paths {
@@ -50,4 +68,22 @@ abstract class _Paths {
   static const TERMS_AND_CONDITIONS = '/terms-and-conditions';
   static const MY_BUSINESSES = '/my-businesses';
   static const EDIT_PROFILE = '/edit-profile';
+  static const CREATE_BUSINESS = '/create-business';
+  static const IMAGE_VIEW = '/image-view';
+  static const IMAGE_PREVIEW = '/image-preview';
+  static const CATEGORY_SELECTION = '/category-selection';
+  static const MANAGE_REQUESTS = '/manage-requests';
+  static const FEATURE_BUSINESS = '/feature-business';
+  static const MANAGE_FEATURE_REQUESTS = '/manage-feature-requests';
+  static const ADMIN_PANEL = '/admin-panel';
+  static const MANAGE_BUSINESSES = '/manage-businesses';
+  static const MANAGE_USERS = '/manage-users';
+  static const MANAGE_REPORTS = '/manage-reports';
+  static const MANAGE_CITIES = '/manage-cities';
+  static const MANAGE_STATES = '/manage-states';
+  static const MANAGE_CATEGORIES = '/manage-categories';
+  static const CREATE_CITY = '/create-city';
+  static const CHANGE_LANGUAGE = '/change-language';
+  static const EDIT_BUSINESS = '/edit-business';
+  static const FEATURE_HISTORY = '/feature-history';
 }

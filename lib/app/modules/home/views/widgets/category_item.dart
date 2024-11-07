@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class CategoryItem extends StatelessWidget {
-  String name;
-  String icon;
-  Color? color;
+  final String name;
+  final String? icon;
+  final Color? color;
   Function()? onTap;
   CategoryItem({
     super.key,
@@ -24,16 +24,27 @@ class CategoryItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           CircleAvatar(
-            child: SvgPicture.string(
-              icon,
-              width: 24,
-              height: 24,
-              alignment: Alignment.center,
-            ),
             backgroundColor: color ?? context.theme.colorScheme.primary,
+            child: icon != null
+                ? SvgPicture.string(
+                    icon!,
+                    width: 24,
+                    height: 24,
+                    alignment: Alignment.center,
+                  )
+                : SvgPicture.asset(
+                    "assets/misc/more.svg",
+                    width: 24,
+                    height: 24,
+                    alignment: Alignment.center,
+                  ),
           ),
-          SizedBox(height: 4),
-          Text(name),
+          const SizedBox(height: 4),
+          Text(
+            name,
+            style: context.textTheme.bodySmall!,
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );

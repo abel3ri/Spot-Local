@@ -7,32 +7,53 @@ import 'package:get/get.dart';
 import '../controllers/image_picker_controller.dart';
 
 class ImagePickerView extends GetView<ImagePickerController> {
-  const ImagePickerView({super.key});
+  const ImagePickerView({
+    super.key,
+    this.imageType,
+    this.label,
+  });
+  final String? imageType;
+  final String? label;
   @override
   Widget build(BuildContext context) {
     return RModalBottomSheet(
-      label: "Pick Profile Image",
+      label: label ?? "Pick Profile Image",
       children: [
         RListTile(
-          title: "Gallery",
+          title: "gallery".tr,
           leadingIcon: Icons.image,
           onPressed: () async {
             final res = await controller.pickImageFromGallery();
             res.fold((l) {
               l.showError();
             }, (r) {
+              if (imageType == "profile_image") {
+                controller.profileImagePath(r.path);
+              } else if (imageType == "business_license") {
+                controller.businessLicenseImagePath(r.path);
+              } else if (imageType == "business_logo") {
+                controller.businessLogoPath(r.path);
+              }
+              controller.update();
               Get.back();
             });
           },
         ),
         RListTile(
-          title: "Camera",
+          title: "camera".tr,
           leadingIcon: Icons.camera,
           onPressed: () async {
             final res = await controller.pickImageFromCamera();
             res.fold((l) {
               l.showError();
             }, (r) {
+              if (imageType == "profile_image") {
+                controller.profileImagePath(r.path);
+              } else if (imageType == "business_license") {
+                controller.businessLicenseImagePath(r.path);
+              } else if (imageType == "business_logo") {
+                controller.businessLogoPath(r.path);
+              }
               Get.back();
             });
           },

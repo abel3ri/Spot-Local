@@ -1,22 +1,25 @@
-import 'package:business_dir/app/controllers/location_controller.dart';
+import 'package:anim_search_bar/anim_search_bar.dart';
+import 'package:business_dir/app/data/models/business_model.dart';
 import 'package:business_dir/app/modules/category/controllers/category_controller.dart';
 import 'package:business_dir/app/widgets/r_business_container.dart';
-import 'package:business_dir/app/widgets/r_info.dart';
-import 'package:business_dir/app/widgets/r_linear_indicator.dart';
+import 'package:business_dir/app/widgets/r_loading.dart';
+import 'package:business_dir/app/widgets/r_not_found.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class CategoryView extends GetView<CategoryController> {
-  CategoryView({super.key});
-
+  const CategoryView({super.key});
   @override
   Widget build(BuildContext context) {
+    final categoryName = Get.arguments?['name'] ?? "No name";
+    final categoryDescription =
+        Get.arguments?['description'] ?? "No description";
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${Get.arguments['name']} - Businesses',
-          style: Get.textTheme.bodyMedium!.copyWith(
+          '$categoryName - $categoryDescription',
+          style: context.textTheme.bodyMedium!.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -25,84 +28,62 @@ class CategoryView extends GetView<CategoryController> {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios_new_rounded,
             size: 22,
           ),
         ),
         actions: [
-          Obx(
-            () => PopupMenuButton(
-              position: PopupMenuPosition.under,
-              elevation: 0,
-              surfaceTintColor: Colors.transparent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              icon: Icon(Icons.tune_rounded),
-              initialValue: controller.sortBy.value,
-              itemBuilder: (context) => [
-                PopupMenuItem(
-                  value: "name_asc",
-                  child: Text("Name - Asc"),
-                ),
-                PopupMenuItem(
-                  value: "name_dec",
-                  child: Text("Name - Dec"),
-                ),
-                PopupMenuItem(
-                  value: "rating",
-                  child: Text("Rating"),
-                ),
-              ],
-              onSelected: controller.sortBusinesses,
-              enabled: controller.businesses.value.isEmpty ? false : true,
-            ),
+          AnimSearchBar(
+            width: Get.width * .95,
+            textController: controller.searchController,
+            onSuffixTap: () {
+              controller.searchController.clear();
+              if (Get.focusScope?.hasFocus ?? false) {
+                Get.focusScope!.unfocus();
+              }
+            },
+            onSubmitted: (value) {
+              controller.searchController.text = value;
+              controller.pagingController.refresh();
+            },
+            boxShadow: false,
+            color: Colors.transparent,
+            helpText: "Search businesses in $categoryName...",
+            closeSearchOnSuffixTap: true,
+            autoFocus: true,
+            searchIconColor: context.textTheme.bodyLarge!.color,
           ),
         ],
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(2),
-          child: Obx(
-            () {
-              if (controller.isLoading.value ||
-                  Get.find<LocationController>().isLoading.value) {
-                return RLinearIndicator();
-              }
-              return SizedBox();
+      ),
+      body: RefreshIndicator(
+        onRefresh: () => Future.sync(
+          () => controller.pagingController.refresh(),
+        ),
+        child: PagedMasonryGridView.count(
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          padding: const EdgeInsets.all(16),
+          physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics(),
+          ),
+          pagingController: controller.pagingController,
+          builderDelegate: PagedChildBuilderDelegate<BusinessModel>(
+            animateTransitions: true,
+            firstPageErrorIndicatorBuilder: (context) =>
+                const RNotFound(label: "An error has occured!"),
+            newPageErrorIndicatorBuilder: (context) =>
+                const RNotFound(label: "An error has occured!"),
+            firstPageProgressIndicatorBuilder: (context) => const RLoading(),
+            newPageProgressIndicatorBuilder: (context) => const RLoading(),
+            noItemsFoundIndicatorBuilder: (context) =>
+                const RNotFound(label: "No business found!"),
+            itemBuilder: (context, business, index) {
+              return RBusinessContainer(business: business);
             },
           ),
+          crossAxisCount: 2,
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Obx(() {
-          if (controller.businesses.value.isEmpty &&
-              controller.isLoading.isFalse) {
-            return Center(
-              child: RInfo(
-                message: "No Businesses in this Category!",
-                imagePath: "assets/utils/not_found.svg",
-              ),
-            );
-          }
-          return MasonryGridView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: controller.businesses.value.length,
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8,
-            gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-            ),
-            itemBuilder: (context, index) {
-              final business = controller.businesses.value[index];
-              return RBusinessContainer(
-                tag: "s${business.name}",
-                business: business,
-              );
-            },
-          );
-        }),
       ),
     );
   }

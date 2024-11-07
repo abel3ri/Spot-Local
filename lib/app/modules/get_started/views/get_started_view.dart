@@ -18,7 +18,7 @@ class GetStartedView extends GetView<GetStartedController> {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: 3,
             itemBuilder: (context, index) {
               return Obx(
@@ -36,7 +36,7 @@ class GetStartedView extends GetView<GetStartedController> {
                 ),
               );
             },
-            separatorBuilder: (context, index) => SizedBox(width: 12),
+            separatorBuilder: (context, index) => const SizedBox(width: 12),
           ),
         ),
         actions: [
@@ -50,13 +50,13 @@ class GetStartedView extends GetView<GetStartedController> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(16, 48, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 48, 16, 24),
         child: PageView(
           controller: controller.pageController,
           onPageChanged: (value) {
             controller.currentIndex.value = value;
           },
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           pageSnapping: true,
           children: [
             ROnBoardingPage(

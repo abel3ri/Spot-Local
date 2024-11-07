@@ -5,10 +5,12 @@ import 'package:get/get.dart';
 class RButton extends StatelessWidget {
   Widget child;
   Function()? onPressed;
+  Color? color;
   RButton({
     super.key,
     required this.child,
     required this.onPressed,
+    this.color,
   });
 
   @override
@@ -16,13 +18,14 @@ class RButton extends StatelessWidget {
     return FilledButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        fixedSize: WidgetStatePropertyAll(Size(112, 16)),
+        fixedSize: const WidgetStatePropertyAll(Size(112, 16)),
         textStyle: WidgetStatePropertyAll(
-          Get.textTheme.bodyMedium!.copyWith(
+          context.textTheme.bodyMedium!.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
-        foregroundColor: WidgetStatePropertyAll(Colors.white),
+        foregroundColor: const WidgetStatePropertyAll(Colors.white),
+        backgroundColor: WidgetStatePropertyAll(color),
       ),
       child: child,
     );

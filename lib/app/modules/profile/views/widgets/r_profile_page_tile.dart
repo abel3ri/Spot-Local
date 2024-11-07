@@ -22,7 +22,7 @@ class RProfilePageTile extends StatelessWidget {
       onTap: onPressed,
       title: Text(
         title,
-        style: Get.textTheme.bodyMedium,
+        style: context.textTheme.bodyMedium,
       ),
       trailing: trailing,
       iconColor: context.theme.colorScheme.primary,

@@ -1,3 +1,4 @@
+import 'package:business_dir/app/widgets/r_card.dart';
 import 'package:business_dir/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,22 +9,7 @@ class BusinessShimmerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: Get.width * 0.45,
-      height: Get.height * 0.28,
-      decoration: BoxDecoration(
-        color: Get.isDarkMode
-            ? context.theme.scaffoldBackgroundColor
-            : context.theme.scaffoldBackgroundColor,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 8,
-            offset: Offset(2, 2),
-          ),
-        ],
-      ),
+    return RCard(
       child: Padding(
         padding: const EdgeInsets.only(top: 8, left: 4, right: 4),
         child: Column(

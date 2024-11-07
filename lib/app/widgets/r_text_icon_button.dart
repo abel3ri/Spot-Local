@@ -7,11 +7,34 @@ class RTextIconButton extends StatelessWidget {
     required this.label,
     required this.onPressed,
     required this.icon,
+    this.textStyle,
+    this.color,
   });
 
-  final Function() onPressed;
+  final void Function()? onPressed;
   final String label;
   final IconData icon;
+  final TextStyle? textStyle;
+  final Color? color;
+
+  RTextIconButton.medium({
+    super.key,
+    required this.label,
+    required this.onPressed,
+    required this.icon,
+    this.color,
+  }) : textStyle = Get.textTheme.bodyMedium!.copyWith(
+          fontWeight: FontWeight.bold,
+        );
+  RTextIconButton.small({
+    super.key,
+    required this.label,
+    required this.onPressed,
+    required this.icon,
+    this.color,
+  }) : textStyle = Get.textTheme.bodySmall!.copyWith(
+          fontWeight: FontWeight.bold,
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +42,19 @@ class RTextIconButton extends StatelessWidget {
       onPressed: onPressed,
       style: ButtonStyle(
         textStyle: WidgetStatePropertyAll(
-          Get.textTheme.bodyLarge!.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+          textStyle ??
+              context.textTheme.bodyLarge!.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
+        foregroundColor: WidgetStatePropertyAll(color),
       ),
-      label: Text(
-        label,
-      ),
+      label: Text(label),
       iconAlignment: IconAlignment.end,
-      icon: Icon(icon),
+      icon: Icon(
+        icon,
+        color: color,
+      ),
     );
   }
 }

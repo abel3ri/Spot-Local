@@ -3,7 +3,7 @@ import 'package:flutter/material.dart' hide SearchController;
 import 'package:get/get.dart';
 
 class SearchInput extends GetView<SearchController> {
-  SearchInput({
+  const SearchInput({
     super.key,
   });
 
@@ -14,13 +14,13 @@ class SearchInput extends GetView<SearchController> {
       child: TextField(
         controller: controller.searchInputController,
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.search),
-          contentPadding: EdgeInsets.symmetric(
+          prefixIcon: const Icon(Icons.search),
+          contentPadding: const EdgeInsets.symmetric(
             horizontal: 12,
             vertical: 12,
           ),
           hintText: "searchBusiness".tr,
-          hintStyle: Get.textTheme.bodyMedium!.copyWith(
+          hintStyle: context.textTheme.bodyMedium!.copyWith(
             color: Colors.grey.shade600,
           ),
           border: OutlineInputBorder(
@@ -47,8 +47,8 @@ class SearchInput extends GetView<SearchController> {
           filled: true,
         ),
         textInputAction: TextInputAction.search,
-        onChanged: (value) {
-          controller.searchBusiness(query: value);
+        onChanged: (value) async {
+          await controller.searchBusiness(query: value);
         },
       ),
     );

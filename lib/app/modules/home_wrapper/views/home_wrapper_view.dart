@@ -12,7 +12,7 @@ class HomeWrapperView extends GetView<HomeWrapperController> {
   final List<Widget> pages = [
     HomeView(),
     SearchView(),
-    FavoriteView(),
+    const FavoriteView(),
     ProfileView(),
   ];
   HomeWrapperView({super.key});
@@ -34,13 +34,9 @@ class HomeWrapperView extends GetView<HomeWrapperController> {
           elevation: 0,
           destinations: [
             NavigationDestination(
-              icon: Icon(Icons.home, color: context.theme.primaryColor),
+              icon: Icon(Icons.home_filled, color: context.theme.primaryColor),
               label: "homeBottom".tr,
               tooltip: "Home",
-              selectedIcon: Icon(
-                Icons.home_filled,
-                color: context.theme.primaryColor,
-              ),
             ),
             NavigationDestination(
               icon: Icon(Icons.search, color: context.theme.primaryColor),

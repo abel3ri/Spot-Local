@@ -13,7 +13,7 @@ class AppSuccessModel {
     Get.closeAllSnackbars();
     Get.showSnackbar(
       GetSnackBar(
-        duration: const Duration(seconds: 3),
+        duration: const Duration(seconds: 5),
         animationDuration: const Duration(milliseconds: 500),
         dismissDirection: DismissDirection.horizontal,
         snackStyle: SnackStyle.FLOATING,

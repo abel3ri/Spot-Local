@@ -1,37 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class RHeaderText extends StatelessWidget {
   const RHeaderText({
     required this.headerText,
+    this.color,
     super.key,
   });
 
   final String headerText;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+    return Row(
       children: [
-        SizedBox(height: Get.height * 0.02),
-        Row(
-          children: [
-            Container(
-              width: 5.0,
-              height: 24.0,
-              color: Theme.of(context).colorScheme.primary,
-              margin: const EdgeInsets.only(right: 8.0),
-            ),
-            Text(
-              headerText,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-          ],
+        Container(
+          width: 5,
+          height: 24,
+          color: Theme.of(context).colorScheme.primary,
+          margin: const EdgeInsets.only(right: 4),
         ),
-        SizedBox(height: Get.height * 0.02),
+        Expanded(
+          child: Text(
+            headerText,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: color,
+                ),
+          ),
+        ),
       ],
     );
   }

@@ -30,22 +30,22 @@ class EditReviewView extends GetView<ReviewController> {
         ),
         title: Text(
           "Edit your review",
-          style: Get.textTheme.bodyMedium!.copyWith(
+          style: context.textTheme.bodyMedium!.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
       ),
       body: ListView(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.all(16),
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.all(16),
         children: [
           RCard(
             child: Column(
               children: [
                 Text(
                   "Rate your experience",
-                  style: Get.textTheme.titleLarge,
+                  style: context.textTheme.titleLarge,
                 ),
                 SizedBox(height: Get.height * 0.01),
                 RatingBar.builder(
@@ -66,7 +66,7 @@ class EditReviewView extends GetView<ReviewController> {
                 Obx(() {
                   return Text(
                     "(${controller.rating.value.toString()})",
-                    style: Get.textTheme.bodyLarge!.copyWith(
+                    style: context.textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   );
@@ -93,8 +93,8 @@ class EditReviewView extends GetView<ReviewController> {
                 RButton(
                   child: Obx(
                     () => controller.isLoading.isTrue
-                        ? RCircularIndicator()
-                        : Text("Submit"),
+                        ? const RCircularIndicator()
+                        : const Text("Submit"),
                   ),
                   onPressed: () async {
                     if (controller.formKey.currentState!.validate()) {

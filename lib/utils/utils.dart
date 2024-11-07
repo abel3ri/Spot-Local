@@ -14,23 +14,16 @@ Color lighten(Color color, [double amount = 0.1]) {
   return lightened.toColor();
 }
 
-Color? getCategoryItemColor(int index) {
-  switch (index) {
-    case 0:
-      return Colors.red;
-    case 1:
-      return Colors.green;
-    case 2:
-      return Colors.orange;
-    case 3:
-      return Colors.deepOrange;
-    case 4:
-      return Colors.purple;
-    case 5:
-      return Colors.blue;
-    case 6:
-      return Colors.deepOrange;
-    default:
-      return null;
-  }
+Color getCategoryItemColor(int index) {
+  const List<Color> colors = [
+    Colors.red,
+    Colors.green,
+    Colors.orange,
+    Colors.deepOrange,
+    Colors.purple,
+    Colors.blue,
+    Colors.cyan,
+  ];
+
+  return colors[index % colors.length];
 }

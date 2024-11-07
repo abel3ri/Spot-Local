@@ -18,7 +18,7 @@ class RProfileDetailRow extends StatelessWidget {
       children: [
         Text(
           label,
-          style: Get.textTheme.bodyMedium!.copyWith(
+          style: context.textTheme.bodyMedium!.copyWith(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
@@ -30,7 +30,7 @@ class RProfileDetailRow extends StatelessWidget {
             child: Text(
               data,
               overflow: TextOverflow.ellipsis,
-              style: Get.textTheme.bodyMedium!.copyWith(
+              style: context.textTheme.bodyMedium!.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),

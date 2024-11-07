@@ -33,7 +33,7 @@ class RInputField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: Get.textTheme.bodyMedium!.copyWith(
+          style: context.textTheme.bodyMedium!.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -47,7 +47,7 @@ class RInputField extends StatelessWidget {
           decoration: InputDecoration(
             suffixIcon: suffixIcon,
             hintText: hintText,
-            hintStyle: Get.textTheme.bodyLarge!.copyWith(
+            hintStyle: context.textTheme.bodyLarge!.copyWith(
               color: Colors.grey.shade500,
             ),
             border: OutlineInputBorder(

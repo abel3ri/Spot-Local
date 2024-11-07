@@ -3,6 +3,7 @@ import 'package:business_dir/app/widgets/r_button.dart';
 import 'package:business_dir/app/widgets/r_circular_indicator.dart';
 import 'package:business_dir/app/widgets/r_form_footer.dart';
 import 'package:business_dir/app/widgets/r_input_field_row.dart';
+import 'package:business_dir/app/widgets/r_text_icon_button.dart';
 import 'package:business_dir/utils/form_validation.dart';
 import 'package:flutter/material.dart';
 
@@ -15,14 +16,28 @@ class LoginView extends GetView<LoginController> {
   LoginView({super.key});
   @override
   Widget build(BuildContext context) {
+    final String? previousRoute = Get.arguments?['previousRoute'];
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: const Icon(Icons.arrow_back_ios_new),
-        ),
+        automaticallyImplyLeading: false,
+        leading: ['/get-started', "business-details"].contains(previousRoute)
+            ? IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: const Icon(Icons.arrow_back_ios_new_rounded),
+              )
+            : null,
+        actions: [
+          if (!['/get-started', "business-details"].contains(previousRoute))
+            RTextIconButton(
+              label: "Skip",
+              icon: Icons.arrow_right_alt_rounded,
+              onPressed: () {
+                Get.offAllNamed("/home-wrapper");
+              },
+            ),
+        ],
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -36,7 +51,7 @@ class LoginView extends GetView<LoginController> {
               Center(
                 child: Text(
                   "welcomeBack".tr,
-                  style: Get.textTheme.headlineSmall!.copyWith(
+                  style: context.textTheme.headlineMedium!.copyWith(
                     color: context.theme.colorScheme.primary,
                     fontWeight: FontWeight.bold,
                   ),
@@ -81,7 +96,7 @@ class LoginView extends GetView<LoginController> {
                     Get.toNamed("forgot-password");
                   },
                   child: Text(
-                    "Forgot password?",
+                    "forgotPassword".tr,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.bold,
                           color: context.theme.primaryColor,
@@ -93,7 +108,7 @@ class LoginView extends GetView<LoginController> {
                 child: Obx(
                   () {
                     return controller.isLoading.isTrue
-                        ? RCircularIndicator()
+                        ? const RCircularIndicator()
                         : Text("login".tr);
                   },
                 ),
@@ -102,11 +117,8 @@ class LoginView extends GetView<LoginController> {
                     if (Get.focusScope?.hasFocus ?? false) {
                       Get.focusScope?.unfocus();
                     }
-                    Map<String, dynamic> userData = {
-                      "email": controller.emailController.text,
-                      "password": controller.passwordController.text,
-                    };
-                    await authController.login(userData: userData);
+
+                    await authController.login();
                   }
                 },
               ),

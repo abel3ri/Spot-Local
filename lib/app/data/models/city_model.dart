@@ -1,29 +1,33 @@
 import 'package:business_dir/app/data/models/business_model.dart';
 
 class CityModel {
-  String id;
-  String name;
-  DateTime createdAt;
-  DateTime updatedAt;
-  String stateId;
-  List<BusinessModel> businesses;
+  final String? id;
+  final String? name;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final String? stateId;
+  final List<BusinessModel>? businesses;
 
   CityModel({
-    required this.id,
-    required this.name,
-    required this.businesses,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.stateId,
+    this.id,
+    this.name,
+    this.businesses,
+    this.createdAt,
+    this.updatedAt,
+    this.stateId,
   });
 
   factory CityModel.fromJson(Map<String, dynamic> json) {
     return CityModel(
       id: json['id'],
       name: json['name'],
-      businesses: List<BusinessModel>.from(
-        json['businesses'].map((business) => BusinessModel.fromJson(business)),
-      ),
+      businesses: json['businesses'] != null
+          ? List<BusinessModel>.from(
+              json['businesses'].map(
+                (business) => BusinessModel.fromJson(business),
+              ),
+            )
+          : null,
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
       stateId: json['stateId'],
@@ -34,10 +38,12 @@ class CityModel {
     return {
       'id': id,
       'name': name,
-      "businesses": businesses.map((business) => business.toJson()),
-      'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(),
+      "businesses": businesses != null
+          ? businesses!.map((business) => business.toJson())
+          : null,
       'stateId': stateId,
+      'createdAt': createdAt?.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
     };
   }
 }
