@@ -1,12 +1,11 @@
-import 'dart:io';
-
 import 'package:business_dir/app/controllers/auth_controller.dart';
 import 'package:business_dir/app/modules/image_picker/controllers/image_picker_controller.dart';
-import 'package:business_dir/app/modules/image_picker/views/image_picker_view.dart';
 import 'package:business_dir/app/widgets/r_button.dart';
 import 'package:business_dir/app/widgets/r_circular_indicator.dart';
 import 'package:business_dir/app/widgets/r_form_footer.dart';
 import 'package:business_dir/app/widgets/r_input_field_row.dart';
+import 'package:business_dir/app/widgets/r_picked_image_placeholder.dart';
+import 'package:business_dir/app/widgets/r_text_icon_button.dart';
 import 'package:business_dir/utils/form_validation.dart';
 import 'package:flutter/material.dart';
 
@@ -21,14 +20,28 @@ class SignupView extends GetView<SignupController> {
 
   @override
   Widget build(BuildContext context) {
+    final String? previousRoute = Get.arguments?['previousRoute'];
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: const Icon(Icons.arrow_back_ios_new),
-        ),
+        automaticallyImplyLeading: false,
+        leading: ['/get-started', "business-details"].contains(previousRoute)
+            ? IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: const Icon(Icons.arrow_back_ios_new_rounded),
+              )
+            : null,
+        actions: [
+          if (!['/get-started', "business-details"].contains(previousRoute))
+            RTextIconButton(
+              label: "Skip",
+              icon: Icons.arrow_right_alt_rounded,
+              onPressed: () {
+                Get.offAllNamed("/home-wrapper");
+              },
+            ),
+        ],
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -42,58 +55,18 @@ class SignupView extends GetView<SignupController> {
               Center(
                 child: Text(
                   "readyToExplore".tr,
-                  style: Get.textTheme.headlineSmall!.copyWith(
+                  style: context.textTheme.headlineMedium!.copyWith(
                     color: context.theme.colorScheme.primary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
               SizedBox(height: Get.height * 0.04),
-              Stack(
-                children: [
-                  Obx(
-                    () => CircleAvatar(
-                      radius: 36,
-                      backgroundColor:
-                          context.theme.colorScheme.primary.withOpacity(.2),
-                      backgroundImage:
-                          imagePickController.imagePath.value != null
-                              ? FileImage(
-                                  File(imagePickController.imagePath.value!))
-                              : null,
-                      child: imagePickController.imagePath.value == null
-                          ? Icon(Icons.person, size: 32)
-                          : SizedBox(),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          backgroundColor:
-                              context.theme.scaffoldBackgroundColor,
-                          context: context,
-                          builder: (context) => const ImagePickerView(),
-                          constraints: BoxConstraints(
-                            maxHeight: Get.height * 0.4,
-                          ),
-                          showDragHandle: true,
-                        );
-                      },
-                      child: CircleAvatar(
-                        backgroundColor: Get.theme.primaryColor,
-                        radius: 12,
-                        child: Icon(
-                          Icons.edit_rounded,
-                          size: 18,
-                          // color: context.theme.colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              RPickedImagePlaceholder(
+                imageType: "profile_image",
+                label: "Pick profile image",
+                placeholderText: "profile",
+                imagePath: imagePickController.profileImagePath,
               ),
               SizedBox(height: Get.height * 0.04),
               Row(
@@ -182,23 +155,14 @@ class SignupView extends GetView<SignupController> {
               SizedBox(height: Get.height * 0.02),
               RButton(
                 child: Obx(() => controller.isLoading.isTrue
-                    ? RCircularIndicator()
+                    ? const RCircularIndicator()
                     : Text("signup".tr)),
                 onPressed: () async {
                   if (controller.formKey.currentState!.validate()) {
                     if (Get.focusScope?.hasFocus ?? false) {
                       Get.focusScope?.unfocus();
                     }
-                    final userData = {
-                      "email": controller.emailController.text,
-                      "username": controller.userNameController.text,
-                      "firstName": controller.firstNameController.text,
-                      "lastName": controller.lastNameController.text,
-                      "password": controller.passwordController.text,
-                      "confirmPassword": controller.rePasswordController.text,
-                      "image": File(imagePickController.imagePath.value!),
-                    };
-                    await authController.signup(userData: userData);
+                    await authController.signup();
                   }
                 },
               ),
