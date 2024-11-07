@@ -24,15 +24,15 @@ class ROnBoardingPage extends StatelessWidget {
       children: [
         Text(
           heading,
-          style: Get.textTheme.headlineMedium,
+          style: context.textTheme.headlineSmall,
           textAlign: TextAlign.center,
         ),
         SizedBox(height: Get.height * 0.03),
         Text(description, textAlign: TextAlign.center),
         SizedBox(height: Get.height * 0.03),
         SizedBox(
-          height: Get.height * 0.4,
-          width: Get.width * 0.8,
+          height: Get.height * 0.35,
+          width: Get.width * 0.7,
           child: FittedBox(
             fit: BoxFit.contain,
             child: SvgPicture.asset(imagePath),
@@ -66,11 +66,13 @@ class ROnBoardingPage extends StatelessWidget {
                   icon: Icons.arrow_forward,
                 ),
                 if (controller.currentIndex.value == 2)
-                  RTextIconButton(
-                    label: "Get started",
+                  RTextIconButton.medium(
+                    label: "getStarted".tr,
                     icon: Icons.arrow_right_alt_rounded,
                     onPressed: () {
-                      Get.toNamed("/login");
+                      Get.toNamed("/login", arguments: {
+                        "previousRoute": Get.currentRoute,
+                      });
                     },
                   )
               ],
