@@ -18,46 +18,42 @@ class PrivacyPolicyView extends GetView<PrivacyPolicyController> {
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
         title: Text(
-          "Privacy Policy",
-          style: Get.textTheme.bodyMedium!.copyWith(
+          "privacyPolicy".tr,
+          style: context.textTheme.bodyMedium!.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             Text(
-              "Your privacy is important to us. This Privacy Policy outlines how we collect, use, and protect your personal information when you use our app.",
-              style: Get.textTheme.bodyMedium!.copyWith(
+              "yourPrivacyIs".tr,
+              style: context.textTheme.bodyMedium!.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(height: Get.height * 0.02),
             RDetailedTextCard(
-              heading: "Information Collection: ",
-              body:
-                  "We collect personal information like your name, email address, and usage data to provide and improve the app’s services.",
+              heading: "infoCollection".tr,
+              body: "weCollectPersonal".tr,
             ),
             SizedBox(height: Get.height * 0.01),
             RDetailedTextCard(
-              heading: "Usage of Information: ",
-              body:
-                  " We use your data to personalize your experience, improve our app, and communicate with you.",
+              heading: "usageOfInfo".tr,
+              body: "weUseYourData".tr,
             ),
             SizedBox(height: Get.height * 0.01),
             RDetailedTextCard(
-              heading: "Data Security: ",
-              body:
-                  "We implement robust security measures to protect your data from unauthorized access.",
+              heading: "dataSecurity".tr,
+              body: "weImplement".tr,
             ),
             SizedBox(height: Get.height * 0.01),
             RDetailedTextCard(
-              heading: "Modifications: ",
-              body:
-                  "We reserve the right to modify or discontinue any part of the app without prior notice.",
+              heading: "modifications".tr,
+              body: "weReserve".tr,
             ),
           ],
         ),
