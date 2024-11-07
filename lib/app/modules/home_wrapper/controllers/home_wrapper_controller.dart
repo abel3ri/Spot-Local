@@ -1,23 +1,33 @@
+import 'package:business_dir/app/modules/favorite/controllers/favorite_controller.dart';
+import 'package:business_dir/app/modules/search/controllers/search_controller.dart';
 import 'package:get/get.dart';
 
 class HomeWrapperController extends GetxController {
-  //TODO: Implement HomeWrapperController
+  Rx<int> index = 0.obs;
+  late SearchController searchController;
+  late FavoriteController favoriteController;
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
+    searchController = Get.find<SearchController>();
+    favoriteController = Get.find<FavoriteController>();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  void onPageChanged(int i) {
+    if (i != 1) {
+      if (Get.focusScope?.hasFocus ?? false) {
+        Get.focusScope!.unfocus();
+      }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
+      searchController.searchResults.value = [];
+      searchController.searchInputController.text = "";
+      searchController.isLoading.value = false;
+      searchController.animateSearchLottie.value = false;
+    } else {
+      searchController.animateSearchLottie.value = true;
+    }
 
-  void increment() => count.value++;
+    index.value = i;
+  }
 }

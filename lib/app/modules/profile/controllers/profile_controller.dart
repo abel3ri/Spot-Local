@@ -1,23 +1,30 @@
+import 'package:business_dir/app/controllers/auth_controller.dart';
+import 'package:business_dir/app/data/providers/user_provider.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
-  //TODO: Implement ProfileController
+  Rx<bool> isLoading = false.obs;
+  late UserProvider userProvider;
+  late AuthController authController;
 
-  final count = 0.obs;
   @override
   void onInit() {
+    userProvider = Get.find<UserProvider>();
+    authController = Get.find<AuthController>();
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  Future<void> deleteAccount() async {
+    isLoading(true);
+    final res = await userProvider.deleteOne(
+      userId: authController.currentUser.value!.id!,
+    );
+    isLoading(false);
+    res.fold((l) {
+      l.showError();
+    }, (r) {
+      authController.currentUser.value = null;
+      Get.offAllNamed("/get-started");
+    });
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }
