@@ -9,10 +9,9 @@ class FormValidator {
   }
 
   static String? urlValidator(String? value) {
-    if (value!.isEmpty) return null;
-
+    if (value == null || value.isEmpty) return null;
     if (!GetUtils.isURL(value)) {
-      return "Please enter a valid URL";
+      return "pleaseEnterValidUrl".tr;
     }
     return null;
   }
@@ -25,9 +24,7 @@ class FormValidator {
   }
 
   static String? phoneValidator(String? value) {
-    if (value!.isEmpty) return "Please enter a phone number".tr;
-    if (value.length < 5) return "pleaseEnterValidUsernameLen".tr;
-    if (GetUtils.isUsername(value)) return "pleaseEnterValidUsername".tr;
+    if (value!.isEmpty) return "pleaseEnterPhone".tr;
     return null;
   }
 
@@ -44,37 +41,57 @@ class FormValidator {
   }
 
   static String? licenseNumberValidator(String? value) {
-    if (value!.isEmpty) return "Please enter license number".tr;
-    if (value.length != 10) return "Please enter a valid license number".tr;
+    if (value!.isEmpty) return "pleaseEnterLicenseNumber".tr;
     return null;
   }
 
   static String? textValidtor(String? value) {
-    if (value!.isEmpty) return "Please fill out this field".tr;
+    if (value!.isEmpty) return "pleaseFillOutThisField".tr;
     return null;
   }
 
   static String? otpValidator(String? value) {
-    if (value!.isEmpty) return "Please provide OTP";
-    if (value.length != 6) return "OTP must be 6 characters long";
+    if (value!.isEmpty) return "pleaseProvideOTP".tr;
+    if (value.length != 6) return "otpMustBeSixChars".tr;
     return null;
   }
 
   static confirmPasswordValidator({String? password, String? rePassword}) {
     if (rePassword == null || rePassword.isEmpty) {
-      return 'Please re-enter your password';
+      return 'pleaseReenterPass'.tr;
     }
     if (rePassword.length < 8) {
-      return "Password must be at least 8 characters long";
+      return "passMustBeSixChars".tr;
     }
     if (rePassword != password) {
-      return "Passwords do not match";
+      return "passDoNotMatch".tr;
     }
     return null;
   }
 
   static String? reviewValidator(String? value) {
-    if (value!.isEmpty) return "Please provide a review";
+    if (value!.isEmpty) return "pleaseProvideReview".tr;
+    return null;
+  }
+
+  static String? cityValidator(String? value) {
+    if (value!.isEmpty) return "pleaseEnterCityName".tr;
+    return null;
+  }
+
+  static String? categoryNameValidator(String? value) {
+    if (value!.isEmpty) return "pleaseProvideCatgeoryName".tr;
+    return null;
+  }
+
+  static String? categoryIconValidtor(String? value) {
+    if (value!.isEmpty) return "pleaseProvideCategoryIcon".tr;
+    if (!value.contains("svg")) return "pleaseEnterValidSVG".tr;
+    return null;
+  }
+
+  static String? categoryDescriptionValidator(String? value) {
+    if (value!.isEmpty) return "pleaseEnterCatgeoryDesc".tr;
     return null;
   }
 }
