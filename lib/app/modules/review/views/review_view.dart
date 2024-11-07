@@ -24,23 +24,23 @@ class ReviewView extends GetView<ReviewController> {
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
         title: Text(
-          "Write a Review",
-          style: Get.textTheme.bodyMedium!.copyWith(
+          "writeAReview".tr,
+          style: context.textTheme.bodyMedium!.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
       ),
       body: ListView(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.all(16),
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.all(16),
         children: [
           RCard(
             child: Column(
               children: [
                 Text(
-                  "Rate your experience",
-                  style: Get.textTheme.titleLarge,
+                  "rateYourExperience".tr,
+                  style: context.textTheme.titleLarge,
                 ),
                 SizedBox(height: Get.height * 0.01),
                 RatingBar.builder(
@@ -61,11 +61,11 @@ class ReviewView extends GetView<ReviewController> {
                   () => controller.rating.value != null
                       ? Text(
                           "(${controller.rating.value.toString()})",
-                          style: Get.textTheme.bodyLarge!.copyWith(
+                          style: context.textTheme.bodyLarge!.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
                 ),
               ],
             ),
@@ -80,8 +80,8 @@ class ReviewView extends GetView<ReviewController> {
                         SizedBox(height: Get.height * 0.02),
                         RInputField(
                           controller: controller.ratingController,
-                          label: "Review",
-                          hintText: "Write your exprience",
+                          label: "reviewLabel".tr,
+                          hintText: "writeYourExperience".tr,
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.done,
                           maxLines: 5,
@@ -91,8 +91,8 @@ class ReviewView extends GetView<ReviewController> {
                         RButton(
                           child: Obx(
                             () => controller.isLoading.isTrue
-                                ? RCircularIndicator()
-                                : Text("Submit"),
+                                ? const RCircularIndicator()
+                                : Text("submit".tr),
                           ),
                           onPressed: () async {
                             if (controller.formKey.currentState!.validate()) {
@@ -116,7 +116,7 @@ class ReviewView extends GetView<ReviewController> {
                       ],
                     ),
                   )
-                : SizedBox(),
+                : const SizedBox(),
           ),
         ],
       ),
